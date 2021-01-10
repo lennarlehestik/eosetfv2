@@ -1,0 +1,150 @@
+.App {
+
+}
+
+.App-header {
+  background: rgb(250,144,255);
+  background: linear-gradient(114deg, rgba(250,144,255,1) 0%, rgba(120,241,255,1) 64%, rgba(250,140,255,1) 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #534C80;
+  font-family: 'Roboto', sans-serif;
+}
+
+.maincard{
+  background: rgba( 255, 255, 255, 0.25 );
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius:30px;
+  width:50vw;
+  height:70vh;
+  display:flex;
+}
+
+.leftbar{
+  background: rgba( 255, 255, 255, 0.25 );
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius:30px 0px 0px 30px;
+  width:30%;
+  height:100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.smallcard{
+  background: rgba( 255, 255, 255, 0.7 );
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
+  border-radius:30px;
+  width:80%;
+  height:7vh;
+  margin-top:2vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.rightbar{
+  width:70%;
+  height:100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logo{
+  margin-top:5vh;
+}
+
+.appname{
+  font-weight:700;
+  font-size:24px;
+}
+
+.tokenlogo{
+  height:70%;
+  margin-left:15px;
+}
+
+.tokenlogoimage{
+  border-radius:50%;
+  box-shadow: 5px 5px 10px 0 rgba( 31, 38, 135, 0.2 );
+}
+
+.menuitem{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top:20px;
+}
+tr{
+  transition: 0.3s;
+}
+
+tr:hover{
+   transform: scale(1.2);
+}
+
+.menuitemtext{
+  margin-left:15px;
+  font-weight:500;
+  font-size:18px;
+}
+
+.menuitems td{ height: 7vh };
+
+.menuitems{
+  margin-top:100px;
+}
+
+.menuitemswrapper{
+  margin-top:30px;
+}
+
+.rightbartopbox{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:80%;
+}
+
+.createetftitle{
+  margin-top:30px;
+  font-weight:600;
+  font-size:24px;
+}
+
+.slidertext{
+  margin-top:10px;
+  font-weight:400;
+  font-size:14px;
+}
+
+.slider{
+  margin-top:10px;
+  width:100%;
+}
+
+.menuimg{
+  height:5vh;
+}
+
+@media only screen and (max-width: 800px) {
+  .leftbar{
+      display:none;
+  }
+  .maincard{
+    width:80vw;;
+  }
+  .rightbar{
+    width:100%;
+  }
+}
