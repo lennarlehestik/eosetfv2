@@ -64,7 +64,7 @@ function App(props) {
 
           <div class="leftbar">
             <div class="logo">
-              <img width="128px" src="https://leanfrontiers.com/wp-content/uploads/2018/12/logo-placeholder-png.png"/>
+              <img width="64px" src="assets/logo.svg"/>
             </div>
             <div class="appname">
               <a>EOSETF</a>
@@ -107,7 +107,7 @@ function App(props) {
                 <a>Create EOSETF</a>
               </div>
               <div class="slidertext">
-                <a>You are creating {tokens} EOSETF.</a>
+                <a>You are creating <a class="highlighttext">{tokens}</a> EOSETF.</a>
               </div>
               <div class="slider">
                 <CustomSlider
@@ -130,20 +130,51 @@ function App(props) {
                 <div class="tokenlogo">
                   <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565"/>
                 </div>
+                <div class="smallcardtext">
+                  <a>You have: 200 DAPP tokens</a><br/>
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg"/>
+                </div>
               </div>
+
               <div class="smallcard">
                 <div class="tokenlogo">
                   <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565"/>
                 </div>
+                <div class="smallcardtext">
+                  <a>You have: 200 DAPP tokens</a><br/>
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg"/>
+                </div>
               </div>
+
               <div class="smallcard">
                 <div class="tokenlogo">
                   <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565"/>
                 </div>
+                <div class="smallcardtext">
+                  <a>You have: 200 DAPP tokens</a><br/>
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg"/>
+                </div>
               </div>
+
               <div class="smallcard">
                 <div class="tokenlogo">
                   <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565"/>
+                </div>
+                <div class="smallcardtext">
+                  <a>You have: 200 DAPP tokens</a><br/>
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg"/>
                 </div>
               </div>
 
