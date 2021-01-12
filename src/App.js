@@ -4,6 +4,7 @@ import { Slider } from '@material-ui/core';
 import React, { useState, useEffect } from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { withUAL } from "ual-reactjs-renderer";
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const CustomSlider = withStyles({
   root: {
@@ -259,16 +260,17 @@ function App(props) {
                 />
               </div>
             </div>
-
+            <Scrollbars style={{ width: "100%", height: "90%" }} autoHide >
+            <div class="rightbar">
             <div class="smallcard">
               <div class="tokenlogo">
                 <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
               </div>
               <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
+                <a>Send: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
 
@@ -277,10 +279,10 @@ function App(props) {
                 <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
               </div>
               <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
+                <a>Send: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
 
@@ -289,10 +291,10 @@ function App(props) {
                 <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
               </div>
               <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
+                <a>Send: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
 
@@ -301,12 +303,51 @@ function App(props) {
                 <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
               </div>
               <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
+                <a>Send: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
+
+            <div class="smallcard">
+              <div class="tokenlogo">
+                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+              </div>
+              <div class="smallcardtext">
+                <a>Send: 100 DAPP tokens</a>
+              </div>
+              <div class="trxbutton">
+                <img class="trximage" height="100%" src="assets/connection.svg" />
+              </div>
+            </div>
+
+            <div class="smallcard">
+              <div class="tokenlogo">
+                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+              </div>
+              <div class="smallcardtext">
+                <a>Send: 100 DAPP tokens</a>
+              </div>
+              <div class="trxbutton">
+                <img class="trximage" height="100%" src="assets/connection.svg" />
+              </div>
+            </div>
+
+            <div class="smallcard">
+              <div class="tokenlogo">
+                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+              </div>
+              <div class="smallcardtext">
+                <a>Send: 100 DAPP tokens</a>
+              </div>
+              <div class="trxbutton">
+                <img class="trximage" height="100%" src="assets/connection.svg" />
+              </div>
+            </div>
+            </div>
+            </Scrollbars>
+            <div class="fade" />
             <button onClick={() => send()} class="createbutton">Create EOSETF</button>
           </div>
           : view == "redeem" ?
@@ -334,7 +375,8 @@ function App(props) {
                 />
               </div>
             </div>
-
+            <Scrollbars style={{ width: "100%", height: "90%" }} autoHide >
+            <div class="rightbar">
             <div class="smallcard">
               <div class="tokenlogo">
                 <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
@@ -343,7 +385,7 @@ function App(props) {
                 <a>You will get: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
 
@@ -355,7 +397,7 @@ function App(props) {
                 <a>You will get: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
 
@@ -367,7 +409,7 @@ function App(props) {
                 <a>You will get: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
 
@@ -379,9 +421,11 @@ function App(props) {
                 <a>You will get: 100 DAPP tokens</a>
               </div>
               <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                <img class="trximage" height="100%" src="assets/connection.svg" />
               </div>
             </div>
+            </div>
+            </Scrollbars>
             <button class="createbutton" onClick={() => sendetf()}>Redeem EOSETF</button>
           </div>
           : <a>Error</a>

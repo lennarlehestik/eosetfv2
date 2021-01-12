@@ -41,10 +41,10 @@
   background: rgba( 255, 255, 255, 0.7 );
   backdrop-filter: blur( 4px );
   -webkit-backdrop-filter: blur( 4px );
-  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.05 );
   border-radius:30px;
   width:80%;
-  height:4vh;
+  height:12vh;
   margin-top:2vh;
   display: flex;
   align-items:center;
@@ -52,7 +52,7 @@
 }
 
 .rightbar{
-  width:70%;
+  width:100%;
   height:100%;
   display: flex;
   align-items: center;
@@ -77,6 +77,8 @@
 .tokenlogoimage{
   border-radius:50%;
   box-shadow: 5px 5px 10px 0 rgba( 31, 38, 135, 0.2 );
+  margin-top:auto;
+  margin-bottom:auto;
 }
 
 .menuitem{
@@ -159,13 +161,41 @@ tr:hover{
   .rightbar{
     width:100%;
   }
+  .tokenlogoimage{
+    width:12px;
+    height:12px;
+  }
+  .trximage{
+    width:10px;
+    height:10px;
+  }
+  .tokenlogo{
+    height:50%;
+
+  }
+  .trxbutton{
+    height:50%;
+  }
+  .smallcard{
+    height:15vh;
+  }
+
+
+}
+
+.scrollview{
+  width:70%;
+  height:100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .trxbutton{
   margin-left: auto;
   margin-right:20px;
   transition: 0.3s;
-  height:70%;
+  height:50%;
   margin-top:auto;
   margin-bottom:auto;
 }
