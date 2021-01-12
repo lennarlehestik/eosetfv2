@@ -44,7 +44,7 @@
   box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
   border-radius:30px;
   width:80%;
-  height:7vh;
+  height:4vh;
   margin-top:2vh;
   display: flex;
   align-items:center;
@@ -165,8 +165,36 @@ tr:hover{
   margin-left: auto;
   margin-right:20px;
   transition: 0.3s;
+  height:70%;
+  margin-top:auto;
+  margin-bottom:auto;
 }
 
 .trxbutton:hover{
    transform: scale(1.2);
+}
+
+
+.createbutton{
+  background-image: linear-gradient(to right, #21D2FF 0%, #F17AE9  51%, #21D2FF  100%);
+  margin: 10px;
+  padding: 10px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  border:0px;
+  font-weight:600;
+  font-size:12px;
+  margin-left:auto;
+  margin-right:10%;
+  box-shadow: 0 0 20px rgba( 31, 38, 135, 0.1 );
+}
+.createbutton:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
 }
