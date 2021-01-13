@@ -235,6 +235,10 @@ function App(props) {
                 <td><img class="menuimg" src="assets/checkout.svg" /></td>
                 <td><a class="menuitemtext">Buy</a></td>
               </tr>
+              <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
+                <td><img class="menuimg" src="assets/govern.svg" /></td>
+                <td><a class="menuitemtext">Govern</a></td>
+              </tr>
               {accountname == "" ?
                 <tr onClick={() => showModal()}>
                   <td><img class="menuimg" src="assets/login.svg" /></td>
@@ -274,6 +278,10 @@ function App(props) {
                 <tr onClick={() => window.open('https://newdex.io/', "_blank")}>
                   <td><img class="menuimg" src="assets/checkout.svg" /></td>
                   <td><a class="menuitemtext">Buy</a></td>
+                </tr>
+                <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
+                  <td><img class="menuimg" src="assets/govern.svg" /></td>
+                  <td><a class="menuitemtext">Govern</a></td>
                 </tr>
                 {accountname == "" ?
                   <tr onClick={() => showModal()}>

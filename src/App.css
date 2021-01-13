@@ -169,6 +169,9 @@ tr:hover{
     top:10px;
     right:10px;
   }
+  .createbutton{
+    width:80%;
+  }
   .maincard{
     width:85vw;
     height:80vh;
@@ -242,7 +245,7 @@ tr:hover{
 .createbutton{
   background-image: linear-gradient(to right, #21D2FF 0%, #F17AE9  51%, #21D2FF  100%);
   margin: 10px;
-  padding: 10px 45px;
+  padding: 15px 45px;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;

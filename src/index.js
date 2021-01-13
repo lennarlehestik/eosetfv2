@@ -5,6 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UALProvider } from 'ual-reactjs-renderer'
 import { Anchor } from 'ual-anchor'
+import { Scatter } from 'ual-scatter'
+import { Lynx } from 'ual-lynx'
+import { TokenPocket } from 'ual-token-pocket'
+import { Wombat } from 'ual-wombat'
+import { EOSIOAuth } from 'ual-eosio-reference-authenticator'
 
 const appName = "EOSETF";
 
@@ -24,10 +29,15 @@ const chain = {
 const anchor = new Anchor([chain], {
   appName,
 });
+const scatter = new Scatter([chain], { appName })
+const lynx = new Lynx([chain])
+const tokenPocket = new TokenPocket([chain])
+const wombat = new Wombat([chain], { appName: 'EOSETF' })
+const eosioAuth = new EOSIOAuth([chain], { appName, protocol: 'eosio' })
 
 const supportedChains = [chain];
 const supportedAuthenticators = [
-  anchor
+  anchor, wombat, scatter, lynx, tokenPocket, eosioAuth
 ];
 
 ReactDOM.render(
