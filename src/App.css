@@ -265,3 +265,11 @@ tr:hover{
   color: #fff;
   text-decoration: none;
 }
+
+.tokeninput{
+  background: transparent;
+  border: none;
+  border-bottom:solid 1px;
+  min-width:10px;
+  width:30px;
+}
