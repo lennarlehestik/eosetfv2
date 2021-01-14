@@ -315,7 +315,7 @@ function App(props) {
       ual: { activeUser },
     } = props;
 
-    console.log(getdapp())
+    //console.log(getdapp())
 
     if (activeUser) {
       try {
