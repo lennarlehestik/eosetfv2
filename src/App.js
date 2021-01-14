@@ -4,6 +4,8 @@ import { Slider } from '@material-ui/core';
 import React, { useState, useEffect } from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { withUAL } from "ual-reactjs-renderer";
+import Swal from "sweetalert2";
+
 
 const CustomSlider = withStyles({
   root: {
@@ -59,6 +61,247 @@ function App(props) {
     setAccountName("")
   }
 
+  const sucessstake = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 6000,
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: "Successfully increased voting and polling rewards",
+    });
+  };
+
+  const actionpuccis = (err) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 5000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    Toast.fire({
+      icon: "error",
+      title: err,
+    });
+  };
+
+
+  const [ogxbalance, setOgx] = useState({ rows: [] });
+  const [dadbalance, setDad] = useState({ rows: [] });
+  const [boxbalance, setBox] = useState({ rows: [] });
+  const [vigbalance, setVig] = useState({ rows: [] });
+  const [iqbalance, setIq] = useState({ rows: [] });
+  const [efxbalance, setEfx] = useState({ rows: [] });
+  const [dappbalance, setDapp] = useState({ rows: [] });
+
+
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "core.ogx",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((ogxbalance) => setOgx(ogxbalance))
+    );
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "dadtoken1111",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((dadbalance) => setDad(dadbalance))
+    );
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "token.defi",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((boxbalance) => setBox(boxbalance))
+    );
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "vig111111111",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((vigbalance) => setVig(vigbalance))
+    );
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "everipediaiq",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((iqbalance) => setIq(iqbalance))
+
+    );
+  }, [accountname]);
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "effecttokens",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((efxbalance) => setEfx(efxbalance))
+    );
+  }, [accountname]);
+
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "dappservices",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((dappbalance) => setDapp(dappbalance))
+    );
+  }, [accountname]);
+
+
+  const getdapp = () => {
+    if (dappbalance.rows[0]) {
+      return Math.floor(Number(dappbalance.rows[0].balance.split(" ")[0]));
+    }
+    else {
+      return 0;
+    }
+  };
+
+  const getefx = () => {
+    if (efxbalance.rows[0]) {
+      return Math.floor(Number(efxbalance.rows[0].efxbalance.split(" ")[0]));
+    }
+  };
+
+  const getogx = () => {
+    if (ogxbalance.rows[0]) {
+      return Math.floor(Number(ogxbalance.rows[0].ogxbalance.split(" ")[0]));
+    }
+  };
+
+  const getbox = () => {
+    if (boxbalance.rows[0]) {
+      return Math.floor(Number(boxbalance.rows[0].boxbalance.split(" ")[0]));
+    }
+  };
+
+  const getvig = () => {
+    if (vigbalance.rows[0]) {
+      return Math.floor(Number(vigbalance.rows[0].vigbalance.split(" ")[0]));
+    }
+  };
+
+  const getiq = () => {
+    if (iqbalance.rows[0]) {
+      return Math.floor(Number(iqbalance.rows[0].iqbalance.split(" ")[0]));
+    }
+  };
+
+  const getdad = () => {
+    if (dadbalance.rows[0]) {
+      return Math.floor(Number(dadbalance.rows[0].dadbalance.split(" ")[0]));
+    }
+  };
+
 
   const send = async () => {
     const {
@@ -69,7 +312,7 @@ function App(props) {
       ual: { activeUser },
     } = props;
 
-    var efx = tokens.toFixed(4);
+    console.log(getdapp())
 
     if (activeUser) {
       try {
@@ -87,8 +330,9 @@ function App(props) {
               data: {
                 from: displayaccountname(),
                 to: "consortiumtt",
-                quantity: 2.1563 * tokens + " DAPP",
-                memo: "test",
+                //quantity: 19.2562 * tokens + " DAPP",
+                memo: "EOSETF creation",
+                quantity: parseFloat(19.2562 * tokens).toFixed(4) + " DAPP",
 
               },
             },
@@ -106,11 +350,133 @@ function App(props) {
               data: {
                 from: displayaccountname(),
                 to: "consortiumtt",
-                quantity: efx + " EFX",
-                memo: "test2",
+                //quantity: 10.6593 * tokens + " EFX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(10.6593 * tokens).toFixed(4) + " EFX",
 
               },
             },
+
+
+
+            {
+              account: "core.ogx",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 1.26108207 * tokens + " OGX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(1.26108207 * tokens).toFixed(8) + " OGX",
+
+              },
+            },
+
+
+
+
+            {
+              account: "everipediaiq",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 50.082 * tokens + " IQ",
+                memo: "EOSETF creation",
+                quantity: parseFloat(50.082 * tokens).toFixed(3) + " IQ",
+
+              },
+            },
+
+
+
+
+            {
+              account: "vig111111111",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 196.7187 * tokens + " VIG",
+                memo: "EOSETF creation",
+                quantity: parseFloat(196.7187 * tokens).toFixed(4) + " VIG",
+
+              },
+            },
+
+
+
+            {
+              account: "token.defi",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 0.035523 * tokens + " BOX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(0.035523 * tokens).toFixed(6) + " BOX",
+
+              },
+            },
+
+
+
+
+            {
+              account: "dadtoken1111",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 1.439439 * tokens + " DAD",
+                memo: "EOSETF creation",
+                quantity: parseFloat(1.439439 * tokens).toFixed(6) + " DAD",
+
+              },
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
           ],
@@ -120,10 +486,17 @@ function App(props) {
           broadcast: true,
           expireSeconds: 300,
         });
+
+        sucessstake();
+
         //alert("GREAT SUCCESS!")
-        window.location.reload(false);
+        //window.location.reload(false);
 
       } catch (error) {
+        console.log(error.message);
+        actionpuccis(
+          error.message
+        );
         //if (error.message.startsWith("TypeError: Cannot") == true) {
 
       }
@@ -165,7 +538,7 @@ function App(props) {
                 from: displayaccountname(),
                 to: "consortiumtt",
                 quantity: eosetf + " EOSETF",
-                memo: "test",
+                memo: "EOSETF redemption",
 
               },
             },
@@ -178,12 +551,17 @@ function App(props) {
           broadcast: true,
           expireSeconds: 300,
         });
+
+        sucessstake();
+
         //alert("GREAT SUCCESS!")
-        window.location.reload(false);
+        //window.location.reload(false);
 
       } catch (error) {
-        //if (error.message.startsWith("TypeError: Cannot") == true) {
-
+        console.log(error.message);
+        actionpuccis(
+          error.message
+        );
       }
     } else {
       showModal();
@@ -235,156 +613,157 @@ function App(props) {
             </div>
           </div>
           {view == "create" ?
-          <div class="rightbar">
-            <div class="rightbartopbox">
-              <div class="createetftitle">
-                <a>Create EOSETF</a>
+            <div class="rightbar">
+              <div class="rightbartopbox">
+                <div class="createetftitle">
+                  <a>Create EOSETF</a>
+                </div>
+                <div class="slidertext">
+                  <a>You are creating <a class="highlighttext">{tokens}</a> EOSETF.</a>
+                </div>
+                <div class="slider">
+                  <CustomSlider
+                    defaultValue={1.0000}
+                    aria-label="custom thumb label"
+                    step={1.0000}
+                    min={0}
+                    max={10.0000}
+                    onChangeCommitted={(e, val) => setTokens(val)}
+                    style={{
+                      marginBottom: "10px",
+                      "margin-top": "10px",
+                      color: "white",
+                    }}
+                  />
+                </div>
               </div>
-              <div class="slidertext">
-                <a>You are creating <a class="highlighttext">{tokens}</a> EOSETF.</a>
-              </div>
-              <div class="slider">
-                <CustomSlider
-                  defaultValue={1.0000}
-                  aria-label="custom thumb label"
-                  step={1.0000}
-                  min={0}
-                  max={10.0000}
-                  onChangeCommitted={(e, val) => setTokens(val)}
-                  style={{
-                    marginBottom: "10px",
-                    "margin-top": "10px",
-                    color: "white",
-                  }}
-                />
-              </div>
-            </div>
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+              <div class="smallcard">
+                <div class="tokenlogo">
+                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                </div>
+                <div class="smallcardtext">
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                </div>
               </div>
-              <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
-            </div>
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+              <div class="smallcard">
+                <div class="tokenlogo">
+                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                </div>
+                <div class="smallcardtext">
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                </div>
               </div>
-              <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
-            </div>
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+              <div class="smallcard">
+                <div class="tokenlogo">
+                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                </div>
+                <div class="smallcardtext">
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                </div>
               </div>
-              <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
-            </div>
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+              <div class="smallcard">
+                <div class="tokenlogo">
+                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                </div>
+                <div class="smallcardtext">
+                  <a>You need to send: 100 DAPP tokens</a>
+                </div>
+                <div class="trxbutton">
+                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                </div>
               </div>
-              <div class="smallcardtext">
-                <a>You need to send: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
+              <button onClick={() => send()} class="createbutton">Create EOSETF</button>
             </div>
-            <button onClick={() => send()} class="createbutton">Create EOSETF</button>
-          </div>
-          : view == "redeem" ?
-          <div class="rightbar">
-            <div class="rightbartopbox">
-              <div class="createetftitle">
-                <a>Redeem EOSETF</a>
-              </div>
-              <div class="slidertext">
-                <a>You are redeeming <a class="highlighttext">{tokens}</a> EOSETF.</a>
-              </div>
-              <div class="slider">
-                <CustomSlider
-                  defaultValue={1.0000}
-                  aria-label="custom thumb label"
-                  step={1.0000}
-                  min={0}
-                  max={10.0000}
-                  onChangeCommitted={(e, val) => setTokens(val)}
-                  style={{
-                    marginBottom: "10px",
-                    "margin-top": "10px",
-                    color: "white",
-                  }}
-                />
-              </div>
-            </div>
+            : view == "redeem" ?
+              <div class="rightbar">
+                <div class="rightbartopbox">
+                  <div class="createetftitle">
+                    <a>Redeem EOSETF</a>
+                  </div>
+                  <div class="slidertext">
+                    <a>You are redeeming <a class="highlighttext">{tokens}</a> EOSETF.</a>
+                  </div>
+                  <div class="slider">
+                    <CustomSlider
+                      defaultValue={1.0000}
+                      aria-label="custom thumb label"
+                      step={1.0000}
+                      min={0}
+                      max={10.0000}
+                      onChangeCommitted={(e, val) => setTokens(val)}
+                      style={{
+                        marginBottom: "10px",
+                        "margin-top": "10px",
+                        color: "white",
+                      }}
+                    />
+                  </div>
+                </div>
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-              </div>
-              <div class="smallcardtext">
-                <a>You will get: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
-            </div>
+                <div class="smallcard">
+                  <div class="tokenlogo">
+                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                  </div>
+                  <div class="smallcardtext">
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-              </div>
-              <div class="smallcardtext">
-                <a>You will get: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
-            </div>
+                    <a>{getdapp()}</a>
+                  </div>
+                  <div class="trxbutton">
+                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                  </div>
+                </div>
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-              </div>
-              <div class="smallcardtext">
-                <a>You will get: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
-            </div>
+                <div class="smallcard">
+                  <div class="tokenlogo">
+                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                  </div>
+                  <div class="smallcardtext">
+                    <a>You will get: 100 DAPP tokens</a>
+                  </div>
+                  <div class="trxbutton">
+                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                  </div>
+                </div>
 
-            <div class="smallcard">
-              <div class="tokenlogo">
-                <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                <div class="smallcard">
+                  <div class="tokenlogo">
+                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                  </div>
+                  <div class="smallcardtext">
+                    <a>You will get: 100 DAPP tokens</a>
+                  </div>
+                  <div class="trxbutton">
+                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                  </div>
+                </div>
+
+                <div class="smallcard">
+                  <div class="tokenlogo">
+                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                  </div>
+                  <div class="smallcardtext">
+                    <a>You will get: 100 DAPP tokens</a>
+                  </div>
+                  <div class="trxbutton">
+                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
+                  </div>
+                </div>
+                <button class="createbutton" onClick={() => sendetf()}>Redeem EOSETF</button>
               </div>
-              <div class="smallcardtext">
-                <a>You will get: 100 DAPP tokens</a>
-              </div>
-              <div class="trxbutton">
-                <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-              </div>
-            </div>
-            <button class="createbutton" onClick={() => sendetf()}>Redeem EOSETF</button>
-          </div>
-          : <a>Error</a>
+              : <a>Error</a>
           }
         </div>
       </header>

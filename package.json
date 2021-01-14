@@ -10,6 +10,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "sweetalert2": "^10.13.0",
     "ual-anchor": "^0.5.1",
     "ual-eosio-reference-authenticator": "^0.3.0",
     "ual-reactjs-renderer": "^0.3.1",
