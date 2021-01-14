@@ -37,14 +37,27 @@
   flex-direction: column;
 }
 
+.mobilemenu{
+  background: rgba( 255, 255, 255, 0.25 );
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius:30px 0px 0px 30px;
+  height:100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .smallcard{
   background: rgba( 255, 255, 255, 0.7 );
   backdrop-filter: blur( 4px );
   -webkit-backdrop-filter: blur( 4px );
-  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.05 );
   border-radius:30px;
   width:80%;
-  height:4vh;
+  min-height:80px;
+  max-height:80px;
+  height:80px;
   margin-top:2vh;
   display: flex;
   align-items:center;
@@ -52,7 +65,7 @@
 }
 
 .rightbar{
-  width:70%;
+  width:100%;
   height:100%;
   display: flex;
   align-items: center;
@@ -67,16 +80,6 @@
 .appname{
   font-weight:700;
   font-size:24px;
-}
-
-.tokenlogo{
-  height:70%;
-  margin-left:15px;
-}
-
-.tokenlogoimage{
-  border-radius:50%;
-  box-shadow: 5px 5px 10px 0 rgba( 31, 38, 135, 0.2 );
 }
 
 .menuitem{
@@ -148,24 +151,88 @@ tr:hover{
   font-size:13px;
 }
 
+.menubutton{
+  display:none;
+}
+
+.sidemenu{
+  width:50vw;
+}
 
 @media only screen and (max-width: 800px) {
   .leftbar{
       display:none;
   }
+  .menubutton{
+    display:block;
+    position:absolute;
+    top:10px;
+    right:10px;
+  }
+  .createbutton{
+    width:80%;
+  }
   .maincard{
-    width:80vw;;
+    width:85vw;
+    height:80vh;
   }
   .rightbar{
     width:100%;
   }
+  .tokenlogoimage{
+    width:48px;
+    height:48px;
+  }
+  .trximage{
+    width:32px;
+    height:32px;
+  }
+  .tokenlogo{
+    height:100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+  }
+  .trxbutton{
+    height:100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+
+}
+
+.scrollview{
+  width:70%;
+  height:100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .trxbutton{
   margin-left: auto;
   margin-right:20px;
   transition: 0.3s;
+  height:50%;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+.trximage{
+  margin-top:auto;
+  margin-bottom:auto;
+}
+
+.tokenlogo{
   height:70%;
+  margin-left:15px;
+}
+
+.tokenlogoimage{
+  border-radius:50%;
+  box-shadow: 5px 5px 10px 0 rgba( 31, 38, 135, 0.2 );
   margin-top:auto;
   margin-bottom:auto;
 }
@@ -178,7 +245,7 @@ tr:hover{
 .createbutton{
   background-image: linear-gradient(to right, #21D2FF 0%, #F17AE9  51%, #21D2FF  100%);
   margin: 10px;
-  padding: 10px 45px;
+  padding: 15px 45px;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;

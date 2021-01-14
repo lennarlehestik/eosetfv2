@@ -6,6 +6,8 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { withUAL } from "ual-reactjs-renderer";
 import Swal from "sweetalert2";
 
+import { Scrollbars } from 'react-custom-scrollbars';
+import Drawer from '@material-ui/core/Drawer';
 
 const CustomSlider = withStyles({
   root: {
@@ -52,6 +54,7 @@ function App(props) {
       return accountname;
     }
   };
+  const [drawerstate, setDrawerstate] = useState(false)
   const [tokens, setTokens] = useState(1)
   const [view, setView] = useState("create")
   const [accountname, setAccountName] = useState("")
@@ -568,12 +571,68 @@ function App(props) {
     }
   };
 
+  const toggleDrawer = (open) => (event) => {
+    setDrawerstate(open);
+  };
+
 
   return (
     <div className="App">
       <header className="App-header">
+        <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
-
+          <Drawer
+            anchor="right"
+            open={drawerstate}
+            onClose={toggleDrawer(false)}
+            onOpen={toggleDrawer(true)}
+            opacity="0.5"
+          >
+            <div class="sidemenu">
+              <div class="mobilemenu">
+                <div class="logo">
+                  <img width="64px" src="assets/logo.svg" />
+                </div>
+                <div class="appname">
+                  <a>EOSETF</a>
+                </div>
+                <div class="accountname">
+                  {accountname == "" ? <a>not signed in</a> : accountname}
+                </div>
+                <div class="menuitemswrapper">
+                  <table class="menuitems">
+                    <tr onClick={() => setView("create")}>
+                      <td><img class="menuimg" src="assets/productbox1.svg" /></td>
+                      <td><a class="menuitemtext">Create</a></td>
+                    </tr>
+                    <tr onClick={() => setView("redeem")}>
+                      <td><img class="menuimg" src="assets/productbox2.svg" /></td>
+                      <td><a class="menuitemtext">Redeem</a></td>
+                    </tr>
+                    <tr onClick={() => window.open('https://newdex.io/', "_blank")}>
+                      <td><img class="menuimg" src="assets/checkout.svg" /></td>
+                      <td><a class="menuitemtext">Buy</a></td>
+                    </tr>
+                    <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
+                      <td><img class="menuimg" src="assets/govern.svg" /></td>
+                      <td><a class="menuitemtext">Govern</a></td>
+                    </tr>
+                    {accountname == "" ?
+                      <tr onClick={() => showModal()}>
+                        <td><img class="menuimg" src="assets/login.svg" /></td>
+                        <td><a class="menuitemtext">Login</a></td>
+                      </tr>
+                      :
+                      <tr onClick={() => logmeout()}>
+                        <td><img class="menuimg" src="assets/logout.svg" /></td>
+                        <td><a class="menuitemtext">Logout</a></td>
+                      </tr>
+                    }
+                  </table>
+                </div>
+              </div>
+            </div>
+          </Drawer>
           <div class="leftbar">
             <div class="logo">
               <img width="64px" src="assets/logo.svg" />
@@ -597,6 +656,10 @@ function App(props) {
                 <tr onClick={() => window.open('https://newdex.io/', "_blank")}>
                   <td><img class="menuimg" src="assets/checkout.svg" /></td>
                   <td><a class="menuitemtext">Buy</a></td>
+                </tr>
+                <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
+                  <td><img class="menuimg" src="assets/govern.svg" /></td>
+                  <td><a class="menuitemtext">Govern</a></td>
                 </tr>
                 {accountname == "" ?
                   <tr onClick={() => showModal()}>
@@ -637,54 +700,94 @@ function App(props) {
                   />
                 </div>
               </div>
+              <Scrollbars style={{ width: "100%", height: "90%" }} autoHide >
+                <div class="rightbar">
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>Send: 100 DAPP tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    </div>
+                  </div>
 
-              <div class="smallcard">
-                <div class="tokenlogo">
-                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                </div>
-                <div class="smallcardtext">
-                  <a>You need to send: 100 DAPP tokens</a>
-                </div>
-                <div class="trxbutton">
-                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                </div>
-              </div>
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>Send: 100 DAPP tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    </div>
+                  </div>
 
-              <div class="smallcard">
-                <div class="tokenlogo">
-                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                </div>
-                <div class="smallcardtext">
-                  <a>You need to send: 100 DAPP tokens</a>
-                </div>
-                <div class="trxbutton">
-                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                </div>
-              </div>
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>Send: 100 DAPP tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    </div>
+                  </div>
 
-              <div class="smallcard">
-                <div class="tokenlogo">
-                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                </div>
-                <div class="smallcardtext">
-                  <a>You need to send: 100 DAPP tokens</a>
-                </div>
-                <div class="trxbutton">
-                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                </div>
-              </div>
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>Send: 100 DAPP tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    </div>
+                  </div>
 
-              <div class="smallcard">
-                <div class="tokenlogo">
-                  <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>Send: 100 DAPP tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    </div>
+                  </div>
+
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>Send: 100 DAPP tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    </div>
+                  </div>
+
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>Send: 100 DAPP tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    </div>
+                  </div>
                 </div>
-                <div class="smallcardtext">
-                  <a>You need to send: 100 DAPP tokens</a>
-                </div>
-                <div class="trxbutton">
-                  <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                </div>
-              </div>
+              </Scrollbars>
+              <div class="fade" />
               <button onClick={() => send()} class="createbutton">Create EOSETF</button>
             </div>
             : view == "redeem" ?
@@ -712,55 +815,57 @@ function App(props) {
                     />
                   </div>
                 </div>
+                <Scrollbars style={{ width: "100%", height: "90%" }} autoHide >
+                  <div class="rightbar">
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>You will get: 100 DAPP tokens</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                      </div>
+                    </div>
 
-                <div class="smallcard">
-                  <div class="tokenlogo">
-                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                  </div>
-                  <div class="smallcardtext">
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>You will get: 100 DAPP tokens</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                      </div>
+                    </div>
 
-                    <a>{getdapp()}</a>
-                  </div>
-                  <div class="trxbutton">
-                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                  </div>
-                </div>
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>You will get: 100 DAPP tokens</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                      </div>
+                    </div>
 
-                <div class="smallcard">
-                  <div class="tokenlogo">
-                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>You will get: 100 DAPP tokens</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                      </div>
+                    </div>
                   </div>
-                  <div class="smallcardtext">
-                    <a>You will get: 100 DAPP tokens</a>
-                  </div>
-                  <div class="trxbutton">
-                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                  </div>
-                </div>
-
-                <div class="smallcard">
-                  <div class="tokenlogo">
-                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                  </div>
-                  <div class="smallcardtext">
-                    <a>You will get: 100 DAPP tokens</a>
-                  </div>
-                  <div class="trxbutton">
-                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                  </div>
-                </div>
-
-                <div class="smallcard">
-                  <div class="tokenlogo">
-                    <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                  </div>
-                  <div class="smallcardtext">
-                    <a>You will get: 100 DAPP tokens</a>
-                  </div>
-                  <div class="trxbutton">
-                    <img class="tokenlogoimage" height="100%" src="assets/connection.svg" />
-                  </div>
-                </div>
+                </Scrollbars>
                 <button class="createbutton" onClick={() => sendetf()}>Redeem EOSETF</button>
               </div>
               : <a>Error</a>
