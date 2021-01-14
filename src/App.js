@@ -61,6 +61,7 @@ function App(props) {
     logout()
     setAccountName("")
   }
+  
 
 
   const send = async () => {
