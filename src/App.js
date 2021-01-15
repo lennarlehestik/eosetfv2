@@ -56,6 +56,7 @@ function App(props) {
   };
   const [drawerstate, setDrawerstate] = useState(false)
   const [tokens, setTokens] = useState(1)
+  const [redeemtokens, setRedeemtokens] = useState(1)
   const [view, setView] = useState("create")
   const [accountname, setAccountName] = useState("")
 
@@ -116,6 +117,7 @@ function App(props) {
   const [iqbalance, setIq] = useState({ rows: [] });
   const [efxbalance, setEfx] = useState({ rows: [] });
   const [dappbalance, setDapp] = useState({ rows: [] });
+  const [eosetfbalance, setEosetf] = useState({ rows: [] });
 
 
   const menuClick = (which) =>{
@@ -267,6 +269,25 @@ function App(props) {
       }),
     }).then((response) =>
       response.json().then((dappbalance) => setDapp(dappbalance))
+    );
+  }, [accountname]);
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((eosetfbalance) => setEosetf(eosetfbalance))
     );
   }, [accountname]);
 
@@ -475,7 +496,7 @@ function App(props) {
     } = props;
 
 
-    var eosetf = tokens.toFixed(4);
+    var eosetf = redeemtokens.toFixed(4);
 
 
     if (activeUser) {
@@ -594,7 +615,7 @@ function App(props) {
               <a>EOSETF</a>
             </div>
             <div class="accountname">
-              {accountname == "" ? <a>not signed in</a> : accountname}
+              {accountname == "" ? <a>Not signed in.</a> : accountname}
             </div>
             <div class="menuitemswrapper">
               <table class="menuitems">
@@ -773,6 +794,8 @@ function App(props) {
               <div class="fade" />
               <button onClick={() => send()} class="createbutton">Create EOSETF</button>
             </div>
+
+
             : view == "redeem" ?
               <div class="rightbar">
                 <div class="rightbartopbox">
@@ -780,16 +803,17 @@ function App(props) {
                     <a>Redeem EOSETF</a>
                   </div>
                   <div class="slidertext">
-                    <a>You are redeeming <a class="highlighttext">{tokens}</a> EOSETF.</a>
+                    <a>You are redeeming <input class="tokeninput" type="number" value={redeemtokens} onChange={e => setRedeemtokens(e.target.value)}></input> EOSETF.</a>
                   </div>
                   <div class="slider">
                     <CustomSlider
                       defaultValue={1.0000}
                       aria-label="custom thumb label"
                       step={1.0000}
+                      value={redeemtokens}
                       min={0}
                       max={10.0000}
-                      onChangeCommitted={(e, val) => setTokens(val)}
+                      onChangeCommitted={(e, val) => setRedeemtokens(val)}
                       style={{
                         marginBottom: "10px",
                         "margin-top": "10px",
@@ -798,55 +822,92 @@ function App(props) {
                     />
                   </div>
                 </div>
-                <Scrollbars style={{ width: "100%", height: "90%" }} autoHide >
+                <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                   <div class="rightbar">
-                    <div class="smallcard">
-                      <div class="tokenlogo">
-                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                      </div>
-                      <div class="smallcardtext">
-                        <a>You will get: 100 DAPP tokens</a>
-                      </div>
-                      <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/tick.svg" />
-                      </div>
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dapp.png" />
                     </div>
+                    <div class="smallcardtext">
+                      <a>{(redeemtokens*dappmult).toFixed(4)} DAPP tokens returned</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                    </div>
+                  </div>
 
-                    <div class="smallcard">
-                      <div class="tokenlogo">
-                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                      </div>
-                      <div class="smallcardtext">
-                        <a>You will get: 100 DAPP tokens</a>
-                      </div>
-                      <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/tick.svg" />
-                      </div>
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
                     </div>
+                    <div class="smallcardtext">
+                      <a>{(redeemtokens*vigmult).toFixed(4)} VIG tokens returned</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                    </div>
+                  </div>
 
-                    <div class="smallcard">
-                      <div class="tokenlogo">
-                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                      </div>
-                      <div class="smallcardtext">
-                        <a>You will get: 100 DAPP tokens</a>
-                      </div>
-                      <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/tick.svg" />
-                      </div>
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/everipedia.png" />
                     </div>
+                    <div class="smallcardtext">
+                      <a>{(redeemtokens*iqmult).toFixed(3)} IQ tokens returned</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                    </div>
+                  </div>
 
-                    <div class="smallcard">
-                      <div class="tokenlogo">
-                        <img class="tokenlogoimage" height="100%" src="https://assets.coingecko.com/coins/images/8116/large/dapp-logo.jpg?1554996565" />
-                      </div>
-                      <div class="smallcardtext">
-                        <a>You will get: 100 DAPP tokens</a>
-                      </div>
-                      <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/tick.svg" />
-                      </div>
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ogx.png" />
                     </div>
+                    <div class="smallcardtext">
+                      <a>{(redeemtokens*ogxmult).toFixed(8)} OGX tokens returned</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                    </div>
+                  </div>
+
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tokendefi.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>{(redeemtokens*boxmult).toFixed(6)} BOX tokens returned</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                    </div>
+                  </div>
+
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/efx.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>{(redeemtokens*efxmult).toFixed(4)} EFX tokens returned</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                    </div>
+                  </div>
+
+                  <div class="smallcard">
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dad.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a>{(redeemtokens*dadmult).toFixed(6)} DAD tokens returned</a>
+                    </div>
+                    <div class="trxbutton">
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                    </div>
+                  </div>
+
                   </div>
                 </Scrollbars>
                 <button class="createbutton" onClick={() => sendetf()}>Redeem EOSETF</button>
