@@ -651,53 +651,69 @@ function App(props) {
                   />
                 </div>
               </div>
-              <Scrollbars style={{ width: "100%", height: "90%" }} autoHide >
+              <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                 <div class="rightbar">
-                  <div class="smallcard" style={{"border": parseFloat(dappmult * tokens).toFixed(6) > gettokenbalance(dappbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{"border": parseFloat(dappmult * tokens).toFixed(4) > gettokenbalance(dappbalance) ? "solid 2px red" : "none"}}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dapp.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a>Send: {parseFloat(dappmult * tokens).toFixed(4)} DAPP tokens</a>
+                      <a> {parseFloat(dappmult * tokens).toFixed(4)} DAPP tokens</a>
                     </div>
                     <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                      {parseFloat(dappmult * tokens).toFixed(4) < gettokenbalance(dappbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(vigmult * tokens).toFixed(6) > gettokenbalance(vigbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{"border": parseFloat(vigmult * tokens).toFixed(4) > gettokenbalance(vigbalance) ? "solid 2px red" : "none"}}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a>Send: {parseFloat(vigmult * tokens).toFixed(4)} VIG tokens</a>
+                      <a> {parseFloat(vigmult * tokens).toFixed(4)} VIG tokens</a>
                     </div>
                     <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    {parseFloat(vigmult * tokens).toFixed(4) < gettokenbalance(vigbalance) ?
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                      :
+                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                    }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(iqmult * tokens).toFixed(6) > gettokenbalance(iqbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{"border": parseFloat(iqmult * tokens).toFixed(3) > gettokenbalance(iqbalance) ? "solid 2px red" : "none"}}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/everipedia.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a>Send: {parseFloat(iqmult * tokens).toFixed(3)} IQ tokens</a>
+                      <a> {parseFloat(iqmult * tokens).toFixed(3)} IQ tokens</a>
                     </div>
                     <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    {parseFloat(iqmult * tokens).toFixed(3) < gettokenbalance(iqbalance) ?
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                      :
+                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                    }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(ogxmult * tokens).toFixed(6) > gettokenbalance(ogxbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{"border": parseFloat(ogxmult * tokens).toFixed(8) > gettokenbalance(ogxbalance) ? "solid 2px red" : "none"}}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ogx.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a>Send: {parseFloat(ogxmult * tokens).toFixed(8)} OGX tokens</a>
+                      <a> {parseFloat(ogxmult * tokens).toFixed(8)} OGX tokens</a>
                     </div>
                     <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    {parseFloat(ogxmult * tokens).toFixed(8) < gettokenbalance(ogxbalance) ?
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                      :
+                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                    }
                     </div>
                   </div>
 
@@ -706,22 +722,30 @@ function App(props) {
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tokendefi.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a>Send: {parseFloat(boxmult * tokens).toFixed(6)} BOX tokens</a>
+                      <a> {parseFloat(boxmult * tokens).toFixed(6)} BOX tokens</a>
                     </div>
                     <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    {parseFloat(boxmult * tokens).toFixed(6) < gettokenbalance(boxbalance) ?
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                      :
+                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                    }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(efxmult * tokens).toFixed(6) > gettokenbalance(efxbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{"border": parseFloat(efxmult * tokens).toFixed(4) > gettokenbalance(efxbalance) ? "solid 2px red" : "none"}}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/efx.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a>Send: {parseFloat(10.6593 * tokens).toFixed(4)} EFX tokens</a>
+                      <a> {parseFloat(10.6593 * tokens).toFixed(4)} EFX tokens</a>
                     </div>
                     <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    {parseFloat(efxmult * tokens).toFixed(4) < gettokenbalance(efxbalance) ?
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                      :
+                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                    }
                     </div>
                   </div>
 
@@ -730,10 +754,14 @@ function App(props) {
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dad.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a>Send: {parseFloat(dadmult * tokens).toFixed(6)} DAD tokens</a>
+                      <a> {parseFloat(dadmult * tokens).toFixed(6)} DAD tokens</a>
                     </div>
                     <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/connection.svg" />
+                    {parseFloat(dadmult * tokens).toFixed(6) < gettokenbalance(dadbalance) ?
+                      <img class="trximage" height="100%" src="assets/tick.svg" />
+                      :
+                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                    }
                     </div>
                   </div>
                 </div>
@@ -776,7 +804,7 @@ function App(props) {
                         <a>You will get: 100 DAPP tokens</a>
                       </div>
                       <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
                       </div>
                     </div>
 
@@ -788,7 +816,7 @@ function App(props) {
                         <a>You will get: 100 DAPP tokens</a>
                       </div>
                       <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
                       </div>
                     </div>
 
@@ -800,7 +828,7 @@ function App(props) {
                         <a>You will get: 100 DAPP tokens</a>
                       </div>
                       <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
                       </div>
                     </div>
 
@@ -812,7 +840,7 @@ function App(props) {
                         <a>You will get: 100 DAPP tokens</a>
                       </div>
                       <div class="trxbutton">
-                        <img class="trximage" height="100%" src="assets/connection.svg" />
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
                       </div>
                     </div>
                   </div>
