@@ -118,7 +118,10 @@ function App(props) {
   const [dappbalance, setDapp] = useState({ rows: [] });
 
 
-
+  const menuClick = (which) =>{
+    setView(which)
+    setDrawerstate(false)
+  }
 
 
   useEffect(() => {
@@ -493,7 +496,6 @@ function App(props) {
                 to: "consortiumtt",
                 quantity: eosetf + " EOSETF",
                 memo: "EOSETF redemption",
-
               },
             },
 
@@ -552,11 +554,11 @@ function App(props) {
                 </div>
                 <div class="menuitemswrapper">
                   <table class="menuitems">
-                    <tr onClick={() => setView("create")}>
+                    <tr onClick={() => menuClick("create")}>
                       <td><img class="menuimg" src="assets/productbox1.svg" /></td>
                       <td><a class="menuitemtext">Create</a></td>
                     </tr>
-                    <tr onClick={() => setView("redeem")}>
+                    <tr onClick={() => menuClick("redeem")}>
                       <td><img class="menuimg" src="assets/productbox2.svg" /></td>
                       <td><a class="menuitemtext">Redeem</a></td>
                     </tr>
@@ -633,11 +635,12 @@ function App(props) {
                   <a>Create EOSETF</a>
                 </div>
                 <div class="slidertext">
-                  <a>You are creating <a class="highlighttext">{tokens}</a> EOSETF.</a>
+                  <a>You are creating <input style={{"color": tokens > 10 ? "red" : "inherit"}} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF.</a>
                 </div>
                 <div class="slider">
                   <CustomSlider
                     defaultValue={1.0000}
+                    value={tokens}
                     aria-label="custom thumb label"
                     step={1.0000}
                     min={0}
@@ -764,6 +767,7 @@ function App(props) {
                     }
                     </div>
                   </div>
+                  <div style={{"display":"block"}}>.</div>
                 </div>
               </Scrollbars>
               <div class="fade" />
