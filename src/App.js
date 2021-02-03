@@ -5,9 +5,11 @@ import React, { useState, useEffect } from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { withUAL } from "ual-reactjs-renderer";
 import Swal from "sweetalert2";
-
+import ReactTooltip from "react-tooltip";
+import InfoIcon from '@material-ui/icons/Info';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Drawer from '@material-ui/core/Drawer';
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CustomSlider = withStyles({
   root: {
@@ -87,7 +89,7 @@ function App(props) {
     });
     Toast.fire({
       icon: "success",
-      title: "Successfully increased voting and polling rewards",
+      title: "ETF and EOSETF successfully created!",
     });
   };
 
@@ -118,12 +120,102 @@ function App(props) {
   const [efxbalance, setEfx] = useState({ rows: [] });
   const [dappbalance, setDapp] = useState({ rows: [] });
   const [eosetfbalance, setEosetf] = useState({ rows: [] });
+  const [etfbalance, setEtf] = useState({ rows: [] });
+  const [eosetfbalanceind, setEosetfind] = useState({ rows: [] });
+  const [etfbalanceind, setEtfind] = useState({ rows: [] });
 
-
-  const menuClick = (which) =>{
+  const menuClick = (which) => {
     setView(which)
     setDrawerstate(false)
   }
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "acconuts",
+        scope: displayaccountname(),
+        limit: 3,
+      }),
+    }).then((response) =>
+      response.json().then((etfbalanceind) => setEtfind(etfbalanceind))
+    );
+  }, [accountname]);
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "accounts",
+        scope: displayaccountname(),
+        limit: 3,
+      }),
+    }).then((response) =>
+      response.json().then((eosetfbalanceind) => setEosetfind(eosetfbalanceind))
+    );
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "statnew",
+        scope: "ETF",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((etfbalance) => setEtf(etfbalance))
+    );
+  }, [accountname]);
+
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "statnew",
+        scope: "EOSETF",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((eosetfbalance) => setEosetf(eosetfbalance))
+    );
+  }, [accountname]);
+
+
+
+
+
 
 
   useEffect(() => {
@@ -272,29 +364,39 @@ function App(props) {
     );
   }, [accountname]);
 
-  useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "consortiumtt",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((eosetfbalance) => setEosetf(eosetfbalance))
-    );
-  }, [accountname]);
 
 
   const gettokenbalance = (token) => {
     if (token.rows[0]) {
       return Math.floor(Number(token.rows[0].balance.split(" ")[0]));
+    }
+    else {
+      return 0;
+    }
+  };
+
+  const gettokenbalanceone = (token) => {
+    if (token.rows[0]) {
+      return Math.floor(Number(token.rows[0].balance.split(" ")[0]));
+    }
+    else {
+      return 0;
+    }
+  };
+
+  const gettokenbalancetwo = (token) => {
+    if (token.rows[0]) {
+      return Math.floor(Number(token.rows[1].balance.split(" ")[0]));
+    }
+    else {
+      return 0;
+    }
+  };
+
+
+  const gettokensupply = (token) => {
+    if (token.rows[0]) {
+      return Math.floor(Number(token.rows[0].supply.split(" ")[0]));
     }
     else {
       return 0;
@@ -551,7 +653,15 @@ function App(props) {
 
 
   return (
+
     <div className="App">
+      <ReactTooltip id="all" place="bottom" type="dark"
+        effect="solid"
+        backgroundColor="black"
+        style={{
+          fontWeight: "bold",
+        }} />
+
       <header className="App-header">
         <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
@@ -571,7 +681,7 @@ function App(props) {
                   <a>EOSETF</a>
                 </div>
                 <div class="accountname">
-                  {accountname == "" ? <a>not signed in</a> : accountname}
+                  {accountname == "" ? <a>not logged in</a> : accountname}
                 </div>
                 <div class="menuitemswrapper">
                   <table class="menuitems">
@@ -615,7 +725,7 @@ function App(props) {
               <a>EOSETF</a>
             </div>
             <div class="accountname">
-              {accountname == "" ? <a>Not signed in.</a> : accountname}
+              {accountname == "" ? <a>Not logged in</a> : accountname}
             </div>
             <div class="menuitemswrapper">
               <table class="menuitems">
@@ -635,6 +745,10 @@ function App(props) {
                   <td><img class="menuimg" src="assets/govern.svg" /></td>
                   <td><a class="menuitemtext">Govern</a></td>
                 </tr>
+                <tr onClick={() => setView("stats")}>
+                  <td><img class="menuimg" src="assets/govern.svg" /></td>
+                  <td><a class="menuitemtext">Stats</a></td>
+                </tr>
                 {accountname == "" ?
                   <tr onClick={() => showModal()}>
                     <td><img class="menuimg" src="assets/login.svg" /></td>
@@ -653,10 +767,44 @@ function App(props) {
             <div class="rightbar">
               <div class="rightbartopbox">
                 <div class="createetftitle">
-                  <a>Create EOSETF</a>
+                  <div>
+                    <a
+                      //class="value"
+                      data-html="true"
+                      data-for="all"
+
+                      data-tip={
+                        "<b>*To create EOSETF your account must hold 7 different tokens:  <br/> DAPP, VIG, IQ, OGX, BOX, EFX and DAD. <br/> <br/> *Creation of each EOSETF issues you CETF tokens (starting with 20k CETF<br/>per 1 EOSETF)  that will be used as a governance and fee distribution token.  <br/> <br/> *Each time 5m CETF are issued the issuance of CETF is halved. <br/> circulation <5m CETF | 1 EOSETF = 20k CETF<br/> circulation <10m CETF | 1 EOSETF = 10k CETF  <br/> <br/> *At 30m CETF (31750 EOSETF / 5 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming EOSETF 10% less tokens are returned. <br/> <br/>  *NB! Creation involves transfer of tokens to eosetfeosetf account,<br/> the code is unaudited, please remember that risk.</b> "
+
+
+                      }
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                    >
+
+                      Create EOSETF
+
+                    <InfoIcon
+
+                        style={{
+                          height: "20px",
+                          width: "20px",
+                          color: "black",
+                          opacity: "0.7",
+                          "margin-left": "2px",
+                          "vertical-align": "top",
+                          "margin-top": "-4px",
+
+                          fontWeight: "bold",
+                        }}
+                      />
+
+                    </a>
+                  </div>
                 </div>
                 <div class="slidertext">
-                  <a>You are creating <input style={{"color": tokens > 10 ? "red" : "inherit"}} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF.</a>
+                  <a>You are creating <input style={{ "color": tokens > 10 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF</a>
                 </div>
                 <div class="slider">
                   <CustomSlider
@@ -677,7 +825,7 @@ function App(props) {
               </div>
               <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                 <div class="rightbar">
-                  <div class="smallcard" style={{"border": parseFloat(dappmult * tokens).toFixed(4) > gettokenbalance(dappbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{ "border": parseFloat(dappmult * tokens).toFixed(4) > gettokenbalance(dappbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dapp.png" />
                     </div>
@@ -688,12 +836,12 @@ function App(props) {
                       {parseFloat(dappmult * tokens).toFixed(4) < gettokenbalance(dappbalance) ?
                         <img class="trximage" height="100%" src="assets/tick.svg" />
                         :
-                        <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/193', "_blank")} height="100%" src="assets/connection.svg" />
                       }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(vigmult * tokens).toFixed(4) > gettokenbalance(vigbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{ "border": parseFloat(vigmult * tokens).toFixed(4) > gettokenbalance(vigbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
                     </div>
@@ -701,15 +849,15 @@ function App(props) {
                       <a> {parseFloat(vigmult * tokens).toFixed(4)} VIG tokens</a>
                     </div>
                     <div class="trxbutton">
-                    {parseFloat(vigmult * tokens).toFixed(4) < gettokenbalance(vigbalance) ?
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                      :
-                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
-                    }
+                      {parseFloat(vigmult * tokens).toFixed(4) < gettokenbalance(vigbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/11', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(iqmult * tokens).toFixed(3) > gettokenbalance(iqbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{ "border": parseFloat(iqmult * tokens).toFixed(3) > gettokenbalance(iqbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/everipedia.png" />
                     </div>
@@ -717,15 +865,15 @@ function App(props) {
                       <a> {parseFloat(iqmult * tokens).toFixed(3)} IQ tokens</a>
                     </div>
                     <div class="trxbutton">
-                    {parseFloat(iqmult * tokens).toFixed(3) < gettokenbalance(iqbalance) ?
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                      :
-                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
-                    }
+                      {parseFloat(iqmult * tokens).toFixed(3) < gettokenbalance(iqbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/93', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(ogxmult * tokens).toFixed(8) > gettokenbalance(ogxbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{ "border": parseFloat(ogxmult * tokens).toFixed(8) > gettokenbalance(ogxbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ogx.png" />
                     </div>
@@ -733,15 +881,15 @@ function App(props) {
                       <a> {parseFloat(ogxmult * tokens).toFixed(8)} OGX tokens</a>
                     </div>
                     <div class="trxbutton">
-                    {parseFloat(ogxmult * tokens).toFixed(8) < gettokenbalance(ogxbalance) ?
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                      :
-                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
-                    }
+                      {parseFloat(ogxmult * tokens).toFixed(8) < gettokenbalance(ogxbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/878', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(boxmult * tokens).toFixed(6) > gettokenbalance(boxbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{ "border": parseFloat(boxmult * tokens).toFixed(6) > gettokenbalance(boxbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tokendefi.png" />
                     </div>
@@ -749,15 +897,15 @@ function App(props) {
                       <a> {parseFloat(boxmult * tokens).toFixed(6)} BOX tokens</a>
                     </div>
                     <div class="trxbutton">
-                    {parseFloat(boxmult * tokens).toFixed(6) < gettokenbalance(boxbalance) ?
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                      :
-                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
-                    }
+                      {parseFloat(boxmult * tokens).toFixed(6) < gettokenbalance(boxbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/878', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(efxmult * tokens).toFixed(4) > gettokenbalance(efxbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{ "border": parseFloat(efxmult * tokens).toFixed(4) > gettokenbalance(efxbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/efx.png" />
                     </div>
@@ -765,15 +913,15 @@ function App(props) {
                       <a> {parseFloat(10.6593 * tokens).toFixed(4)} EFX tokens</a>
                     </div>
                     <div class="trxbutton">
-                    {parseFloat(efxmult * tokens).toFixed(4) < gettokenbalance(efxbalance) ?
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                      :
-                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
-                    }
+                      {parseFloat(efxmult * tokens).toFixed(4) < gettokenbalance(efxbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/191', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{"border": parseFloat(dadmult * tokens).toFixed(6) > gettokenbalance(dadbalance) ? "solid 2px red" : "none"}}>
+                  <div class="smallcard" style={{ "border": parseFloat(dadmult * tokens).toFixed(6) > gettokenbalance(dadbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dad.png" />
                     </div>
@@ -781,14 +929,16 @@ function App(props) {
                       <a> {parseFloat(dadmult * tokens).toFixed(6)} DAD tokens</a>
                     </div>
                     <div class="trxbutton">
-                    {parseFloat(dadmult * tokens).toFixed(6) < gettokenbalance(dadbalance) ?
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                      :
-                      <img class="trximage" onClick={() => window.open('https://newdex.io/', "_blank")} height="100%" src="assets/connection.svg" />
-                    }
+                      {parseFloat(dadmult * tokens).toFixed(6) < gettokenbalance(dadbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/588', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
                     </div>
                   </div>
-                  <div style={{"display":"block"}}>.</div>
+                  <div style={{ "display": "block" }}>.</div>
+
+
                 </div>
               </Scrollbars>
               <div class="fade" />
@@ -800,10 +950,44 @@ function App(props) {
               <div class="rightbar">
                 <div class="rightbartopbox">
                   <div class="createetftitle">
-                    <a>Redeem EOSETF</a>
+                    <div>
+                      <a
+                        //class="value"
+                        data-html="true"
+                        data-for="all"
+
+                        data-tip={
+                          "<b>*To redeem DAPP, VIG, IQ, OGX, BOX, EFX and DAD tokens your account must hold EOSETF. <br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming EOSETF 10% less tokens are returned.</b> "
+
+
+                        }
+                        style={{
+                          fontWeight: "bold",
+                        }}
+                      >
+
+                        Redeem tokens
+
+                    <InfoIcon
+
+                          style={{
+                            height: "20px",
+                            width: "20px",
+                            color: "black",
+                            opacity: "0.7",
+                            "margin-left": "2px",
+                            "vertical-align": "top",
+                            "margin-top": "-4px",
+
+                            fontWeight: "bold",
+                          }}
+                        />
+
+                      </a>
+                    </div>
                   </div>
                   <div class="slidertext">
-                    <a>You are redeeming <input class="tokeninput" type="number" value={redeemtokens} onChange={e => setRedeemtokens(e.target.value)}></input> EOSETF.</a>
+                    <a>You are redeeming <input class="tokeninput" type="number" value={redeemtokens} onChange={e => setRedeemtokens(e.target.value)}></input> EOSETF</a>
                   </div>
                   <div class="slider">
                     <CustomSlider
@@ -824,95 +1008,153 @@ function App(props) {
                 </div>
                 <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                   <div class="rightbar">
-                  <div class="smallcard">
-                    <div class="tokenlogo">
-                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dapp.png" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dapp.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * dappmult).toFixed(4)} DAPP tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
                     </div>
-                    <div class="smallcardtext">
-                      <a>{(redeemtokens*dappmult).toFixed(4)} DAPP tokens returned</a>
-                    </div>
-                    <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                    </div>
-                  </div>
 
-                  <div class="smallcard">
-                    <div class="tokenlogo">
-                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * vigmult).toFixed(4)} VIG tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
                     </div>
-                    <div class="smallcardtext">
-                      <a>{(redeemtokens*vigmult).toFixed(4)} VIG tokens returned</a>
-                    </div>
-                    <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                    </div>
-                  </div>
 
-                  <div class="smallcard">
-                    <div class="tokenlogo">
-                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/everipedia.png" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/everipedia.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * iqmult).toFixed(3)} IQ tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
                     </div>
-                    <div class="smallcardtext">
-                      <a>{(redeemtokens*iqmult).toFixed(3)} IQ tokens returned</a>
-                    </div>
-                    <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                    </div>
-                  </div>
 
-                  <div class="smallcard">
-                    <div class="tokenlogo">
-                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ogx.png" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ogx.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * ogxmult).toFixed(8)} OGX tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
                     </div>
-                    <div class="smallcardtext">
-                      <a>{(redeemtokens*ogxmult).toFixed(8)} OGX tokens returned</a>
-                    </div>
-                    <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                    </div>
-                  </div>
 
-                  <div class="smallcard">
-                    <div class="tokenlogo">
-                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tokendefi.png" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tokendefi.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * boxmult).toFixed(6)} BOX tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
                     </div>
-                    <div class="smallcardtext">
-                      <a>{(redeemtokens*boxmult).toFixed(6)} BOX tokens returned</a>
-                    </div>
-                    <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                    </div>
-                  </div>
 
-                  <div class="smallcard">
-                    <div class="tokenlogo">
-                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/efx.png" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/efx.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * efxmult).toFixed(4)} EFX tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
                     </div>
-                    <div class="smallcardtext">
-                      <a>{(redeemtokens*efxmult).toFixed(4)} EFX tokens returned</a>
-                    </div>
-                    <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                    </div>
-                  </div>
 
-                  <div class="smallcard">
-                    <div class="tokenlogo">
-                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dad.png" />
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dad.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * dadmult).toFixed(6)} DAD tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
                     </div>
-                    <div class="smallcardtext">
-                      <a>{(redeemtokens*dadmult).toFixed(6)} DAD tokens returned</a>
-                    </div>
-                    <div class="trxbutton">
-                      <img class="trximage" height="100%" src="assets/tick.svg" />
-                    </div>
-                  </div>
 
                   </div>
                 </Scrollbars>
-                <button class="createbutton" onClick={() => sendetf()}>Redeem EOSETF</button>
+                <button class="createbutton" onClick={() => sendetf()}>Redeem tokens</button>
               </div>
-              : <a>Error</a>
+
+              : view == "stats" ?
+                <div class="rightbar">
+                  <div class="rightbartopbox">
+                    <div class="createetftitle">
+                      <div>
+                        <a
+                          //class="value"
+                          data-html="true"
+                          data-for="all"
+
+                          data-tip={
+                            "<b>*To redeem DAPP, VIG, IQ, OGX, BOX, EFX and DAD tokens your account must hold EOSETF. <br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming EOSETF 10% less tokens are returned.</b> "
+
+
+                          }
+                          style={{
+                            fontWeight: "bold",
+                          }}
+                        >
+
+                          Balances
+
+                    <InfoIcon
+
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              color: "black",
+                              opacity: "0.7",
+                              "margin-left": "2px",
+                              "vertical-align": "top",
+                              "margin-top": "-4px",
+
+                              fontWeight: "bold",
+                            }}
+                          />
+
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="slidertext">
+                      <a> My balance: {gettokenbalancetwo(eosetfbalanceind)} EOSETF  </a>
+                      <br></br><br></br>
+                      <a> My balance: {gettokenbalanceone(eosetfbalanceind)} CETF  </a>
+                      <br></br><br></br>
+
+                      <a> Total supply: {gettokensupply(etfbalance)} CETF  </a>
+                      <br></br><br></br>
+
+                      <a>Total supply: {gettokensupply(eosetfbalance)} EOSETF  </a>
+                    </div>
+
+                  </div>
+                </div>
+
+
+                : <a>Error</a>
           }
         </div>
       </header>
@@ -921,3 +1163,6 @@ function App(props) {
 }
 
 export default withUAL(App);
+//                      <a> My balance: {gettokenbalance(etfbalanceind)} CETF  </a>                       <a>Total supply: {gettokensupply(etfbalance)} CETF  </a>                       <a>Total supply: {gettokensupply(eosetfbalance)} EOSETF  </a>
+
+

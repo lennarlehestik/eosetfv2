@@ -176,6 +176,9 @@ tr:hover{
   }
   .createbutton{
     width:80%;
+    
+
+      border: "none";
   }
   .maincard{
     width:85vw;
