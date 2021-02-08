@@ -141,7 +141,7 @@ function App(props) {
       body: JSON.stringify({
         json: true,
         code: "consortiumtt",
-        table: "acconuts",
+        table: "accounts",
         scope: displayaccountname(),
         limit: 3,
       }),
@@ -711,7 +711,7 @@ function App(props) {
                       <td><img class="menuimg" src="assets/govern.svg" /></td>
                       <td><a class="menuitemtext">Govern</a></td>
                     </tr>
-                    <tr onClick={() => setView("stats")}>
+                    <tr onClick={() => menuClick("stats")}>
                       <td><img class="menuimg" src="assets/stats.svg" /></td>
                       <td><a class="menuitemtext">Stats</a></td>
                     </tr>
@@ -1141,6 +1141,8 @@ function App(props) {
                         </a>
                       </div>
                     </div>
+                  </div>
+                    <Scrollbars class="mask" style={{ width: "80%"}} autoHide >
                     <div class="statcards">
                       <div class="statcard">
                         <a class="stat">{gettokenbalancetwo(eosetfbalanceind)} EOSETF</a><a class="statexplainer">My balance</a>
@@ -1158,7 +1160,8 @@ function App(props) {
                       <a class="stat">{gettokensupply(eosetfbalance).toLocaleString()} EOSETF</a><a class="statexplainer">Total supply</a>
                       </div>
                     </div>
-                    </div>
+                    </Scrollbars>
+                    <div class="fade" />
                   </div>
 
 
