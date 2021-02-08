@@ -404,6 +404,51 @@ function App(props) {
   };
 
 
+
+  const halvingdivider = () => {
+    if (etfbalance.rows[0]) {
+      return parseInt(
+        Math.pow(
+          2,
+          parseInt(
+            Math.floor(Number(etfbalance.rows[0].supply.split(" ")[0])) /
+            5000000
+          )
+        )
+      );
+    }
+  };
+
+  const creationreward = () => {
+    return parseInt(
+      120000 /
+      halvingdivider()
+    );
+  };
+
+
+  const halvings = (totalcirc) => {
+    if (totalcirc < 5000000) {
+      return 0;
+    } else if (totalcirc >> 5000000 && totalcirc < 10000000) {
+      return 1;
+    } else if (totalcirc >> 10000000 && totalcirc < 15000000) {
+      return 2;
+    } else if (totalcirc >> 15000000 && totalcirc < 20000000) {
+      return 3;
+    } else if (totalcirc >> 20000000 && totalcirc < 25000000) {
+      return 4;
+    } else if (totalcirc >> 25000000 && totalcirc < 30000000) {
+      return 5;
+    }
+  };
+
+
+
+
+
+
+
   const send = async () => {
     const {
       ual: { login, displayError, showModal },
@@ -678,7 +723,7 @@ function App(props) {
                   <img width="64px" src="assets/logo.svg" />
                 </div>
                 <div class="appname">
-                  <a>EOSETF</a>
+                  <a>CETF</a>
                 </div>
                 <div class="accountname">
                   {accountname == "" ? <a>not logged in</a> : accountname}
@@ -722,7 +767,7 @@ function App(props) {
               <img width="64px" src="assets/logo.svg" />
             </div>
             <div class="appname">
-              <a>EOSETF</a>
+              <a>CETF</a>
             </div>
             <div class="accountname">
               {accountname == "" ? <a>Not logged in</a> : accountname}
@@ -774,7 +819,7 @@ function App(props) {
                       data-for="all"
 
                       data-tip={
-                        "<b>*To create EOSETF your account must hold 7 different tokens:  <br/> DAPP, VIG, IQ, OGX, BOX, EFX and DAD. <br/> <br/> *Creation of each EOSETF issues you CETF tokens (starting with 20k CETF<br/>per 1 EOSETF)  that will be used as a governance and fee distribution token.  <br/> <br/> *Each time 5m CETF are issued the issuance of CETF is halved. <br/> circulation <5m CETF | 1 EOSETF = 20k CETF<br/> circulation <10m CETF | 1 EOSETF = 10k CETF  <br/> <br/> *At 30m CETF (31750 EOSETF / 5 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming EOSETF 10% less tokens are returned. <br/> <br/>  *NB! Creation involves transfer of tokens to eosetfeosetf account,<br/> the code is unaudited, please remember that risk.</b> "
+                        "<b>*To create EOSETF your account must hold 7 different tokens:  <br/> DAPP, VIG, IQ, OGX, BOX, EFX and DAD. <br/> <br/> *Creation of each EOSETF issues you CETF tokens (starting with 30k CETF<br/>per 1 EOSETF)  that will be used as a governance and fee distribution token.  <br/> <br/> *Each time 5m CETF are issued the issuance of CETF is halved. <br/> circulation <5m CETF | 1 EOSETF = 20k CETF<br/> circulation <10m CETF | 1 EOSETF = 10k CETF  <br/> <br/> *At 30m CETF (21166 EOSETF / 5 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned. <br/> <br/>  *NB! Creation involves transfer of tokens to cet.f account,<br/> the code is unaudited, please remember that risk.</b> "
 
 
                       }
@@ -808,12 +853,12 @@ function App(props) {
                 </div>
                 <div class="slider">
                   <CustomSlider
-                    defaultValue={1.0000}
+                    defaultValue={0.0000}
                     value={tokens}
                     aria-label="custom thumb label"
                     step={1.0000}
                     min={0}
-                    max={10.0000}
+                    max={70.0000}
                     onChangeCommitted={(e, val) => setTokens(val)}
                     style={{
                       marginBottom: "10px",
@@ -957,7 +1002,7 @@ function App(props) {
                         data-for="all"
 
                         data-tip={
-                          "<b>*To redeem DAPP, VIG, IQ, OGX, BOX, EFX and DAD tokens your account must hold EOSETF. <br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming EOSETF 10% less tokens are returned.</b> "
+                          "<b>*To redeem DAPP, VIG, IQ, OGX, BOX, EFX and DAD tokens your account must hold EOSETF. <br/> <br/>*Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned.</b> "
 
 
                         }
@@ -991,12 +1036,12 @@ function App(props) {
                   </div>
                   <div class="slider">
                     <CustomSlider
-                      defaultValue={1.0000}
+                      defaultValue={0.0000}
                       aria-label="custom thumb label"
                       step={1.0000}
                       value={redeemtokens}
                       min={0}
-                      max={10.0000}
+                      max={70.0000}
                       onChangeCommitted={(e, val) => setRedeemtokens(val)}
                       style={{
                         marginBottom: "10px",
@@ -1102,39 +1147,10 @@ function App(props) {
                   <div class="rightbartopbox">
                     <div class="createetftitle">
                       <div>
-                        <a
-                          //class="value"
-                          data-html="true"
-                          data-for="all"
-
-                          data-tip={
-                            "<b>*To redeem DAPP, VIG, IQ, OGX, BOX, EFX and DAD tokens your account must hold EOSETF. <br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming EOSETF 10% less tokens are returned.</b> "
 
 
-                          }
-                          style={{
-                            fontWeight: "bold",
-                          }}
-                        >
+                        Balances
 
-                          Balances
-
-                    <InfoIcon
-
-                            style={{
-                              height: "20px",
-                              width: "20px",
-                              color: "black",
-                              opacity: "0.7",
-                              "margin-left": "2px",
-                              "vertical-align": "top",
-                              "margin-top": "-4px",
-
-                              fontWeight: "bold",
-                            }}
-                          />
-
-                        </a>
                       </div>
                     </div>
 
@@ -1144,10 +1160,17 @@ function App(props) {
                       <a> My balance: {gettokenbalanceone(eosetfbalanceind)} CETF  </a>
                       <br></br><br></br>
 
-                      <a> Total supply: {gettokensupply(etfbalance)} CETF  </a>
+                      <a> Current supply: {gettokensupply(etfbalance)} CETF (Distribution ends at 30m CETF, no more CETF will be issued) </a>
                       <br></br><br></br>
 
-                      <a>Total supply: {gettokensupply(eosetfbalance)} EOSETF  </a>
+                      <a>Current supply: {gettokensupply(eosetfbalance)} EOSETF </a>
+                      <br></br><br></br>
+
+                      <a>Issuance per 1 EOSETF: {creationreward()} CETF   </a>
+
+                      <br></br><br></br>
+
+                      <a>Halvings: {halvings(gettokensupply(etfbalance))}   </a>
                     </div>
 
                   </div>
