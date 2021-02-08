@@ -89,9 +89,29 @@ function App(props) {
     });
     Toast.fire({
       icon: "success",
-      title: "ETF and EOSETF successfully created!",
+      title: "CETF and EOSETF successfully created!",
     });
   };
+
+  const sucessredemption = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 6000,
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: "Tokens successfully redeemed!",
+    });
+  };
+
+
 
   const actionpuccis = (err) => {
     const Toast = Swal.mixin({
@@ -368,7 +388,7 @@ function App(props) {
 
   const gettokenbalance = (token) => {
     if (token.rows[0]) {
-      return Math.floor(Number(token.rows[0].balance.split(" ")[0]));
+      return Number(token.rows[0].balance.split(" ")[0]);
     }
     else {
       return 0;
@@ -676,7 +696,7 @@ function App(props) {
           expireSeconds: 300,
         });
 
-        sucessstake();
+        sucessredemption();
 
         //alert("GREAT SUCCESS!")
         //window.location.reload(false);
@@ -696,6 +716,14 @@ function App(props) {
     setDrawerstate(open);
   };
 
+  const compare = () => {
+    const a = parseFloat(vigmult * tokens).toFixed(4)
+    const b = gettokenbalance(vigbalance)
+    const c = Math.floor(a * 100) > Math.floor(b * 100)
+    return c
+
+  }
+
 
   return (
 
@@ -710,6 +738,8 @@ function App(props) {
       <header className="App-header">
         <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
+          <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
+          <div class="outsidebutton buybutton" onClick={() => window.open('https://defibox.io/', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
           <Drawer
             anchor="right"
             open={drawerstate}
@@ -745,6 +775,10 @@ function App(props) {
                     <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
                       <td><img class="menuimg" src="assets/govern.svg" /></td>
                       <td><a class="menuitemtext">Govern</a></td>
+                    </tr>
+                    <tr onClick={() => setView("stats")}>
+                      <td><img class="menuimg" src="assets/stats.svg" /></td>
+                      <td><a class="menuitemtext">Stats</a></td>
                     </tr>
                     {accountname == "" ?
                       <tr onClick={() => showModal()}>
@@ -782,16 +816,8 @@ function App(props) {
                   <td><img class="menuimg" src="assets/productbox2.svg" /></td>
                   <td><a class="menuitemtext">Redeem</a></td>
                 </tr>
-                <tr onClick={() => window.open('https://newdex.io/', "_blank")}>
-                  <td><img class="menuimg" src="assets/checkout.svg" /></td>
-                  <td><a class="menuitemtext">Buy</a></td>
-                </tr>
-                <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
-                  <td><img class="menuimg" src="assets/govern.svg" /></td>
-                  <td><a class="menuitemtext">Govern</a></td>
-                </tr>
                 <tr onClick={() => setView("stats")}>
-                  <td><img class="menuimg" src="assets/govern.svg" /></td>
+                  <td><img class="menuimg" src="assets/stats.svg" /></td>
                   <td><a class="menuitemtext">Stats</a></td>
                 </tr>
                 {accountname == "" ?
@@ -849,7 +875,7 @@ function App(props) {
                   </div>
                 </div>
                 <div class="slidertext">
-                  <a>You are creating <input style={{ "color": tokens > 10 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF</a>
+                  <a>You are creating <input style={{ "color": tokens > 70 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF</a>
                 </div>
                 <div class="slider">
                   <CustomSlider
@@ -886,7 +912,7 @@ function App(props) {
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{ "border": parseFloat(vigmult * tokens).toFixed(4) > gettokenbalance(vigbalance) ? "solid 2px red" : "none" }}>
+                  <div class="smallcard" style={{ "border": compare(vigmult, tokens, vigbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
                     </div>
@@ -1153,26 +1179,29 @@ function App(props) {
 
                       </div>
                     </div>
+                    <div class="statcards">
+                      <div class="statcard">
+                        <a class="stat">{gettokenbalancetwo(eosetfbalanceind).toLocaleString()} EOSETF</a><a class="statexplainer">My balance</a>
+                      </div>
 
-                    <div class="slidertext">
-                      <a> My balance: {gettokenbalancetwo(eosetfbalanceind)} EOSETF  </a>
-                      <br></br><br></br>
-                      <a> My balance: {gettokenbalanceone(eosetfbalanceind)} CETF  </a>
-                      <br></br><br></br>
+                      <div class="statcard">
+                        <a class="stat">{gettokenbalanceone(eosetfbalanceind).toLocaleString()} CETF</a><a class="statexplainer">My balance</a>
+                      </div>
 
-                      <a> Current supply: {gettokensupply(etfbalance)} CETF (Distribution ends at 30m CETF, no more CETF will be issued) </a>
-                      <br></br><br></br>
+                      <div class="statcard">
+                        <a class="stat">{gettokensupply(etfbalance).toLocaleString()} CETF</a><a class="statexplainer">Circulating supply (Max 30m)</a>
+                      </div>
 
-                      <a>Current supply: {gettokensupply(eosetfbalance)} EOSETF </a>
-                      <br></br><br></br>
-
-                      <a>Issuance per 1 EOSETF: {creationreward()} CETF   </a>
-
-                      <br></br><br></br>
-
-                      <a>Halvings: {halvings(gettokensupply(etfbalance))}   </a>
+                      <div class="statcard">
+                        <a class="stat">{gettokensupply(eosetfbalance).toLocaleString()} EOSETF</a><a class="statexplainer">Circulating supply</a>
+                      </div>
+                      <div class="statcard">
+                        <a class="stat">{creationreward().toLocaleString()} CETF</a><a class="statexplainer"> Issuance per 1 EOSTF</a>
+                      </div>
+                      <div class="statcard">
+                        <a class="stat">{halvings(gettokensupply(etfbalance)).toLocaleString()}</a><a class="statexplainer">Halvings (Max 5)</a>
+                      </div>
                     </div>
-
                   </div>
                 </div>
 
@@ -1187,5 +1216,20 @@ function App(props) {
 
 export default withUAL(App);
 //                      <a> My balance: {gettokenbalance(etfbalanceind)} CETF  </a>                       <a>Total supply: {gettokensupply(etfbalance)} CETF  </a>                       <a>Total supply: {gettokensupply(eosetfbalance)} EOSETF  </a>
+/*
 
 
+
+                      <a> Current supply: {gettokensupply(etfbalance)} CETF (Distribution ends at 30m CETF, no more CETF will be issued) </a>
+                      <br></br><br></br>
+
+                      <a>Current supply: {gettokensupply(eosetfbalance)} EOSETF </a>
+                      <br></br><br></br>
+
+                      <a>Issuance per 1 EOSETF: {creationreward()} CETF   </a>
+
+                      <br></br><br></br>
+
+                      <a>Halvings: {halvings(gettokensupply(etfbalance))}   </a>
+
+*/
