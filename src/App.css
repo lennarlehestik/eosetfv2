@@ -23,7 +23,7 @@
   width:50vw;
   height:70vh;
   display:flex;
-  overflow:hidden;
+  position:absolute;
 }
 
 .leftbar{
@@ -176,7 +176,7 @@ tr:hover{
   }
   .createbutton{
     width:80%;
-    
+
 
       border: "none";
   }
@@ -293,4 +293,89 @@ input[type="number"] {
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+}
+.statcards{
+ display:flex;
+ flex-wrap:wrap;
+ align-content:center;
+}
+
+.statcard{
+  background: rgba( 255, 255, 255, 0.7 );
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.05 );
+  border-radius:30px;
+  padding:20px;
+  height:80px;
+  width:80px;
+  margin-right:10px;
+  margin-top:10px;
+  display: flex;
+  flex: 1 0 30%;
+  align-items:center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.stat{
+  font-size:16px;
+  font-weight:600;
+}
+
+.statexplainer{
+  font-size:12px;
+}
+
+.outsidebutton{
+  position:absolute;
+  top:-20px;
+  width:52px;
+  height:52px;
+  background: rgba( 255, 255, 255, 0.25 );
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius:30px;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  transition-duration:0.3s;
+  cursor: pointer;
+}
+
+.outsidebutton:hover{
+  transform:scale(1.2)
+}
+
+.outsidebutton:hover .outsideimg{
+  display:none;
+}
+
+.outsidebuttontext{
+  display:none;
+  font-size:11px;
+  font-weight:600;
+}
+
+.outsidebutton:hover .outsidebuttontext{
+  display:block;
+}
+
+.govrnbutton{
+  right:90px;
+}
+
+.buybutton{
+  right:30px;
+}
+
+.outsideimg{
+  width:32px;
+}
+
+@media only screen and (max-width: 800px) {
+  .outsidebutton{
+    display:none;
+  }
 }

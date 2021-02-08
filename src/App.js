@@ -368,7 +368,7 @@ function App(props) {
 
   const gettokenbalance = (token) => {
     if (token.rows[0]) {
-      return Math.floor(Number(token.rows[0].balance.split(" ")[0]));
+      return Number(token.rows[0].balance.split(" ")[0]);
     }
     else {
       return 0;
@@ -651,6 +651,14 @@ function App(props) {
     setDrawerstate(open);
   };
 
+  const compare = () => {
+    const a = parseFloat(vigmult * tokens).toFixed(4)
+    const b = gettokenbalance(vigbalance)
+    const c = Math.floor(a*100) > Math.floor(b*100)
+    return c
+
+  }
+
 
   return (
 
@@ -665,6 +673,8 @@ function App(props) {
       <header className="App-header">
         <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
+        <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">GOVERN</div></div>
+        <div class="outsidebutton buybutton" onClick={() => window.open('https://defibox.io/', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY</div></div>
           <Drawer
             anchor="right"
             open={drawerstate}
@@ -700,6 +710,10 @@ function App(props) {
                     <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
                       <td><img class="menuimg" src="assets/govern.svg" /></td>
                       <td><a class="menuitemtext">Govern</a></td>
+                    </tr>
+                    <tr onClick={() => setView("stats")}>
+                      <td><img class="menuimg" src="assets/stats.svg" /></td>
+                      <td><a class="menuitemtext">Stats</a></td>
                     </tr>
                     {accountname == "" ?
                       <tr onClick={() => showModal()}>
@@ -737,16 +751,8 @@ function App(props) {
                   <td><img class="menuimg" src="assets/productbox2.svg" /></td>
                   <td><a class="menuitemtext">Redeem</a></td>
                 </tr>
-                <tr onClick={() => window.open('https://newdex.io/', "_blank")}>
-                  <td><img class="menuimg" src="assets/checkout.svg" /></td>
-                  <td><a class="menuitemtext">Buy</a></td>
-                </tr>
-                <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
-                  <td><img class="menuimg" src="assets/govern.svg" /></td>
-                  <td><a class="menuitemtext">Govern</a></td>
-                </tr>
                 <tr onClick={() => setView("stats")}>
-                  <td><img class="menuimg" src="assets/govern.svg" /></td>
+                  <td><img class="menuimg" src="assets/stats.svg" /></td>
                   <td><a class="menuitemtext">Stats</a></td>
                 </tr>
                 {accountname == "" ?
@@ -841,7 +847,7 @@ function App(props) {
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{ "border": parseFloat(vigmult * tokens).toFixed(4) > gettokenbalance(vigbalance) ? "solid 2px red" : "none" }}>
+                  <div class="smallcard" style={{ "border": compare(vigmult,tokens,vigbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
                     </div>
@@ -1109,8 +1115,6 @@ function App(props) {
 
                           data-tip={
                             "<b>*To redeem DAPP, VIG, IQ, OGX, BOX, EFX and DAD tokens your account must hold EOSETF. <br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming EOSETF 10% less tokens are returned.</b> "
-
-
                           }
                           style={{
                             fontWeight: "bold",
@@ -1137,21 +1141,25 @@ function App(props) {
                         </a>
                       </div>
                     </div>
+                    <div class="statcards">
+                      <div class="statcard">
+                        <a class="stat">{gettokenbalancetwo(eosetfbalanceind)} EOSETF</a><a class="statexplainer">My balance</a>
+                      </div>
 
-                    <div class="slidertext">
-                      <a> My balance: {gettokenbalancetwo(eosetfbalanceind)} EOSETF  </a>
-                      <br></br><br></br>
-                      <a> My balance: {gettokenbalanceone(eosetfbalanceind)} CETF  </a>
-                      <br></br><br></br>
+                      <div class="statcard">
+                      <a class="stat">{gettokenbalanceone(eosetfbalanceind)} CETF</a><a class="statexplainer">My balance</a>
+                      </div>
 
-                      <a> Total supply: {gettokensupply(etfbalance)} CETF  </a>
-                      <br></br><br></br>
+                      <div class="statcard">
+                      <a class="stat">{gettokensupply(etfbalance).toLocaleString()} CETF</a><a class="statexplainer">Total supply</a>
+                      </div>
 
-                      <a>Total supply: {gettokensupply(eosetfbalance)} EOSETF  </a>
+                      <div class="statcard">
+                      <a class="stat">{gettokensupply(eosetfbalance).toLocaleString()} EOSETF</a><a class="statexplainer">Total supply</a>
+                      </div>
                     </div>
-
+                    </div>
                   </div>
-                </div>
 
 
                 : <a>Error</a>
@@ -1164,5 +1172,3 @@ function App(props) {
 
 export default withUAL(App);
 //                      <a> My balance: {gettokenbalance(etfbalanceind)} CETF  </a>                       <a>Total supply: {gettokensupply(etfbalance)} CETF  </a>                       <a>Total supply: {gettokensupply(eosetfbalance)} EOSETF  </a>
-
-
