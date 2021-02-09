@@ -239,163 +239,163 @@ function App(props) {
 
 
   useEffect(() => {
-    if(accountname){
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "core.ogx",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((ogxbalance) => setOgx(ogxbalance))
-    );
-  }
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "core.ogx",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((ogxbalance) => setOgx(ogxbalance))
+      );
+    }
   }, [accountname]);
 
 
 
   useEffect(() => {
-    if(accountname){
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "dadtoken1111",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((dadbalance) => setDad(dadbalance))
-    );
-  }
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "dadtoken1111",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((dadbalance) => setDad(dadbalance))
+      );
+    }
   }, [accountname]);
 
 
 
   useEffect(() => {
-    if(accountname){
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "token.defi",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((boxbalance) => setBox(boxbalance))
-    );
-  }
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "token.defi",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((boxbalance) => setBox(boxbalance))
+      );
+    }
   }, [accountname]);
 
 
 
   useEffect(() => {
-    if(accountname){
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "vig111111111",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((vigbalance) => setVig(vigbalance))
-    );
-  }
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "vig111111111",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((vigbalance) => setVig(vigbalance))
+      );
+    }
   }, [accountname]);
 
 
 
   useEffect(() => {
-    if(accountname){
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "everipediaiq",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((iqbalance) => setIq(iqbalance))
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "everipediaiq",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((iqbalance) => setIq(iqbalance))
 
-    );
-  }
+      );
+    }
   }, [accountname]);
 
 
   useEffect(() => {
-    if(accountname){
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "effecttokens",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((efxbalance) => setEfx(efxbalance))
-    );
-  }
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "effecttokens",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((efxbalance) => setEfx(efxbalance))
+      );
+    }
   }, [accountname]);
 
 
 
 
   useEffect(() => {
-    if(accountname){
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "dappservices",
-        table: "accounts",
-        scope: displayaccountname(),
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((dappbalance) => setDapp(dappbalance))
-    );
-  }
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "dappservices",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((dappbalance) => setDapp(dappbalance))
+      );
+    }
   }, [accountname]);
 
 
@@ -412,6 +412,8 @@ function App(props) {
   const gettokenbalanceone = (token) => {
     if (token.rows[0]) {
       return Math.floor(Number(token.rows[0].balance.split(" ")[0]));
+      //return (token.rows[0].balance);
+
     }
     else {
       return 0;
@@ -419,7 +421,7 @@ function App(props) {
   };
 
   const gettokenbalancetwo = (token) => {
-    if (token.rows[0]) {
+    if (token.rows[1]) {
       return Math.floor(Number(token.rows[1].balance.split(" ")[0]));
     }
     else {
