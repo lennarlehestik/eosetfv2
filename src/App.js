@@ -239,6 +239,7 @@ function App(props) {
 
 
   useEffect(() => {
+    if(accountname){
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
@@ -255,11 +256,13 @@ function App(props) {
     }).then((response) =>
       response.json().then((ogxbalance) => setOgx(ogxbalance))
     );
+  }
   }, [accountname]);
 
 
 
   useEffect(() => {
+    if(accountname){
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
@@ -276,11 +279,13 @@ function App(props) {
     }).then((response) =>
       response.json().then((dadbalance) => setDad(dadbalance))
     );
+  }
   }, [accountname]);
 
 
 
   useEffect(() => {
+    if(accountname){
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
@@ -297,11 +302,13 @@ function App(props) {
     }).then((response) =>
       response.json().then((boxbalance) => setBox(boxbalance))
     );
+  }
   }, [accountname]);
 
 
 
   useEffect(() => {
+    if(accountname){
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
@@ -318,11 +325,13 @@ function App(props) {
     }).then((response) =>
       response.json().then((vigbalance) => setVig(vigbalance))
     );
+  }
   }, [accountname]);
 
 
 
   useEffect(() => {
+    if(accountname){
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
@@ -340,10 +349,12 @@ function App(props) {
       response.json().then((iqbalance) => setIq(iqbalance))
 
     );
+  }
   }, [accountname]);
 
 
   useEffect(() => {
+    if(accountname){
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
@@ -360,12 +371,14 @@ function App(props) {
     }).then((response) =>
       response.json().then((efxbalance) => setEfx(efxbalance))
     );
+  }
   }, [accountname]);
 
 
 
 
   useEffect(() => {
+    if(accountname){
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
@@ -382,6 +395,7 @@ function App(props) {
     }).then((response) =>
       response.json().then((dappbalance) => setDapp(dappbalance))
     );
+  }
   }, [accountname]);
 
 
