@@ -1180,7 +1180,7 @@ function App(props) {
                           data-for="all"
 
                           data-tip={
-                            "<b>*It should be fairly quick distribution of CETF <br/> <br/>*since when aprox. 25k USD worth of EOSETF is created the circulation will be 30m CETF.</b> "
+                            "<b>*It should be fairly quick distribution of CETF <br/> since when aprox. 25k USD worth of EOSETF is created the circulation will be 30m CETF, <br/> meaning the issusance will end.</b> "
                           }
                           style={{
                             fontWeight: "bold",
