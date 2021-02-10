@@ -17,8 +17,6 @@
 .maincard{
   background: rgba( 255, 255, 255, 0.25 );
   box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
-  backdrop-filter: blur( 4px );
-  -webkit-backdrop-filter: blur( 4px );
   border-radius:30px;
   width:50vw;
   height:70vh;
@@ -28,8 +26,6 @@
 
 .leftbar{
   background: rgba( 255, 255, 255, 0.25 );
-  backdrop-filter: blur( 4px );
-  -webkit-backdrop-filter: blur( 4px );
   border-radius:30px 0px 0px 30px;
   width:30%;
   height:100%;
@@ -40,8 +36,6 @@
 
 .mobilemenu{
   background: rgba( 255, 255, 255, 0.25 );
-  backdrop-filter: blur( 4px );
-  -webkit-backdrop-filter: blur( 4px );
   border-radius:30px 0px 0px 30px;
   height:100%;
   display: flex;
@@ -57,8 +51,6 @@
 
 .smallcard{
   background: rgba( 255, 255, 255, 0.7 );
-  backdrop-filter: blur( 4px );
-  -webkit-backdrop-filter: blur( 4px );
   box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.05 );
   border-radius:30px;
   width:80%;
@@ -98,6 +90,7 @@
 }
 tr{
   transition: 0.3s;
+  cursor: pointer;
 }
 
 tr:hover{
@@ -232,6 +225,7 @@ tr:hover{
 .trximage{
   margin-top:auto;
   margin-bottom:auto;
+  cursor: pointer;
 }
 
 .tokenlogo{
@@ -303,8 +297,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 .statcard{
   background: rgba( 255, 255, 255, 0.7 );
-  backdrop-filter: blur( 4px );
-  -webkit-backdrop-filter: blur( 4px );
   box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.05 );
   border-radius:30px;
   padding:20px;
@@ -335,8 +327,6 @@ input[type=number]::-webkit-outer-spin-button {
   height:52px;
   background: rgba( 255, 255, 255, 0.25 );
   box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.1 );
-  backdrop-filter: blur( 4px );
-  -webkit-backdrop-filter: blur( 4px );
   border-radius:30px;
   display:flex;
   align-items:center;

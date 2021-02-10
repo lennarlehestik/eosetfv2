@@ -755,7 +755,7 @@ function App(props) {
         <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
           <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
-          <div class="outsidebutton buybutton" onClick={() => window.open('https://defibox.io/', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
+          <div class="outsidebutton buybutton" onClick={() => window.open('https://newdex.io/', "_blank")}><img class="outsideimg" src="assets/newdex.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
           <Drawer
             anchor="right"
             open={drawerstate}
