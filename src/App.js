@@ -9,6 +9,8 @@ import ReactTooltip from "react-tooltip";
 import InfoIcon from '@material-ui/icons/Info';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Drawer from '@material-ui/core/Drawer';
+import ReactGA from "react-ga";
+
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CustomSlider = withStyles({
@@ -653,6 +655,12 @@ function App(props) {
           expireSeconds: 300,
         });
 
+
+        ReactGA.event({
+          category: "Chain acion",
+          action: "User created EOSETF.",
+        });
+
         sucessstake();
 
       } catch (error) {
@@ -713,6 +721,12 @@ function App(props) {
         });
 
         sucessredemption();
+
+
+        ReactGA.event({
+          category: "Chain acion",
+          action: "User redeemed tokens.",
+        });
 
         //alert("GREAT SUCCESS!")
         //window.location.reload(false);
