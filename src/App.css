@@ -322,7 +322,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 .outsidebutton{
   position:absolute;
-  top:-20px;
   width:52px;
   height:52px;
   background: rgba( 255, 255, 255, 0.25 );
@@ -343,9 +342,13 @@ input[type=number]::-webkit-outer-spin-button {
   display:none;
 }
 
+.outsidebutton:hover .outsideimgright{
+  display:none;
+}
+
 .outsidebuttontext{
   display:none;
-  font-size:11px;
+  font-size:10px;
   font-weight:600;
 }
 
@@ -355,16 +358,35 @@ input[type=number]::-webkit-outer-spin-button {
 
 .govrnbutton{
   right:90px;
+  top:-20px;
 }
 
 .buybutton{
   right:30px;
+  top:-20px;
+}
+
+.telegrambutton{
+  right:80px;
+  bottom:10px;
+  width:40px;
+  height:40px;
+}
+
+.githubbutton{
+  right:30px;
+  bottom:10px;
+  width:40px;
+  height:40px;
 }
 
 .outsideimg{
   width:32px;
 }
 
+.outsideimgright{
+  width:24px;
+}
 
 @media only screen and (max-width: 800px) {
   .outsidebutton{

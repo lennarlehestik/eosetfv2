@@ -766,6 +766,8 @@ function App(props) {
         }} />
 
       <header className="App-header">
+      <div class="outsidebutton githubbutton" onClick={() => window.open('https://github.com', "_blank")}><img class="outsideimgright" src="assets/github.png" /><div class="outsidebuttontext">GIT</div></div>
+      <div class="outsidebutton telegrambutton" onClick={() => window.open('https://telegram.org', "_blank")}><img class="outsideimgright" src="assets/telegram.webp" /><div class="outsidebuttontext">TG</div></div>
         <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
           <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
@@ -809,6 +811,14 @@ function App(props) {
                     <tr onClick={() => menuClick("stats")}>
                       <td><img class="menuimg" src="assets/stats.svg" /></td>
                       <td><a class="menuitemtext">Statistics</a></td>
+                    </tr>
+                    <tr onClick={() => window.open('https://telegram.org/', "_blank")}>
+                      <td><img class="menuimg" src="assets/telegram.svg" /></td>
+                      <td><a class="menuitemtext">Telegram</a></td>
+                    </tr>
+                    <tr onClick={() => window.open('https://github.com/', "_blank")}>
+                      <td><img class="menuimg" src="assets/github.svg" /></td>
+                      <td><a class="menuitemtext">Github</a></td>
                     </tr>
                     {accountname == "" ?
                       <tr onClick={() => showModal()}>
