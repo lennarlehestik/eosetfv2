@@ -10,7 +10,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Drawer from '@material-ui/core/Drawer';
 import ReactGA from "react-ga";
-
+import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CustomSlider = withStyles({
@@ -44,6 +44,22 @@ const CustomSlider = withStyles({
 })(Slider);
 
 function App(props) {
+  const data = {
+  labels: ['BOX', 'OGX', 'DAD', 'IQ', 'DAPP', 'VIG', 'EFX'],
+  datasets: [
+    {
+      label: 'ETF weight',
+      fill: true,
+      lineTension: 0.1,
+      backgroundColor: ["#f17ae9","#f9a9f1","#fdd5f8","#ffffff","#cbf0ff","#8fe1ff","#21d2ff"],
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      data: [65, 59, 80, 81, 56, 55, 40]
+    }
+  ]
+};
   const {
     ual: { showModal, hideModal, activeUser, login, logout },
   } = props;
@@ -860,6 +876,10 @@ function App(props) {
                   <td><img class="menuimg" src="assets/stats.svg" /></td>
                   <td><a class="menuitemtext">Statistics</a></td>
                 </tr>
+                <tr onClick={() => setView("about")}>
+                  <td><img class="menuimg" src="assets/stats.svg" /></td>
+                  <td><a class="menuitemtext">About</a></td>
+                </tr>
                 {accountname == "" ?
                   <tr onClick={() => showModal()}>
                     <td><img class="menuimg" src="assets/login.svg" /></td>
@@ -1278,6 +1298,20 @@ function App(props) {
                   </Scrollbars>
                   <div class="fade" />
                 </div>
+                : view == "about" ?
+                  <div class="rightbar">
+                  <div class="rightbartopbox">
+                    <div class="createetftitle">
+                      EOSETF Portfolio Allocation
+                    </div>
+                    <div class="slidertext">
+                      <a>Chart shows % of each token in the portfolio.</a>
+                    </div>
+                  </div>
+                  <div class="chartwrapper">
+                  <Doughnut data={data} legend={{"position":"bottom"}}/>
+                  </div>
+                  </div>
 
                 : <a>Error</a>
           }
