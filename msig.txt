@@ -1,0 +1,123 @@
+{
+    "proposer": "vladislav.x",
+    "proposal_name": "prop1",
+    "requested": [
+        {
+            "actor": "vladislav.x",
+            "permission": "active"
+        }
+    ],
+    "trx": {
+        "chain_id": "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906",
+        "expiration": "2021-02-18T17:58:24.000",
+        "ref_block_num": 57083,
+        "ref_block_prefix": 3378636648,
+        "max_net_usage_words": 0,
+        "max_cpu_usage_ms": 0,
+        "delay_sec": 0,
+        "context_free_actions": [],
+        "actions": [
+            {
+                "account": "eos.token",
+                "name": "transfer",
+                "authorization": [
+                    {
+                        "actor": "y4w3dtilu2b1",
+                        "permission": "active"
+                    }
+                ],
+                "data": "3546494f366a79746b3956625438444166713267796957686632716f47734451324a384b4341594a505137667170537a596a76544e7900ca9a3b000000000094357700000000108ed0d1e53438f100"
+            }
+        ],
+        "transaction_extensions": []
+    },
+    "max_fee": 1500000000
+}
+
+
+cleos -u https: //eos.greymass.com  multisig propose testingrsk '[{"actor": "vladislav.x", "permission": "active"}]' '[{"actor": "quantumphyss", "permission": "active"}]' eosio.token transfer '{"from":"quantumphyss", "to":"vladislav.x", "quantity":"0.0001 EOS", "memo":"Pay"}' -p vladislav.x@active
+    cleos -u https: //eos.greymass.com  multisig approve vladislav.x testingrsk '{"actor": "vladislav.x", "permission": "active"}' -p vladislav.x@active
+
+
+    cleos -u https: //eos.greymass.com  multisig propose testingcng '[{"actor": "vladislav.x", "permission": "active"}]' '[{"actor": "quantumphyss", "permission": "owner"}]' eosio updateauth '{"account": "quantumphyss", "permission": "owner", "parent": "", "auth": {"threshold": 1, "keys": [{"key":"PUB_K1_5ZUq6oapwn6n3QL5Dbuzrnex4hH76NEg3Sv5wWJMoSYWXas7PX","weight":1}], "waits": [], "accounts": []}}' -p vladislav.x@active
+
+
+    cleos -u https: //eos.greymass.com  multisig approve vladislav.x testingcng '{"actor": "vladislav.x", "permission": "active"}' -p vladislav.x@active
+
+    cleos multisig exec vladislav.x testingrsk -p vladislav.x@active
+
+
+$ cleos push action eosio updateauth '{
+    "account": "quantumphyss",
+    "permission": "owner",
+    "parent": "",
+    "auth": {
+        "threshold": 1,
+        "keys": [
+            {
+                "key": "PUB_K1_5ZUq6oapwn6n3QL5Dbuzrnex4hH76NEg3Sv5wWJMoSYWXas7PX",
+                "weight": 1
+            }
+        ],
+        "waits": [],
+        "accounts": []
+    }
+}' -p vladislav.x@active
+ 
+
+cleos -u https: //eos.greymass.com  multisig propose testingcng '[{"actor": "vladislav.x", "permission": "active"},{"actor": "vladislav.x", "permission": "active"},{"actor": "vladislav.x", "permission": "active"}]' '[{"actor": "quantumphyss", "permission": "owner"}]' eosio updateauth '{"account": "quantumphyss", "permission": "owner", "parent": "", "auth": {"threshold": 1, "keys": [{"key":"PUB_K1_5ZUq6oapwn6n3QL5Dbuzrnex4hH76NEg3Sv5wWJMoSYWXas7PX","weight":1}], "waits": [], "accounts": []}}' -p vladislav.x@active
+
+
+
+cleos -u https: //eos.greymass.com  multisig propose testingggg '[{"actor": "consortiumlv", "permission": "active"},{"actor": "consortiumtt", "permission": "active"},{"actor": "vladislav.x", "permission": "active"}]' '[{"actor": "powerplant11", "permission": "owner"}]' eosio updateauth '{"account": "powerplant11", "permission": "owner", "parent": "", "auth": {"threshold": 1, "keys": [{"key":"PUB_K1_5ZUq6oapwn6n3QL5Dbuzrnex4hH76NEg3Sv5wWJMoSYWXas7PX","weight":1}], "waits": [], "accounts": []}}' -p vladislav.x@active
+cleos -u https: //eos.greymass.com  multisig approve vladislav.x testingggg '{"actor": "vladislav.x", "permission": "active"}' -p vladislav.x@active
+
+cleos -u https: //eos.greymass.com multisig exec vladislav.x testingggg -p vladislav.x@active
+
+THIS
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "0.032468 BOX", "contract": "token.defi"}' -p vladislav.x
+
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "1.92307692 OGX", "contract": "core.ogx"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "0.792254 DAD", "contract": "dadtoken1111"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "23.610 IQ", "contract": "everipediaiq"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "11.3636 DAPP", "contract": "dappservices"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "112.5000 VIG", "contract": "vig111111111"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "2.4220 EFX", "contract": "effecttokens"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "51.2528 CHEX", "contract": "chexchexchex"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "8.52272727 PIZZA", "contract": "pizzatotoken"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "0.0325 DFS", "contract": "minedfstoken"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "14.7059 EMT", "contract": "emanateoneos"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "304.6564 NDX", "contract": "newdexissuer"}' -p vladislav.x
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '{"token": "16.1871 TPT", "contract": "eosiotptoken"}' -p vladislav.x
+
+
+
+
+
+cleos -u http://api.eosn.io push action consortiumtt insertrefund '[{"token": "0.032468 BOX", "contract": "token.defi"}]' -p vladislav.x
+
+cleos -u http://api.eosn.io push action consortiumtt ‘{“token”:”0.032468 BOX”,”contract”:”token.defi”}’ -p vladislav.x
+
+cleos -u https: //eos.greymass.com  multisig propose accreturn '[{"actor": "alohaeosprod", "permission": "owner"},{"actor": "eoscafeblock", "permission": "owner"},{"actor": "eosnationftw", "permission": "owner"}]' '[{"actor": "consortium11", "permission": "owner"}]' eosio updateauth '{"account": "consortium11", "permission": "owner", "parent": "", "auth": {"threshold": 1, "keys": [{"key":"PUB_K1_5ZUq6oapwn6n3QL5Dbuzrnex4hH76NEg3Sv5wWJMoSYWXas7PX","weight":1}], "waits": [], "accounts": []}}' -p vladislav.x@active {
+    "expiration": "2021-02-19T11:56:46.000",
+    "ref_block_num": 55389,
+    "ref_block_prefix": 2181703747,
+    "max_net_usage_words": 0,
+    "max_cpu_usage_ms": 0,
+    "delay_sec": 0,
+    "context_free_actions": [],
+    "actions": [
+        {
+            "account": "eosio.token",
+            "name": "transfer",
+            "authorization": [
+                {
+                    "actor": "powerplant11",
+                    "permission": "active"
+                }
+            ],
+            "data": "10429E26D6AB38AD003AD82662974CDCE80300000000000004454F530000000000"
+        }
+    ],
+    "transaction_extensions": []
+}

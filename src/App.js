@@ -74,6 +74,7 @@ function App(props) {
   const iqmult = 50.082
   const vigmult = 196.7187
   const dappmult = 19.2562
+  //const boxmult = 0.035523
   const boxmult = 0.035523
   const ogxmult = 1.26108207
 
