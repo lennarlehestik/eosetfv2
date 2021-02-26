@@ -45,21 +45,21 @@ const CustomSlider = withStyles({
 
 function App(props) {
   const data = {
-  labels: ['BOX', 'OGX', 'DAD', 'IQ', 'DAPP', 'VIG', 'EFX'],
-  datasets: [
-    {
-      label: 'ETF weight',
-      fill: true,
-      lineTension: 0.1,
-      backgroundColor: ["#f17ae9","#f9a9f1","#fdd5f8","#ffffff","#cbf0ff","#8fe1ff","#21d2ff"],
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      data: [65, 59, 80, 81, 56, 55, 40]
-    }
-  ]
-};
+    labels: ['BOX', 'OGX', 'DAD', 'IQ', 'DAPP', 'VIG', 'EFX', 'CHEX', 'PIZZA', 'DFS', 'EMT', 'NDX', 'TPT'],
+    datasets: [
+      {
+        label: 'ETF weight',
+        fill: true,
+        lineTension: 0.1,
+        backgroundColor: ["#f17ae9", "#f9a9f1", "#fdd5f8", "#ffffff", "#cbf0ff", "#8fe1ff", "#21d2ff", "#f9a9f1", "#fdd5f8", "#ffffff", "#cbf0ff", "#8fe1ff", "#21d2ff"],
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40]
+      }
+    ]
+  };
   const {
     ual: { showModal, hideModal, activeUser, login, logout },
   } = props;
@@ -85,14 +85,40 @@ function App(props) {
     setAccountName("")
   }
 
-  const efxmult = 10.6593
-  const dadmult = 1.439439
-  const iqmult = 50.082
-  const vigmult = 196.7187
-  const dappmult = 19.2562
-  //const boxmult = 0.035523
-  const boxmult = 0.035523
-  const ogxmult = 1.26108207
+  /*
+    const efxmult = 2.6911
+    const dadmult = 0.880282
+    const iqmult = 26.233
+    const vigmult = 125.0000
+    const dappmult = 12.6263
+    const boxmult = 0.036075
+    const ogxmult = 2.13675214
+  
+    const chexmult = 56.94760820
+    const pizzamult = 9.4696
+    const dfsmult = 0.0361
+    const emtmult = 16.3399
+    const ndxmult = 338.5071
+    const tptmult = 17.9856
+  */
+
+
+
+  const efxmult = 2.6911
+  const dadmult = 0.880282
+  const iqmult = 26.233
+  const vigmult = 125.0000
+  const dappmult = 12.6263
+  const boxmult = 0.036075
+  const ogxmult = 2.13675214
+
+  const chexmult = 56.94760820
+  const pizzamult = 9.4696
+  const dfsmult = 0.0361
+  const emtmult = 16.3399
+  const ndxmult = 338.5071
+  const tptmult = 17.9856
+
 
   const sucessstake = () => {
     const Toast = Swal.mixin({
@@ -108,7 +134,7 @@ function App(props) {
     });
     Toast.fire({
       icon: "success",
-      title: "CETF and EOSETF successfully created!",
+      title: "CETF and EOSETF successfully issued!",
     });
   };
 
@@ -158,6 +184,16 @@ function App(props) {
   const [iqbalance, setIq] = useState({ rows: [] });
   const [efxbalance, setEfx] = useState({ rows: [] });
   const [dappbalance, setDapp] = useState({ rows: [] });
+
+  const [chexbalance, setChex] = useState({ rows: [] });
+  const [pizzabalance, setPizza] = useState({ rows: [] });
+  const [dfsbalance, setDfs] = useState({ rows: [] });
+  const [emtbalance, setEmt] = useState({ rows: [] });
+  const [ndxbalance, setNdx] = useState({ rows: [] });
+  const [tptbalance, setTpt] = useState({ rows: [] });
+
+
+
   const [eosetfbalance, setEosetf] = useState({ rows: [] });
   const [etfbalance, setEtf] = useState({ rows: [] });
   const [eosetfbalanceind, setEosetfind] = useState({ rows: [] });
@@ -419,6 +455,162 @@ function App(props) {
 
 
 
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "chexchexchex",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((chexbalance) => setChex(chexbalance))
+      );
+    }
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "pizzatotoken",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((pizzabalance) => setPizza(pizzabalance))
+      );
+    }
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "minedfstoken",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((dfsbalance) => setDfs(dfsbalance))
+      );
+    }
+  }, [accountname]);
+
+
+
+  useEffect(() => {
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "emanateoneos",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((emtbalance) => setEmt(emtbalance))
+
+      );
+    }
+  }, [accountname]);
+
+
+  useEffect(() => {
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "newdexissuer",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((ndxbalance) => setNdx(ndxbalance))
+      );
+    }
+  }, [accountname]);
+
+
+
+
+  useEffect(() => {
+    if (accountname) {
+      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "eosiotptoken",
+          table: "accounts",
+          scope: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((tptbalance) => setTpt(tptbalance))
+      );
+    }
+  }, [accountname]);
+
+
+
+
+
+
+
+
+
+
+
   const gettokenbalance = (token) => {
     if (token.rows[0]) {
       return Number(token.rows[0].balance.split(" ")[0]);
@@ -553,7 +745,7 @@ function App(props) {
                 to: "consortiumtt",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation",
-                quantity: parseFloat(10.6593 * tokens).toFixed(4) + " EFX",
+                quantity: parseFloat(efxmult * tokens).toFixed(4) + " EFX",
 
               },
             },
@@ -602,7 +794,6 @@ function App(props) {
 
 
 
-
             {
               account: "vig111111111",
               name: "transfer",
@@ -621,7 +812,6 @@ function App(props) {
 
               },
             },
-
 
 
             {
@@ -644,8 +834,6 @@ function App(props) {
             },
 
 
-
-
             {
               account: "dadtoken1111",
               name: "transfer",
@@ -664,6 +852,131 @@ function App(props) {
 
               },
             },
+
+
+
+
+
+            {
+              account: "pizzatotoken",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 10.6593 * tokens + " EFX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(pizzamult * tokens).toFixed(4) + " PIZZA",
+
+              },
+            },
+
+
+
+            {
+              account: "chexchexchex",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 10.6593 * tokens + " EFX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(chexmult * tokens).toFixed(8) + " CHEX",
+
+              },
+            },
+
+            {
+              account: "newdexissuer",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 10.6593 * tokens + " EFX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(ndxmult * tokens).toFixed(4) + " NDX",
+
+              },
+            },
+
+            {
+              account: "eosiotptoken",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 10.6593 * tokens + " EFX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(tptmult * tokens).toFixed(4) + " TPT",
+
+              },
+            },
+
+            {
+              account: "emanateoneos",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 10.6593 * tokens + " EFX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(emtmult * tokens).toFixed(4) + " EMT",
+
+              },
+            },
+
+
+            {
+              account: "minedfstoken",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "consortiumtt",
+                //quantity: 10.6593 * tokens + " EFX",
+                memo: "EOSETF creation",
+                quantity: parseFloat(dfsmult * tokens).toFixed(4) + " DFS",
+
+              },
+            },
+
+
+
+
           ],
         };
         // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
@@ -783,8 +1096,8 @@ function App(props) {
         }} />
 
       <header className="App-header">
-      <div class="outsidebutton githubbutton" onClick={() => window.open('https://github.com', "_blank")}><img class="outsideimgright" src="assets/github.png" /><div class="outsidebuttontext">GIT</div></div>
-      <div class="outsidebutton telegrambutton" onClick={() => window.open('https://telegram.org', "_blank")}><img class="outsideimgright" src="assets/telegram.webp" /><div class="outsidebuttontext">TG</div></div>
+        <div class="outsidebutton githubbutton" onClick={() => window.open('https://github.com', "_blank")}><img class="outsideimgright" src="assets/github.png" /><div class="outsidebuttontext">GIT</div></div>
+        <div class="outsidebutton telegrambutton" onClick={() => window.open('https://telegram.org', "_blank")}><img class="outsideimgright" src="assets/telegram.webp" /><div class="outsidebuttontext">TG</div></div>
         <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
           <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
@@ -936,7 +1249,7 @@ function App(props) {
                   </div>
                 </div>
                 <div class="slidertext">
-                  <a>You are creating <input style={{ "color": tokens > 70 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF</a>
+                  <a>You are creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF</a>
                 </div>
                 <div class="slider">
                   <CustomSlider
@@ -945,7 +1258,7 @@ function App(props) {
                     aria-label="custom thumb label"
                     step={1.0000}
                     min={0}
-                    max={70.0000}
+                    max={200.0000}
                     onChangeCommitted={(e, val) => setTokens(val)}
                     style={{
                       marginBottom: "10px",
@@ -1042,7 +1355,7 @@ function App(props) {
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/efx.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a> {parseFloat(10.6593 * tokens).toFixed(4)} EFX tokens</a>
+                      <a> {parseFloat(efxmult * tokens).toFixed(4)} EFX tokens</a>
                     </div>
                     <div class="trxbutton">
                       {parseFloat(efxmult * tokens).toFixed(4) < gettokenbalance(efxbalance) ?
@@ -1052,6 +1365,108 @@ function App(props) {
                       }
                     </div>
                   </div>
+
+
+
+                  <div class="smallcard" style={{ "border": parseFloat(pizzamult * tokens).toFixed(4) > gettokenbalance(pizzabalance) ? "solid 2px red" : "none" }}>
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/pizza.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a> {parseFloat(pizzamult * tokens).toFixed(4)} PIZZA tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      {parseFloat(pizzamult * tokens).toFixed(4) < gettokenbalance(pizzabalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/14', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
+                    </div>
+                  </div>
+
+                  <div class="smallcard" style={{ "border": parseFloat(chexmult * tokens).toFixed(8) > gettokenbalance(chexbalance) ? "solid 2px red" : "none" }}>
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/chex.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a> {parseFloat(chexmult * tokens).toFixed(8)} CHEX tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      {parseFloat(chexmult * tokens).toFixed(8) < gettokenbalance(chexbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/28', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
+                    </div>
+                  </div>
+
+                  <div class="smallcard" style={{ "border": parseFloat(ndxmult * tokens).toFixed(4) > gettokenbalance(ndxbalance) ? "solid 2px red" : "none" }}>
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ndx.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a> {parseFloat(ndxmult * tokens).toFixed(4)} NDX tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      {parseFloat(ndxmult * tokens).toFixed(4) < gettokenbalance(ndxbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/1', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
+                    </div>
+                  </div>
+
+                  <div class="smallcard" style={{ "border": parseFloat(tptmult * tokens).toFixed(4) > gettokenbalance(tptbalance) ? "solid 2px red" : "none" }}>
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tpt.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a> {parseFloat(tptmult * tokens).toFixed(4)} TPT tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      {parseFloat(tptmult * tokens).toFixed(4) < gettokenbalance(tptbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/4', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
+                    </div>
+                  </div>
+
+                  <div class="smallcard" style={{ "border": parseFloat(emtmult * tokens).toFixed(4) > gettokenbalance(emtbalance) ? "solid 2px red" : "none" }}>
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/emt.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a> {parseFloat(emtmult * tokens).toFixed(4)} EMT tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      {parseFloat(emtmult * tokens).toFixed(4) < gettokenbalance(emtbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/255', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
+                    </div>
+                  </div>
+
+
+
+                  <div class="smallcard" style={{ "border": parseFloat(dfsmult * tokens).toFixed(4) > gettokenbalance(dfsbalance) ? "solid 2px red" : "none" }}>
+                    <div class="tokenlogo">
+                      <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dfs.png" />
+                    </div>
+                    <div class="smallcardtext">
+                      <a> {parseFloat(dfsmult * tokens).toFixed(4)} DFS tokens</a>
+                    </div>
+                    <div class="trxbutton">
+                      {parseFloat(dfsmult * tokens).toFixed(4) < gettokenbalance(dfsbalance) ?
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                        :
+                        <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/22', "_blank")} height="100%" src="assets/connection.svg" />
+                      }
+                    </div>
+                  </div>
+
+
 
                   <div class="smallcard" style={{ "border": parseFloat(dadmult * tokens).toFixed(6) > gettokenbalance(dadbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
@@ -1089,7 +1504,7 @@ function App(props) {
                         data-for="all"
 
                         data-tip={
-                          "<b>*To redeem DAPP, VIG, IQ, OGX, BOX, EFX and DAD tokens your account must hold EOSETF. <br/> <br/>*Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned.</b> "
+                          "<b>*To redeem 13 tokens your account must hold EOSETF. <br/> <br/>*Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned.</b> "
 
 
                         }
@@ -1128,7 +1543,7 @@ function App(props) {
                       step={1.0000}
                       value={redeemtokens}
                       min={0}
-                      max={70.0000}
+                      max={200.0000}
                       onChangeCommitted={(e, val) => setRedeemtokens(val)}
                       style={{
                         marginBottom: "10px",
@@ -1225,6 +1640,85 @@ function App(props) {
                     </div>
                     <div style={{ "display": "block" }}>.</div>
 
+
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dfs.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * dfsmult).toFixed(4)} DFS tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
+                    </div>
+
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/emt.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * emtmult).toFixed(4)} EMT tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
+                    </div>
+
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tpt.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * tptmult).toFixed(4)} TPT tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
+                    </div>
+
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ndx.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * ndxmult).toFixed(4)} NDX tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
+                    </div>
+
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/chex.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * chexmult).toFixed(8)} CHEX tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
+                    </div>
+
+                    <div class="smallcard">
+                      <div class="tokenlogo">
+                        <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/pizza.png" />
+                      </div>
+                      <div class="smallcardtext">
+                        <a>{(redeemtokens * pizzamult).toFixed(4)} PIZZA tokens returned</a>
+                      </div>
+                      <div class="trxbutton">
+                        <img class="trximage" height="100%" src="assets/tick.svg" />
+                      </div>
+                    </div>
+
+
+
+                    <div style={{ "display": "block" }}>.</div>
+
+
+
                   </div>
                 </Scrollbars>
                 <button class="createbutton" onClick={() => sendetf()}>Redeem tokens</button>
@@ -1301,20 +1795,20 @@ function App(props) {
                 </div>
                 : view == "about" ?
                   <div class="rightbar">
-                  <div class="rightbartopbox">
-                    <div class="createetftitle">
-                      EOSETF Portfolio Allocation
+                    <div class="rightbartopbox">
+                      <div class="createetftitle">
+                        EOSETF Portfolio Allocation
                     </div>
-                    <div class="slidertext">
-                      <a>Chart shows % of each token in the portfolio.</a>
+                      <div class="slidertext">
+                        <a>Chart shows % of each token in the portfolio.</a>
+                      </div>
                     </div>
-                  </div>
-                  <div class="chartwrapper">
-                  <Doughnut data={data} legend={{"position":"bottom"}}/>
-                  </div>
+                    <div class="chartwrapper">
+                      <Doughnut data={data} legend={{ "position": "bottom" }} />
+                    </div>
                   </div>
 
-                : <a>Error</a>
+                  : <a>Error</a>
           }
         </div>
       </header>
