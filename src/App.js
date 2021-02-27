@@ -1219,7 +1219,7 @@ function App(props) {
                       data-for="all"
 
                       data-tip={
-                        "<b>*To create EOSETF your account must hold 7 different tokens:  <br/> DAPP, VIG, IQ, OGX, BOX, EFX and DAD. <br/> <br/> *Creation of each EOSETF issues you CETF tokens (starting with 30k CETF<br/>per 1 EOSETF)  that will be used as a governance and fee distribution token.  <br/> <br/> *Each time 5m CETF are issued the issuance of CETF is halved. <br/> circulation <5m CETF | 1 EOSETF = 30k CETF<br/> circulation <10m CETF | 1 EOSETF = 15k CETF etc. <br/> <br/> *At 30m CETF (21166 EOSETF / 5 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned. <br/> <br/>  *NB! Creation involves transfer of tokens to cet.f account,<br/> the code is unaudited, please remember that risk.</b> "
+                        "<b>*To create EOSETF your account must hold 13 different EOS mainnet tokens.  <br/> <br/> *After creation your account is issued EOSETF and CETF tokens <br/> (starting with 30k CETF per 1 EOSETF). <br/> CETF will be used as a governance and fee distribution token.  <br/> <br/> *Each time 5m CETF are issued the issuance of CETF is halved. <br/> circulation <5m CETF | 1 EOSETF = 30k CETF<br/> circulation <10m CETF | 1 EOSETF = 15k CETF etc. <br/> <br/> *At 30m CETF (21166 EOSETF / 5 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned. <br/> <br/>  *NB! Creation involves transfer of tokens to cet.f account,<br/> the code is unaudited, please remember that risk.</b> "
 
 
                       }
