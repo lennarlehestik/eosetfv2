@@ -44,22 +44,10 @@ const CustomSlider = withStyles({
 })(Slider);
 
 function App(props) {
-  const data = {
-    labels: ['BOX', 'OGX', 'DAD', 'IQ', 'DAPP', 'VIG', 'EFX', 'CHEX', 'PIZZA', 'DFS', 'EMT', 'NDX', 'TPT'],
-    datasets: [
-      {
-        label: 'ETF weight',
-        fill: true,
-        lineTension: 0.1,
-        backgroundColor: ["#f17ae9", "#f9a9f1", "#fdd5f8", "#ffffff", "#cbf0ff", "#8fe1ff", "#21d2ff", "#f9a9f1", "#fdd5f8", "#ffffff", "#cbf0ff", "#8fe1ff", "#21d2ff"],
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40]
-      }
-    ]
-  };
+
+
+
+
   const {
     ual: { showModal, hideModal, activeUser, login, logout },
   } = props;
@@ -192,7 +180,10 @@ function App(props) {
   const [ndxbalance, setNdx] = useState({ rows: [] });
   const [tptbalance, setTpt] = useState({ rows: [] });
 
+  const [govrnprice, setGovrnprice] = useState({ rows: [] });
+  const [dadpriceeos, setDadprice] = useState({ rows: [] });
 
+  const [prices, setPrices] = useState([]);
 
   const [eosetfbalance, setEosetf] = useState({ rows: [] });
   const [etfbalance, setEtf] = useState({ rows: [] });
@@ -204,6 +195,162 @@ function App(props) {
     setDrawerstate(false)
   }
 
+  /*
+    
+    const getdata = () => {
+      fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos')
+        .then(response => response.json())
+        .then(data => console.log(data.data.price));
+     
+      );
+  
+    }
+    '
+  
+  useEffect(() => {
+    fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos', {
+    }).then((response) =>
+      response.json().then((govrnprice) => setGovrnprice(govrnprice.data.price))
+    );
+    console.log(govrnprice);
+
+  }, [accountname]);
+
+
+  const getdata = () => {
+    fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos', {
+    }).then((response) =>
+      response.json().then((govrnprice) => setGovrnprice(govrnprice.data.price))
+    );
+    console.log(govrnprice);
+  }
+
+
+  
+  
+    useEffect(() => {
+      fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos', {
+    }).then((response) =>
+      response.json().then((govrnprice) => setGovrnprice(govrnprice))
+    );
+    console.log(govrnprice);
+  
+    }, [accountname]);
+  
+  
+  
+    */
+
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "swap.defi",
+        table: "pairs",
+        scope: "swap.defi",
+        lower_bound: 588,
+        upper_bound: 588,
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((dadpriceeos) => setDadprice(dadpriceeos))
+    );
+  }, [accountname]);
+
+
+  useEffect(() => {
+    fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos', {
+    }).then((response) =>
+      response.json().then((govrnprice) => setGovrnprice(govrnprice.data.price))
+    );
+    console.log(govrnprice);
+
+  }, [accountname]);
+
+
+  useEffect(() => {
+    const newdexcomms = [{ community: "box", symbol: "token.defi-box-eos" }, { community: "ogx", symbol: "core.ogx-ogx-eos" }, { community: "iq", symbol: "everipediaiq-iq-eos" }
+      , { community: "dapp", symbol: "dappservices-dapp-eos" }, { community: "vig", symbol: "vig111111111-vig-eos" }, { community: "efx", symbol: "effecttokens-efx-eos" }, { community: "chex", symbol: "chexchexchex-chex-eos" }, { community: "pizza", symbol: "pizzatotoken-pizza-eos" }
+      , { community: "dfs", symbol: "minedfstoken-dfs-eos" }, { community: "emt", symbol: "emanateoneos-emt-eos" }, { community: "ndx", symbol: "newdexissuer-ndx-eos" }, { community: "tpt", symbol: "eosiotptoken-tpt-eos" }]
+    newdexcomms.forEach((item) => {
+      fetch('https://api.newdex.io/v1/price?symbol=' + item.symbol)
+        .then(response => response.json())
+        .then(data => {
+          Object.assign(item, { price: data?.data?.price })
+          setPrices([...newdexcomms]);
+        }
+        )
+    })
+    console.log(prices)
+  }, [accountname]);
+
+  const getprice = (community) => {
+    if (prices) {
+      const datar = prices.filter(
+        function (data) { return data.community == community }
+      );
+      if (datar[0])
+        return datar[0].price
+    }
+  }
+
+
+  const getdadprice = () => {
+    if (dadpriceeos.rows[0]) {
+      return Number(dadpriceeos.rows[0].price1_last);
+    }
+    else {
+      return 0;
+    }
+  };
+
+  const getpricesum = () => {
+    if (prices) {
+
+
+
+      return getprice("box") * boxmult + getprice("ogx") * ogxmult + getprice("iq") * iqmult + getprice("dapp") * dappmult + getprice("vig") * vigmult + getprice("efx") * efxmult + getprice("chex") * chexmult
+        + getprice("pizza") * pizzamult + getprice("dfs") * dfsmult + getprice("emt") * emtmult + getprice("ndx") * ndxmult + getprice("tpt") * tptmult + getdadprice() * dadmult;
+
+
+    }
+  }
+
+
+
+
+
+
+
+  const data = {
+    labels: ['BOX', 'OGX', 'IQ', 'DAPP', 'VIG', 'EFX', 'CHEX', 'PIZZA', 'DFS', 'EMT', 'NDX', 'TPT', 'DAD'],
+    datasets: [
+      {
+        label: 'ETF weight',
+        fill: true,
+        lineTension: 0.1,
+        backgroundColor: ["#f17ae9", "#f9a9f1", "#fdd5f8", "#ffffff", "#cbf0ff", "#8fe1ff", "#21d2ff", "#f9a9f1", "#fdd5f8", "#ffffff", "#cbf0ff", "#8fe1ff", "#21d2ff"],
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        data: [parseFloat((getprice("box") * boxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("ogx") * ogxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("iq") * iqmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("dapp") * dappmult / getpricesum() * 100)).toFixed(2),
+        parseFloat((getprice("vig") * vigmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("efx") * efxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("chex") * chexmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("pizza") * pizzamult / getpricesum() * 100)).toFixed(2),
+        parseFloat((getprice("dfs") * dfsmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("emt") * emtmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("ndx") * ndxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("tpt") * tptmult / getpricesum() * 100)).toFixed(2), parseFloat((getdadprice() * dadmult / getpricesum() * 100)).toFixed(2)]
+      }
+    ]
+  };
+
+
+
+  //price1_last
 
 
   useEffect(() => {
@@ -665,6 +812,9 @@ function App(props) {
       );
     }
   };
+
+
+
 
   const creationreward = () => {
     return parseInt(
@@ -1797,10 +1947,10 @@ function App(props) {
                   <div class="rightbar">
                     <div class="rightbartopbox">
                       <div class="createetftitle">
-                        EOSETF Portfolio Allocation
+                        EOSETF token allocation
                     </div>
                       <div class="slidertext">
-                        <a>Chart shows % of each token in the portfolio.</a>
+                        <a>Chart shows % of each token in the fund.</a>
                       </div>
                     </div>
                     <div class="chartwrapper">
