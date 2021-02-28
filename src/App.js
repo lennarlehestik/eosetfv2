@@ -81,7 +81,7 @@ function App(props) {
     const dappmult = 12.6263
     const boxmult = 0.036075
     const ogxmult = 2.13675214
-  
+
     const chexmult = 56.94760820
     const pizzamult = 9.4696
     const dfsmult = 0.0361
@@ -196,17 +196,17 @@ function App(props) {
   }
 
   /*
-    
+
     const getdata = () => {
       fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos')
         .then(response => response.json())
         .then(data => console.log(data.data.price));
-     
+
       );
-  
+
     }
     '
-  
+
   useEffect(() => {
     fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos', {
     }).then((response) =>
@@ -226,19 +226,19 @@ function App(props) {
   }
 
 
-  
-  
+
+
     useEffect(() => {
       fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos', {
     }).then((response) =>
       response.json().then((govrnprice) => setGovrnprice(govrnprice))
     );
     console.log(govrnprice);
-  
+
     }, [accountname]);
-  
-  
-  
+
+
+
     */
 
 
@@ -1290,7 +1290,11 @@ function App(props) {
                     </tr>
                     <tr onClick={() => menuClick("stats")}>
                       <td><img class="menuimg" src="assets/stats.svg" /></td>
-                      <td><a class="menuitemtext">Statistics</a></td>
+                      <td><a class="menuitemtext">Balances</a></td>
+                    </tr>
+                    <tr onClick={() => menuClick("about")}>
+                      <td><img class="menuimg" src="assets/briefcase.svg" /></td>
+                      <td><a class="menuitemtext">Tokens</a></td>
                     </tr>
                     <tr onClick={() => window.open('https://telegram.org/', "_blank")}>
                       <td><img class="menuimg" src="assets/telegram.svg" /></td>
@@ -1338,11 +1342,11 @@ function App(props) {
                 </tr>
                 <tr onClick={() => setView("stats")}>
                   <td><img class="menuimg" src="assets/stats.svg" /></td>
-                  <td><a class="menuitemtext">Statistics</a></td>
+                  <td><a class="menuitemtext">Balances</a></td>
                 </tr>
                 <tr onClick={() => setView("about")}>
-                  <td><img class="menuimg" src="assets/stats.svg" /></td>
-                  <td><a class="menuitemtext">About</a></td>
+                  <td><img class="menuimg" src="assets/briefcase.svg" /></td>
+                  <td><a class="menuitemtext">Tokens</a></td>
                 </tr>
                 {accountname == "" ?
                   <tr onClick={() => showModal()}>
