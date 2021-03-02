@@ -1136,10 +1136,6 @@ function App(props) {
         });
 
 
-        ReactGA.event({
-          category: "Chain acion",
-          action: "User created EOSETF.",
-        });
 
         sucessstake();
 
@@ -1201,13 +1197,13 @@ function App(props) {
         });
 
         sucessredemption();
-
-
-        ReactGA.event({
-          category: "Chain acion",
-          action: "User redeemed tokens.",
-        });
-
+        /*
+        
+                ReactGA.event({
+                  category: "Chain acion",
+                  action: "User redeemed tokens.",
+                });
+        */
         //alert("GREAT SUCCESS!")
         //window.location.reload(false);
 
@@ -1290,7 +1286,7 @@ function App(props) {
                     </tr>
                     <tr onClick={() => menuClick("stats")}>
                       <td><img class="menuimg" src="assets/stats.svg" /></td>
-                      <td><a class="menuitemtext">Balances</a></td>
+                      <td><a class="menuitemtext">Statistics</a></td>
                     </tr>
                     <tr onClick={() => menuClick("about")}>
                       <td><img class="menuimg" src="assets/briefcase.svg" /></td>
@@ -1342,7 +1338,7 @@ function App(props) {
                 </tr>
                 <tr onClick={() => setView("stats")}>
                   <td><img class="menuimg" src="assets/stats.svg" /></td>
-                  <td><a class="menuitemtext">Balances</a></td>
+                  <td><a class="menuitemtext">Statistics</a></td>
                 </tr>
                 <tr onClick={() => setView("about")}>
                   <td><img class="menuimg" src="assets/briefcase.svg" /></td>
@@ -1373,7 +1369,7 @@ function App(props) {
                       data-for="all"
 
                       data-tip={
-                        "<b>*To create EOSETF your account must hold 13 different EOS mainnet tokens.  <br/> <br/> *After creation your account is issued EOSETF and CETF tokens <br/> (starting with 30k CETF per 1 EOSETF). <br/> CETF will be used as a governance and fee distribution token.  <br/> <br/> *Each time 5m CETF are issued the issuance of CETF is halved. <br/> circulation <5m CETF | 1 EOSETF = 30k CETF<br/> circulation <10m CETF | 1 EOSETF = 15k CETF etc. <br/> <br/> *At 30m CETF (21166 EOSETF / 5 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned. <br/> <br/>  *NB! Creation involves transfer of tokens to cet.f account,<br/> the code is unaudited, please remember that risk.</b> "
+                        "<b>   *NB! Creation involves transfer of tokens to cet.f account,<br/> the code is unaudited and at this point there is no multisig. <br/> <br/> *To create EOSETF your account must hold 13 different EOS mainnet tokens.  <br/> <br/> *After creation your account is issued EOSETF and CETF tokens <br/> (starting with 30k CETF per 1 EOSETF). <br/> CETF will be used as a governance and fee distribution token.  <br/> <br/> *Each time 5m CETF are issued the issuance of CETF is halved. <br/> circulation <5m CETF | 1 EOSETF = 30k CETF<br/> circulation 5m to 10m (CETF) | 1 EOSETF = 15k CETF <br/> circulation 10m to 15m (CETF) | 1 EOSETF = 7.5k CETF etc. <br/> <br/> *At 30m CETF (21166 EOSETF / 5 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, when <br/> redeeming tokens 10% less is returned. <br/> </b>"
 
 
                       }
@@ -1889,7 +1885,7 @@ function App(props) {
                           data-for="all"
 
                           data-tip={
-                            "<b>*It should be fairly quick distribution of CETF <br/> since when aprox. 25k USD worth of EOSETF is created the circulation will be 30m CETF, <br/> meaning the issusance will end.</b> "
+                            "<b>*Distribution of CETF will end when 21166 EOSETF will be created. <br/> <br/> *Approximate value of 21166 EOSETF = 70k USD. <br/> <br/> *Note that Circulating supply of EOSETF could be lower than 21166 <br/> when CETF distribution ends, in case users create EOSETF with redeemed tokens. </b> "
                           }
                           style={{
                             fontWeight: "bold",
@@ -1941,6 +1937,12 @@ function App(props) {
                       </div>
                       <div class="statcard">
                         <a class="stat">{halvings(gettokensupply(etfbalance)).toLocaleString()}</a><a class="statexplainer">Halvings (Max 5)</a>
+                      </div>
+                      <div class="statcard">
+                        <a class="stat">{parseFloat(getpricesum().toFixed(2))} EOS</a><a class="statexplainer">EOSETF price</a>
+                      </div>
+                      <div class="statcard">
+                        <a class="stat">{parseFloat(getpricesum().toFixed(2))} EOS </a><a class="statexplainer">Price of tokens bought separately</a>
                       </div>
                     </div>
 
