@@ -91,7 +91,7 @@ function App(props) {
   */
 
 
-  const redemptionfee = 0.95
+
   const efxmult = 2.6911
   const dadmult = 0.880282
   const iqmult = 26.233
@@ -101,7 +101,7 @@ function App(props) {
   const ogxmult = 2.13675214
 
   const chexmult = 56.94760820
-  const pizzamult = 4.4696
+  const pizzamult = 5.4696
   const dfsmult = 0.0140
   const emtmult = 16.3399
   const ndxmult = 338.5071
@@ -806,7 +806,7 @@ function App(props) {
           2,
           parseInt(
             Math.floor(Number(etfbalance.rows[0].supply.split(" ")[0])) /
-            20000000
+            5000000
           )
         )
       );
@@ -818,21 +818,25 @@ function App(props) {
 
   const creationreward = () => {
     return parseInt(
-      30000 /
+      120000 /
       halvingdivider()
     );
   };
 
 
   const halvings = (totalcirc) => {
-    if (totalcirc < 20000000) {
+    if (totalcirc < 5000000) {
       return 0;
-    } else if (totalcirc >> 20000000 && totalcirc < 40000000) {
+    } else if (totalcirc >> 5000000 && totalcirc < 10000000) {
       return 1;
-    } else if (totalcirc >> 40000000 && totalcirc < 60000000) {
+    } else if (totalcirc >> 10000000 && totalcirc < 15000000) {
       return 2;
-    } else if (totalcirc >> 60000000 && totalcirc < 80000000) {
+    } else if (totalcirc >> 15000000 && totalcirc < 20000000) {
       return 3;
+    } else if (totalcirc >> 20000000 && totalcirc < 25000000) {
+      return 4;
+    } else if (totalcirc >> 25000000 && totalcirc < 30000000) {
+      return 5;
     }
   };
 
@@ -1708,7 +1712,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dapp.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * dappmult * redemptionfee).toFixed(4)} DAPP tokens returned</a>
+                        <a>{(redeemtokens * dappmult).toFixed(4)} DAPP tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1720,7 +1724,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/vigor.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * vigmult * redemptionfee).toFixed(4)} VIG tokens returned</a>
+                        <a>{(redeemtokens * vigmult).toFixed(4)} VIG tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1732,7 +1736,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/everipedia.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * iqmult * redemptionfee).toFixed(3)} IQ tokens returned</a>
+                        <a>{(redeemtokens * iqmult).toFixed(3)} IQ tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1744,7 +1748,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ogx.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * ogxmult * redemptionfee).toFixed(8)} OGX tokens returned</a>
+                        <a>{(redeemtokens * ogxmult).toFixed(8)} OGX tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1756,7 +1760,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tokendefi.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * boxmult * redemptionfee).toFixed(6)} BOX tokens returned</a>
+                        <a>{(redeemtokens * boxmult).toFixed(6)} BOX tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1768,7 +1772,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/efx.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * efxmult * redemptionfee).toFixed(4)} EFX tokens returned</a>
+                        <a>{(redeemtokens * efxmult).toFixed(4)} EFX tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1780,7 +1784,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dad.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * dadmult * redemptionfee).toFixed(6)} DAD tokens returned</a>
+                        <a>{(redeemtokens * dadmult).toFixed(6)} DAD tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1793,7 +1797,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/dfs.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * dfsmult * redemptionfee).toFixed(4)} DFS tokens returned</a>
+                        <a>{(redeemtokens * dfsmult).toFixed(4)} DFS tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1805,7 +1809,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/emt.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * emtmult * redemptionfee).toFixed(4)} EMT tokens returned</a>
+                        <a>{(redeemtokens * emtmult).toFixed(4)} EMT tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1817,7 +1821,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/tpt.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * tptmult * redemptionfee).toFixed(4)} TPT tokens returned</a>
+                        <a>{(redeemtokens * tptmult).toFixed(4)} TPT tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1829,7 +1833,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ndx.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * ndxmult * redemptionfee).toFixed(4)} NDX tokens returned</a>
+                        <a>{(redeemtokens * ndxmult).toFixed(4)} NDX tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1841,7 +1845,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/chex.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * chexmult * redemptionfee).toFixed(8)} CHEX tokens returned</a>
+                        <a>{(redeemtokens * chexmult).toFixed(8)} CHEX tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1853,7 +1857,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/pizza.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * pizzamult * redemptionfee).toFixed(4)} PIZZA tokens returned</a>
+                        <a>{(redeemtokens * pizzamult).toFixed(4)} PIZZA tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />
@@ -1921,7 +1925,7 @@ function App(props) {
                       </div>
 
                       <div class="statcard">
-                        <a class="stat">{gettokensupply(etfbalance).toLocaleString()} CETF</a><a class="statexplainer">Circulating supply (Max 80m)</a>
+                        <a class="stat">{gettokensupply(etfbalance).toLocaleString()} CETF</a><a class="statexplainer">Circulating supply (Max 30m)</a>
                       </div>
 
                       <div class="statcard">
@@ -1931,7 +1935,7 @@ function App(props) {
                         <a class="stat">{creationreward().toLocaleString()} CETF</a><a class="statexplainer"> Issuance per 1 EOSTF</a>
                       </div>
                       <div class="statcard">
-                        <a class="stat">{halvings(gettokensupply(etfbalance)).toLocaleString()}</a><a class="statexplainer">Halvings (Max 3)</a>
+                        <a class="stat">{halvings(gettokensupply(etfbalance)).toLocaleString()}</a><a class="statexplainer">Halvings (Max 5)</a>
                       </div>
                       <div class="statcard">
                         <a class="stat">{parseFloat(getpricesum().toFixed(2))} EOS</a><a class="statexplainer">EOSETF price</a>

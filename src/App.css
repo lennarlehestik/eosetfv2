@@ -274,10 +274,14 @@ tr:hover{
   border: none;
   border-bottom:solid 1px;
   min-width:10px;
-  width:25px;
+  width:40px;
   font-weight:600;
   text-align:center;
   color:inherit;
+}
+
+input[type="number"] {
+  font-size:20px;
 }
 
 input[type="number"] {
@@ -375,6 +379,20 @@ input[type=number]::-webkit-outer-spin-button {
 
 .githubbutton{
   right:30px;
+  bottom:10px;
+  width:40px;
+  height:40px;
+}
+
+.twitterbutton{
+  right:130px;
+  bottom:10px;
+  width:40px;
+  height:40px;
+}
+
+.mediumbutton{
+  right:180px;
   bottom:10px;
   width:40px;
   height:40px;
