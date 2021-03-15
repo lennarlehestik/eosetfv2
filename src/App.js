@@ -58,26 +58,26 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     color: "#534C80",
     fontFamily: "'Roboto', sans-serif",
-    margin:0
+    margin: 0
   },
   summary: {
-    padding:0,
+    padding: 0,
   },
   expansion: {
-    backgroundColor:"rgba( 255, 255, 255, 0 )",
-    boxShadow:"none",
-    borderRadius:"100px",
-    marginLeft:0,
-},
-expansion2: {
-  fontSize:"10px"
-}
+    backgroundColor: "rgba( 255, 255, 255, 0 )",
+    boxShadow: "none",
+    borderRadius: "100px",
+    marginLeft: 0,
+  },
+  expansion2: {
+    fontSize: "10px"
+  }
 }));
 
 function App(props) {
 
 
-const classes = useStyles();
+  const classes = useStyles();
 
   const {
     ual: { showModal, hideModal, activeUser, login, logout },
@@ -393,7 +393,7 @@ const classes = useStyles();
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "accounts",
         scope: displayaccountname(),
         limit: 3,
@@ -412,15 +412,40 @@ const classes = useStyles();
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "accounts",
         scope: displayaccountname(),
-        limit: 3,
+        lower_bound: "CETF",
+        upper_bound: "CETF",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((etfbalanceind) => setEtfind(etfbalanceind))
+    );
+  }, [accountname]);
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "cet.f",
+        table: "accounts",
+        scope: displayaccountname(),
+        lower_bound: "EOSETF",
+        upper_bound: "EOSETF",
+        limit: 1,
       }),
     }).then((response) =>
       response.json().then((eosetfbalanceind) => setEosetfind(eosetfbalanceind))
     );
   }, [accountname]);
+
 
 
 
@@ -433,9 +458,9 @@ const classes = useStyles();
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
-        table: "statnew",
-        scope: "ETF",
+        code: "cet.f",
+        table: "stat",
+        scope: "CETF",
         limit: 1,
       }),
     }).then((response) =>
@@ -455,8 +480,8 @@ const classes = useStyles();
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
-        table: "statnew",
+        code: "cet.f",
+        table: "stat",
         scope: "EOSETF",
         limit: 1,
       }),
@@ -849,7 +874,7 @@ const classes = useStyles();
 
   const creationreward = () => {
     return parseInt(
-      30000 /
+      65000 /
       halvingdivider()
     );
   };
@@ -899,7 +924,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 19.2562 * tokens + " DAPP",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(dappmult * tokens).toFixed(4) + " DAPP",
@@ -919,7 +944,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(efxmult * tokens).toFixed(4) + " EFX",
@@ -940,7 +965,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 1.26108207 * tokens + " OGX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(ogxmult * tokens).toFixed(8) + " OGX",
@@ -961,7 +986,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 50.082 * tokens + " IQ",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(iqmult * tokens).toFixed(3) + " IQ",
@@ -982,7 +1007,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 196.7187 * tokens + " VIG",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(vigmult * tokens).toFixed(4) + " VIG",
@@ -1002,7 +1027,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 0.035523 * tokens + " BOX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(boxmult * tokens).toFixed(6) + " BOX",
@@ -1022,7 +1047,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: efxmult * tokens + " DAD",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(dadmult * tokens).toFixed(6) + " DAD",
@@ -1045,7 +1070,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(pizzamult * tokens).toFixed(4) + " PIZZA",
@@ -1066,7 +1091,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(chexmult * tokens).toFixed(8) + " CHEX",
@@ -1085,7 +1110,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(ndxmult * tokens).toFixed(4) + " NDX",
@@ -1104,7 +1129,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(tptmult * tokens).toFixed(4) + " TPT",
@@ -1123,7 +1148,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(emtmult * tokens).toFixed(4) + " EMT",
@@ -1143,7 +1168,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 10.6593 * tokens + " EFX",
                 memo: "EOSETF creation through eosetf.io",
                 quantity: parseFloat(dfsmult * tokens).toFixed(4) + " DFS",
@@ -1198,7 +1223,7 @@ const classes = useStyles();
         const transaction = {
           actions: [
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "transfer",
               authorization: [
                 {
@@ -1208,7 +1233,7 @@ const classes = useStyles();
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 quantity: eosetf + " EOSETF",
                 memo: "EOSETF redemption through eosetf.io",
               },
@@ -1404,20 +1429,27 @@ const classes = useStyles();
                       id="panel1a-header"
                       className={classes.summary}
                     >
-                      <Typography className={classes.heading}>Read more about it...</Typography>
+                      <Typography className={classes.heading}>Click here for more information</Typography>
                     </AccordionSummary>
-                    <AccordionDetails                       className={classes.expansion2}>
-                    <Typography className={classes.heading}>
-                      *NB! Creation involves transfer of tokens to cet.f account, the code is unaudited and at this point there is no multisig.
-                      <br/>*To create EOSETF your account must hold 13 different EOS mainnet tokens.
-                      <br/>*After creation your account is issued EOSETF and CETF tokens (starting with 30k CETF per 1 EOSETF).
-                      <br/> CETF will be used as a governance and fee distribution token.
-                      <br/> *Each time 5m CETF are issued the issuance of CETF is halved.
-                      <br/> circulation &lt;5m CETF | 1 EOSETF = 30k CETF<br/> circulation 5m to 10m (CETF) | 1 EOSETF = 15k CETF
-                      <br/> circulation 10m to 15m (CETF) | 1 EOSETF = 7.5k CETF etc.
-                      <br/>*At 30m CETF (21166 EOSETF / 5 halvings) no more CETF will be issued.
-                      <br/>*Due to the initial CETF distribution, when redeeming tokens 10% less is returned. <br/>
-                    </Typography>
+                    <AccordionDetails className={classes.expansion2}>
+                      <Scrollbars class="mask2" style={{ width: "100%", height: "25vh" }} >
+                        <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "40px" }}>
+                          Creation involves transfer of tokens to cet.f account, the code is unaudited and at this point there is no multisig.
+                                        <br /> <br />To create EOSETF your account must hold 13 different EOS mainnet tokens.
+                                        <br /> <br />After creation your account is issued EOSETF and CETF tokens (starting with 65k CETF per 1 EOSETF).
+                                        <br /> <br />CETF will be used as a governance and fee distribution token.
+                                        <br /><br />Each time 20m CETF are issued the issuance of CETF is halved.
+                                      <br /> circulation 0m to 20m (CETF) | 1 EOSETF = 65k CETF
+                                      <br /> circulation 20m to 40m (CETF) | 1 EOSETF = 32.5k CETF
+                                      <br /> circulation 40m to 60m (CETF) | 1 EOSETF = 16.250k CETF
+                                      <br /> circulation 60m to 80m (CETF) | 1 EOSETF = 8.125k CETF
+
+                                      <br />  <br />At 80m CETF (4615 EOSETF / 3 halvings) no more CETF will be issued.
+                                      <br /> <br />Due to the initial CETF distribution, redemption of tokens <br /> will be activated after the CETF distribution or latest 31.04.2021 18:00 UTC.
+                                      <br /> <br />Redemption fee is set to 5%
+                                          </Typography>
+                      </Scrollbars>
+                      <div class="fade" />
                     </AccordionDetails>
                   </Accordion>
                 </div>
@@ -1687,13 +1719,13 @@ const classes = useStyles();
                         id="panel1a-header"
                         className={classes.summary}
                       >
-                        <Typography className={classes.heading}>Read more about it...</Typography>
+                        <Typography className={classes.heading}>Click here for more information</Typography>
                       </AccordionSummary>
-                      <AccordionDetails                       className={classes.expansion2}>
-                      <Typography className={classes.heading}>
-                        *To redeem 13 tokens your account must hold EOSETF. <br/>
-                        *Due to the initial CETF distribution, redemption of tokens will be activated after the CETF distribution or latest 31.04.2021 18:00 UTC.
-                        <br/> *Redemption fee is set to 5%.
+                      <AccordionDetails className={classes.expansion2}>
+                        <Typography className={classes.heading}>
+                          To redeem 13 tokens your account must hold EOSETF. <br /><br />
+                        Due to the initial CETF distribution, redemption of tokens will be activated when the CETF distribution ends or latest 31.04.2021 18:00 UTC.<br /><br />
+                        Redemption fee is set to 5%.
                       </Typography>
                       </AccordionDetails>
                     </Accordion>
@@ -1906,11 +1938,11 @@ const classes = useStyles();
                           id="panel1a-header"
                           className={classes.summary}
                         >
-                          <Typography className={classes.heading}>Read more about it...</Typography>
+                          <Typography className={classes.heading}>Click here for more information</Typography>
                         </AccordionSummary>
-                        <AccordionDetails                       className={classes.expansion2}>
-                        <Typography className={classes.heading}>
-                          *Distribution of CETF will end when 4615 EOSETF will be created. <br/> *Approximate value of 4615 EOSETF = 25k USD.
+                        <AccordionDetails className={classes.expansion2}>
+                          <Typography className={classes.heading}>
+                            Distribution of CETF will end when 4615 EOSETF will be created. <br />  <br /> Approximate value of 4615 EOSETF = 25k USD.
                         </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -1920,20 +1952,22 @@ const classes = useStyles();
                   <Scrollbars class="mask" style={{ width: "80%" }} autoHide >
                     <div class="statcards">
                       <div class="statcard">
-                        <a class="stat">{gettokenbalancetwo(eosetfbalanceind).toLocaleString()} EOSETF</a><a class="statexplainer">My balance</a>
+                        <a class="stat">{gettokenbalanceone(eosetfbalanceind).toLocaleString()} EOSETF</a><a class="statexplainer">My balance</a>
                       </div>
 
                       <div class="statcard">
-                        <a class="stat">{gettokenbalanceone(eosetfbalanceind).toLocaleString()} CETF</a><a class="statexplainer">My balance</a>
+                        <a class="stat">{gettokenbalanceone(etfbalanceind).toLocaleString()} CETF</a><a class="statexplainer">My balance</a>
+                      </div>
+
+                      <div class="statcard">
+                        <a class="stat">{gettokensupply(eosetfbalance).toLocaleString()} EOSETF</a><a class="statexplainer">Circulating supply</a>
                       </div>
 
                       <div class="statcard">
                         <a class="stat">{gettokensupply(etfbalance).toLocaleString()} CETF</a><a class="statexplainer">Circulating supply (Max 80m)</a>
                       </div>
 
-                      <div class="statcard">
-                        <a class="stat">{gettokensupply(eosetfbalance).toLocaleString()} EOSETF</a><a class="statexplainer">Circulating supply</a>
-                      </div>
+
                       <div class="statcard">
                         <a class="stat">{creationreward().toLocaleString()} CETF</a><a class="statexplainer"> Issuance per 1 EOSTF</a>
                       </div>
