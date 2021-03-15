@@ -13,6 +13,12 @@ import ReactGA from "react-ga";
 import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 const CustomSlider = withStyles({
   root: {
     color: '#52af77',
@@ -43,10 +49,35 @@ const CustomSlider = withStyles({
   },
 })(Slider);
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    fontSize: "14px",
+    width: '100%',
+  },
+  heading: {
+    fontSize: "14px",
+    color: "#534C80",
+    fontFamily: "'Roboto', sans-serif",
+    margin:0
+  },
+  summary: {
+    padding:0,
+  },
+  expansion: {
+    backgroundColor:"rgba( 255, 255, 255, 0 )",
+    boxShadow:"none",
+    borderRadius:"100px",
+    marginLeft:0,
+},
+expansion2: {
+  fontSize:"10px"
+}
+}));
+
 function App(props) {
 
 
-
+const classes = useStyles();
 
   const {
     ual: { showModal, hideModal, activeUser, login, logout },
@@ -1194,7 +1225,7 @@ function App(props) {
 
         sucessredemption();
         /*
-        
+
                 ReactGA.event({
                   category: "Chain acion",
                   action: "User redeemed tokens.",
@@ -1230,12 +1261,6 @@ function App(props) {
   return (
 
     <div className="App">
-      <ReactTooltip id="all" place="bottom" type="dark"
-        effect="solid"
-        backgroundColor="black"
-        style={{
-          fontWeight: "bold",
-        }} />
 
       <header className="App-header">
         <div class="outsidebutton githubbutton" onClick={() => window.open('https://github.com/n0umen0n/sceosetf', "_blank")}><img class="outsideimgright" src="assets/github.png" /><div class="outsidebuttontext">GIT</div></div>
@@ -1363,39 +1388,38 @@ function App(props) {
                 <div class="createetftitle">
                   <div>
                     <a
-                      //class="value"
-                      data-html="true"
-                      data-for="all"
-
-                      data-tip={
-                        "<b>   *NB! Creation involves transfer of tokens to cet.f account,<br/> the code is unaudited and at this point there is no multisig. <br/> <br/> *To create EOSETF your account must hold 13 different EOS mainnet tokens.  <br/> <br/> *After creation your account is issued EOSETF and CETF tokens <br/> (starting with 65k CETF per 1 EOSETF). <br/> <br/> *CETF will be used as a governance and fee distribution token.  <br/> <br/> *Each time 20m CETF are issued the issuance of CETF is halved. <br/> circulation 0m to 20m (CETF) | 1 EOSETF = 65k CETF<br/> circulation 20m to 40m (CETF) | 1 EOSETF = 32.5k CETF <br/> circulation 40m to 60m (CETF) | 1 EOSETF = 16.250k CETF <br/> circulation 60m to 80m (CETF) | 1 EOSETF = 8.125k CETF <br/> <br/> *At 80m CETF (4615 EOSETF / 3 halvings) no more CETF will be issued.<br/> <br/> *Due to the initial CETF distribution, redemption of tokens <br/> will be activated after the CETF distribution or latest 31.04.2021 18:00 UTC. <br/> <br/> *Redemption fee is set to 5%."
-
-
-                      }
-                      style={{
-                        fontWeight: "bold",
-                      }}
                     >
 
                       Create EOSETF
 
-                    <InfoIcon
-
-                        style={{
-                          height: "20px",
-                          width: "20px",
-                          color: "black",
-                          opacity: "0.7",
-                          "margin-left": "2px",
-                          "vertical-align": "top",
-                          "margin-top": "-4px",
-
-                          fontWeight: "bold",
-                        }}
-                      />
 
                     </a>
                   </div>
+                </div>
+                <div className={classes.root}>
+                  <Accordion className={classes.expansion}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                      className={classes.summary}
+                    >
+                      <Typography className={classes.heading}>Read more about it...</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails                       className={classes.expansion2}>
+                    <Typography className={classes.heading}>
+                      *NB! Creation involves transfer of tokens to cet.f account, the code is unaudited and at this point there is no multisig.
+                      <br/>*To create EOSETF your account must hold 13 different EOS mainnet tokens.
+                      <br/>*After creation your account is issued EOSETF and CETF tokens (starting with 30k CETF per 1 EOSETF).
+                      <br/> CETF will be used as a governance and fee distribution token.
+                      <br/> *Each time 5m CETF are issued the issuance of CETF is halved.
+                      <br/> circulation &lt;5m CETF | 1 EOSETF = 30k CETF<br/> circulation 5m to 10m (CETF) | 1 EOSETF = 15k CETF
+                      <br/> circulation 10m to 15m (CETF) | 1 EOSETF = 7.5k CETF etc.
+                      <br/>*At 30m CETF (21166 EOSETF / 5 halvings) no more CETF will be issued.
+                      <br/>*Due to the initial CETF distribution, when redeeming tokens 10% less is returned. <br/>
+                    </Typography>
+                    </AccordionDetails>
+                  </Accordion>
                 </div>
                 <div class="slidertext">
                   <a>You are creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF</a>
@@ -1647,39 +1671,32 @@ function App(props) {
                   <div class="createetftitle">
                     <div>
                       <a
-                        //class="value"
-                        data-html="true"
-                        data-for="all"
-
-                        data-tip={
-                          "<b>*To redeem 13 tokens your account must hold EOSETF. <br/> <br/> *Due to the initial CETF distribution, redemption of tokens <br/> will be activated after the CETF distribution or latest 31.04.2021 18:00 UTC. <br/> <br/> *Redemption fee is set to 5%."
-
-
-                        }
-                        style={{
-                          fontWeight: "bold",
-                        }}
                       >
 
                         Redeem tokens
 
-                    <InfoIcon
-
-                          style={{
-                            height: "20px",
-                            width: "20px",
-                            color: "black",
-                            opacity: "0.7",
-                            "margin-left": "2px",
-                            "vertical-align": "top",
-                            "margin-top": "-4px",
-
-                            fontWeight: "bold",
-                          }}
-                        />
 
                       </a>
                     </div>
+                  </div>
+                  <div className={classes.root}>
+                    <Accordion className={classes.expansion}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                        className={classes.summary}
+                      >
+                        <Typography className={classes.heading}>Read more about it...</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails                       className={classes.expansion2}>
+                      <Typography className={classes.heading}>
+                        *To redeem 13 tokens your account must hold EOSETF. <br/>
+                        *Due to the initial CETF distribution, redemption of tokens will be activated after the CETF distribution or latest 31.04.2021 18:00 UTC.
+                        <br/> *Redemption fee is set to 5%.
+                      </Typography>
+                      </AccordionDetails>
+                    </Accordion>
                   </div>
                   <div class="slidertext">
                     <a>You are redeeming <input class="tokeninput" type="number" value={redeemtokens} onChange={e => setRedeemtokens(e.target.value)}></input> EOSETF</a>
@@ -1875,40 +1892,30 @@ function App(props) {
                     <div class="createetftitle">
                       <div>
                         <a
-                          //class="value"
-                          data-html="true"
-                          data-for="all"
-
-                          data-tip={
-                            "<b>*Distribution of CETF will end when 4615 EOSETF will be created. <br/> <br/> *Approximate value of 4615 EOSETF = 25k USD.</b> "
-                          }
-                          style={{
-                            fontWeight: "bold",
-                          }}
                         >
 
                           Statistics
-                    <InfoIcon
-
-                            style={{
-                              height: "20px",
-                              width: "20px",
-                              color: "black",
-                              opacity: "0.7",
-                              "margin-left": "2px",
-                              "vertical-align": "top",
-                              "margin-top": "-4px",
-
-                              fontWeight: "bold",
-                            }}
-                          />
-
                         </a>
                       </div>
                     </div>
+                    <div className={classes.root}>
+                      <Accordion className={classes.expansion}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                          className={classes.summary}
+                        >
+                          <Typography className={classes.heading}>Read more about it...</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails                       className={classes.expansion2}>
+                        <Typography className={classes.heading}>
+                          *Distribution of CETF will end when 4615 EOSETF will be created. <br/> *Approximate value of 4615 EOSETF = 25k USD.
+                        </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
                   </div>
-
-                  <br /> <br />
 
                   <Scrollbars class="mask" style={{ width: "80%" }} autoHide >
                     <div class="statcards">

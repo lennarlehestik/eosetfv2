@@ -177,6 +177,7 @@ tr:hover{
   .maincard{
     width:85vw;
     height:80vh;
+    overflow-y: hidden;
   }
   .rightbar{
     width:100%;
