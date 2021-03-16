@@ -213,6 +213,7 @@ function App(props) {
 
   const [govrnprice, setGovrnprice] = useState({ rows: [] });
   const [dadpriceeos, setDadprice] = useState({ rows: [] });
+  const [eosetfprice, setEosetfprice] = useState({ rows: [] });
 
   const [prices, setPrices] = useState([]);
 
@@ -296,6 +297,31 @@ function App(props) {
   }, [accountname]);
 
 
+
+
+  useEffect(() => {
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "swap.defi",
+        table: "pairs",
+        scope: "swap.defi",
+        lower_bound: 1232,
+        upper_bound: 1232,
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((eosetfprice) => setEosetfprice(eosetfprice))
+    );
+  }, [accountname]);
+
+
+
   useEffect(() => {
     fetch('https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos', {
     }).then((response) =>
@@ -341,6 +367,19 @@ function App(props) {
       return 0;
     }
   };
+
+
+
+  const geteosetfprice = () => {
+    if (eosetfprice.rows[0]) {
+      return Number(eosetfprice.rows[0].price1_last);
+    }
+    else {
+      return 0;
+    }
+  };
+
+
 
   const getpricesum = () => {
     if (prices) {
@@ -1296,7 +1335,7 @@ function App(props) {
         <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
           <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
-          <div class="outsidebutton buybutton" onClick={() => window.open('https://newdex.io/', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
+          <div class="outsidebutton buybutton" onClick={() => window.open('https://defibox.io/pool-market-details/1232', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
           <Drawer
             anchor="right"
             open={drawerstate}
@@ -1325,11 +1364,11 @@ function App(props) {
                       <td><img class="menuimg" src="assets/productbox2.svg" /></td>
                       <td><a class="menuitemtext">Redeem</a></td>
                     </tr>
-                    <tr onClick={() => window.open('https://newdex.io/', "_blank")}>
+                    <tr onClick={() => window.open('https://defibox.io/pool-market-details/1232', "_blank")}>
                       <td><img class="menuimg" src="assets/checkout.svg" /></td>
                       <td><a class="menuitemtext">Buy</a></td>
                     </tr>
-                    <tr onClick={() => window.open('https://app.consortium.vote/', "_blank")}>
+                    <tr onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}>
                       <td><img class="menuimg" src="assets/govern.svg" /></td>
                       <td><a class="menuitemtext">Govern</a></td>
                     </tr>
@@ -1341,11 +1380,11 @@ function App(props) {
                       <td><img class="menuimg" src="assets/briefcase.svg" /></td>
                       <td><a class="menuitemtext">Tokens</a></td>
                     </tr>
-                    <tr onClick={() => window.open('https://telegram.org/', "_blank")}>
+                    <tr onClick={() => window.open('https://t.me/eosetf', "_blank")}>
                       <td><img class="menuimg" src="assets/telegram.svg" /></td>
                       <td><a class="menuitemtext">Telegram</a></td>
                     </tr>
-                    <tr onClick={() => window.open('https://github.com/', "_blank")}>
+                    <tr onClick={() => window.open('https://github.com/n0umen0n/sceosetf', "_blank")}>
                       <td><img class="menuimg" src="assets/github.svg" /></td>
                       <td><a class="menuitemtext">Github</a></td>
                     </tr>
@@ -1976,7 +2015,7 @@ function App(props) {
                         <a class="stat">{halvings(gettokensupply(etfbalance)).toLocaleString()}</a><a class="statexplainer">Halvings (Max 3)</a>
                       </div>
                       <div class="statcard">
-                        <a class="stat">{parseFloat(getpricesum().toFixed(2))} EOS</a><a class="statexplainer">EOSETF price</a>
+                        <a class="stat">{parseFloat(geteosetfprice().toFixed(2))} EOS</a><a class="statexplainer">EOSETF price</a>
                       </div>
                       <div class="statcard">
                         <a class="stat">{parseFloat(getpricesum().toFixed(2))} EOS </a><a class="statexplainer">Price of tokens bought separately</a>
@@ -1999,7 +2038,7 @@ function App(props) {
                       </div>
                     </div>
                     <div class="chartwrapper">
-                      <Doughnut options={{ maintainAspectRatio: false, maxWidth:300, height:"auto" }} responsive="true" data={data} legend={{ "position": "bottom" }} />
+                      <Doughnut options={{ maintainAspectRatio: false, maxWidth: 300, height: "auto" }} responsive="true" data={data} legend={{ "position": "bottom" }} />
                     </div>
                   </div>
 
