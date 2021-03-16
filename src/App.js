@@ -1433,7 +1433,7 @@ function App(props) {
                     </AccordionSummary>
                     <AccordionDetails className={classes.expansion2}>
                       <Scrollbars class="mask2" style={{ width: "100%", height: "25vh" }} >
-                        <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "40px" }}>
+                        <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "46px" }}>
                           Creation involves transfer of tokens to cet.f account, the code is unaudited and at this point there is no multisig.
                                         <br /> <br />To create EOSETF your account must hold 13 different EOS mainnet tokens.
                                         <br /> <br />After creation your account is issued EOSETF and CETF tokens (starting with 65k CETF per 1 EOSETF).
@@ -1723,7 +1723,8 @@ function App(props) {
                       </AccordionSummary>
                       <AccordionDetails className={classes.expansion2}>
                         <Typography className={classes.heading}>
-                          To redeem 13 tokens your account must hold EOSETF. <br /><br />
+                          To redeem 13 tokens, EOSETF must be sent to cet.f account. <br /><br />
+                          Sent EOSETF tokens get burned.<br /><br />
                         Due to the initial CETF distribution, redemption of tokens will be activated when the CETF distribution ends or latest 31.04.2021 18:00 UTC.<br /><br />
                         Redemption fee is set to 5%.
                       </Typography>
@@ -1942,7 +1943,7 @@ function App(props) {
                         </AccordionSummary>
                         <AccordionDetails className={classes.expansion2}>
                           <Typography className={classes.heading}>
-                            Distribution of CETF will end when 4615 EOSETF will be created. <br />  <br /> Approximate value of 4615 EOSETF = 25k USD.
+                            Distribution of CETF will end when Circulating supply of EOSETF will be 4615. <br />  <br /> Approximate value of 4615 EOSETF = 25k USD.
                         </Typography>
                         </AccordionDetails>
                       </Accordion>
