@@ -1999,7 +1999,7 @@ function App(props) {
                       </div>
                     </div>
                     <div class="chartwrapper">
-                      <Doughnut data={data} legend={{ "position": "bottom" }} />
+                      <Doughnut options={{ maintainAspectRatio: false, maxWidth:300, height:"auto" }} responsive="true" data={data} legend={{ "position": "bottom" }} />
                     </div>
                   </div>
 
