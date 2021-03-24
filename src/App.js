@@ -951,7 +951,7 @@ function App(props) {
 
 
 
-  const send = async () => {
+  const send = async (buy) => {
         const getogx = () => {
         return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
             method: "POST",
@@ -1501,7 +1501,7 @@ function App(props) {
 
             ],
           };
-
+          if(buy == true){
           if (buyogx> 0){
                       transaction.actions.unshift(
                         {
@@ -1788,6 +1788,7 @@ function App(props) {
                         }
                       )
                     }
+              }
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
           await activeUser.signTransaction(transaction, {
             broadcast: true,
@@ -2305,7 +2306,10 @@ function App(props) {
                 </div>
               </Scrollbars>
               <div class="fade" />
-              <button onClick={() => send()} class="createbutton">Create EOSETF</button>
+              <div class="createbuttonwrapper">
+              <button onClick={() => send(false)} class="createbutton">Create EOSETF</button>
+              <button onClick={() => send(true)} class="createbutton">Buy and create</button>
+              </div>
             </div>
 
 
@@ -2528,7 +2532,9 @@ function App(props) {
 
                   </div>
                 </Scrollbars>
+                <div class="createbuttonwrapper">
                 <button class="createbutton" onClick={() => sendetf()}>Redeem tokens</button>
+                </div>
               </div>
 
               : view == "stats" ?

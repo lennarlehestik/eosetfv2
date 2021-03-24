@@ -251,10 +251,14 @@ tr:hover{
    transform: scale(1.2);
 }
 
+.createbuttonwrapper{
+  width:80%;
+}
 
 .createbutton{
   background-image: linear-gradient(to right, #21D2FF 0%, #F17AE9  51%, #21D2FF  100%);
   margin: 10px;
+  margin-right:0px;
   padding: 15px 45px;
   text-align: center;
   text-transform: uppercase;
@@ -262,13 +266,11 @@ tr:hover{
   background-size: 200% auto;
   color: white;
   border-radius: 10px;
-  display: block;
   border:0px;
   font-weight:600;
   font-size:12px;
-  margin-left:auto;
-  margin-right:10%;
   box-shadow: 0 0 20px rgba( 31, 38, 135, 0.1 );
+  float:right;
 }
 .createbutton:hover {
   background-position: right center; /* change the direction of the change here */
@@ -416,6 +418,13 @@ input[type=number]::-webkit-outer-spin-button {
 @media only screen and (max-width: 800px) {
   .outsidebutton{
     display:none;
+  }
+  .createbutton{
+    float:none;
+  }
+  .createbuttonwrapper{
+    display:flex;
+    justify-content:center;
   }
 }
 
