@@ -1193,20 +1193,33 @@ function App(props) {
       const needed = parseFloat(boxmult * tokens).toFixed(6)
       const balance = gettokenbalance(boxbalance) **/
       //const buybox = ((gettokenbalance(boxbalance) - parseFloat(boxmult * tokens).toFixed(6)) * ((parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1)))).toFixed(4)
-      const buyogx = ((gettokenbalance(ogxbalance) - parseFloat(ogxmult * tokens).toFixed(8)) * ((parseFloat(ogx?.rows[0].reserve0) / parseFloat(ogx?.rows[0].reserve1)))).toFixed(4)
-      const buydad = ((gettokenbalance(dadbalance) - parseFloat(dadmult * tokens).toFixed(6)) * ((parseFloat(dad?.rows[0].reserve0) / parseFloat(dad?.rows[0].reserve1)))).toFixed(4)
-      const buybox = ((gettokenbalance(boxbalance) - parseFloat(boxmult * tokens).toFixed(6)) * ((parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1)))).toFixed(4)
-      const buyvig = ((gettokenbalance(vigbalance) - parseFloat(vigmult * tokens).toFixed(4)) * ((parseFloat(vig?.rows[0].reserve0) / parseFloat(vig?.rows[0].reserve1)))).toFixed(4)
-      const buyiq = ((gettokenbalance(iqbalance) - parseFloat(iqmult * tokens).toFixed(3)) * ((parseFloat(iq?.rows[0].reserve0) / parseFloat(iq?.rows[0].reserve1)))).toFixed(4)
-      const buyefx = ((gettokenbalance(efxbalance) - parseFloat(efxmult * tokens).toFixed(4)) * ((parseFloat(efx?.rows[0].reserve0) / parseFloat(efx?.rows[0].reserve1)))).toFixed(4)
-      const buydapp = ((gettokenbalance(dappbalance) - parseFloat(dappmult * tokens).toFixed(4)) * ((parseFloat(dapp?.rows[0].reserve0) / parseFloat(dapp?.rows[0].reserve1)))).toFixed(4)
-      const buychex = ((gettokenbalance(chexbalance) - parseFloat(chexmult * tokens).toFixed(8)) * ((parseFloat(chex?.rows[0].reserve0) / parseFloat(chex?.rows[0].reserve1)))).toFixed(4)
-      const buypizza = ((gettokenbalance(pizzabalance) - parseFloat(pizzamult * tokens).toFixed(4)) * ((parseFloat(pizza?.rows[0].reserve0) / parseFloat(pizza?.rows[0].reserve1)))).toFixed(4)
-      const buydfs = ((gettokenbalance(dfsbalance) - parseFloat(dfsmult * tokens).toFixed(4)) * ((parseFloat(dfs?.rows[0].reserve0) / parseFloat(dfs?.rows[0].reserve1)))).toFixed(4)
-      const buyemt = ((gettokenbalance(emtbalance) - parseFloat(emtmult * tokens).toFixed(4)) * ((parseFloat(emt?.rows[0].reserve0) / parseFloat(emt?.rows[0].reserve1)))).toFixed(4)
-      const buyndx = ((gettokenbalance(ndxbalance) - parseFloat(ndxmult * tokens).toFixed(4)) * ((parseFloat(ndx?.rows[0].reserve0) / parseFloat(ndx?.rows[0].reserve1)))).toFixed(4)
-      const buytpt = ((gettokenbalance(tptbalance) - parseFloat(tptmult * tokens).toFixed(4)) * ((parseFloat(tpt?.rows[0].reserve0) / parseFloat(tpt?.rows[0].reserve1)))).toFixed(4)
-      console.log(buybox)
+      const multparse = (mult,nr,bal) => {
+        return Number(parseFloat(mult*tokens).toFixed(nr)) - gettokenbalance(bal)
+      }
+      const reserveparse = (token,reserve) => {
+        return Number(parseFloat(token?.rows[0][reserve]))
+      }
+      const slippageparseflip = (token,mult,nr,balance) => {
+        return ((reserveparse(token,"reserve1") / reserveparse(token,"reserve0")) / ((reserveparse(token,"reserve1") / (reserveparse(token,"reserve0") + multparse(mult,nr, balance)))))
+      }
+      const slippageparse = (token,mult,nr, balance) => {
+        return ((reserveparse(token,"reserve0") / reserveparse(token,"reserve1")) / ((reserveparse(token,"reserve0") / (reserveparse(token,"reserve1") + multparse(mult,nr, balance)))))
+      }
+
+      const buyogx = (((reserveparse(ogx,"reserve0")/reserveparse(ogx,"reserve1"))*1.003*multparse(ogxmult,8,ogxbalance) *slippageparse(ogx,ogxmult,8,ogxbalance))+0.001).toFixed(4)
+      const buydad = (((reserveparse(dad,"reserve0")/reserveparse(dad,"reserve1"))*1.003*multparse(dadmult,6,dadbalance) *slippageparse(dad,dadmult,6,dadbalance))+0.001).toFixed(4)
+      const buybox = (((reserveparse(box,"reserve0")/reserveparse(box,"reserve1"))*1.003*multparse(boxmult,6,boxbalance) *slippageparse(box,boxmult,6,boxbalance))+0.001).toFixed(4)
+      const buyvig = (((reserveparse(vig,"reserve1")/reserveparse(vig,"reserve0"))*1.003*multparse(vigmult,4,vigbalance) *slippageparseflip(vig,vigmult,4,vigbalance))+0.001).toFixed(4)
+      const buyiq = (((reserveparse(iq,"reserve0")/reserveparse(iq,"reserve1"))*1.003*multparse(iqmult,3,iqbalance) *slippageparse(iq,iqmult,3,iqbalance))+0.001).toFixed(4)
+      const buyefx = (((reserveparse(efx,"reserve0")/reserveparse(efx,"reserve1"))*1.003*multparse(efxmult,4,efxbalance) *slippageparse(efx,efxmult,4,efxbalance))+0.001).toFixed(4)
+      const buydapp = (((reserveparse(dapp,"reserve0")/reserveparse(dapp,"reserve1"))*1.003*multparse(dappmult,4,dappbalance) *slippageparse(dapp,dappmult,4,dappbalance))+0.001).toFixed(4)
+      const buychex = (((reserveparse(chex,"reserve0")/reserveparse(chex,"reserve1"))*1.003*multparse(chexmult,8,chexbalance) *slippageparse(chex,chexmult,8,chexbalance))+0.001).toFixed(4)
+      const buypizza = (((reserveparse(pizza,"reserve1")/reserveparse(pizza,"reserve0"))*1.003*multparse(pizzamult,4,pizzabalance) *slippageparseflip(pizza,pizzamult,4,pizzabalance))+0.001).toFixed(4)
+      const buydfs = (((reserveparse(dfs,"reserve1")/reserveparse(dfs,"reserve0"))*1.003*multparse(dfsmult,4,dfsbalance) *slippageparseflip(dfs,dfsmult,4,dfsbalance))+0.001).toFixed(4)
+      const buyemt = (((reserveparse(emt,"reserve1")/reserveparse(emt,"reserve0"))*1.003*multparse(emtmult,4,emtbalance) *slippageparseflip(emt,emtmult,4,emtbalance))+0.001).toFixed(4)
+      const buyndx = (((reserveparse(ndx,"reserve1")/reserveparse(ndx,"reserve0"))*1.003*multparse(ndxmult,4,ndxbalance) *slippageparseflip(ndx,ndxmult,4,ndxbalance))+0.001).toFixed(4)
+      const buytpt = (((reserveparse(tpt,"reserve1")/reserveparse(tpt,"reserve0"))*1.003*multparse(tptmult,4,tptbalance) *slippageparseflip(tpt,tptmult,4,tptbalance))+0.001).toFixed(4)
+      console.log([Number(buyogx),Number(buydad),Number(buybox),Number(buyvig),Number(buyiq),Number(buyefx),Number(buydapp),Number(buychex),Number(buypizza),Number(buydfs),Number(buyemt),Number(buyndx),Number(buytpt)].reduce((a, b) => a + b, 0))
 
       const {
         ual: { login, displayError, showModal },
@@ -1489,8 +1502,8 @@ function App(props) {
             ],
           };
 
-          if (buyogx< 0){
-                      transaction.actions.push(
+          if (buyogx> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1505,14 +1518,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'878',
-                            quantity: Math.abs(buyogx) + 'EOS',
+                            quantity: buyogx + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buydad< 0){
-                      transaction.actions.push(
+          if (buydad> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1527,14 +1540,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'588',
-                            quantity: Math.abs(buydad) + 'EOS',
+                            quantity: buydad + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buybox< 0){
-                      transaction.actions.push(
+          if (buybox> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1549,14 +1562,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'194',
-                            quantity: Math.abs(buybox) + 'EOS',
+                            quantity: buybox + 'EOS',
 
                           },
                         }
                       )
                   }
-          if (buyvig< 0){
-                      transaction.actions.push(
+          if (buyvig> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1571,14 +1584,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'11',
-                            quantity: Math.abs(buyvig) + 'EOS',
+                            quantity: buyvig + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buyiq< 0){
-                      transaction.actions.push(
+          if (buyiq> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1593,14 +1606,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'93',
-                            quantity: Math.abs(buyiq) + 'EOS',
+                            quantity: buyiq + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buyefx< 0){
-                      transaction.actions.push(
+          if (buyefx> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1615,14 +1628,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'191',
-                            quantity: Math.abs(buyefx) + 'EOS',
+                            quantity: buyefx + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buydapp< 0){
-                      transaction.actions.push(
+          if (buydapp> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1637,14 +1650,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'193',
-                            quantity: Math.abs(buydapp) + 'EOS',
+                            quantity: buydapp + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buychex< 0){
-                      transaction.actions.push(
+          if (buychex> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1659,14 +1672,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'28',
-                            quantity: Math.abs(buychex) + 'EOS',
+                            quantity: buychex + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buypizza< 0){
-                      transaction.actions.push(
+          if (buypizza> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1681,14 +1694,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'14',
-                            quantity: Math.abs(buypizza) + 'EOS',
+                            quantity: buypizza + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buydfs< 0){
-                      transaction.actions.push(
+          if (buydfs> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1703,14 +1716,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'22',
-                            quantity: Math.abs(buydfs) + 'EOS',
+                            quantity: buydfs + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buyemt< 0){
-                      transaction.actions.push(
+          if (buyemt> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1725,14 +1738,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'255',
-                            quantity: Math.abs(buyemt) + 'EOS',
+                            quantity: buyemt + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buyndx< 0){
-                      transaction.actions.push(
+          if (buyndx> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1747,14 +1760,14 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'1',
-                            quantity: Math.abs(buyndx) + 'EOS',
+                            quantity: buyndx + 'EOS',
 
                           },
                         }
                       )
                     }
-          if (buytpt< 0){
-                      transaction.actions.push(
+          if (buytpt> 0){
+                      transaction.actions.unshift(
                         {
                           account: 'eosio.token',
                           name: 'transfer',
@@ -1769,7 +1782,7 @@ function App(props) {
                             to: 'swap.defi',
                             //quantity: 19.2562 * tokens + ' DAPP',
                             memo: 'swap,0,'+'4',
-                            quantity: Math.abs(buytpt) + 'EOS',
+                            quantity: buytpt + 'EOS',
 
                           },
                         }
@@ -1794,6 +1807,7 @@ function App(props) {
       } else {
         showModal();
       }
+
     });
 
 
