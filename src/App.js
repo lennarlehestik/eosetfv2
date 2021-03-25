@@ -1193,17 +1193,32 @@ function App(props) {
       const needed = parseFloat(boxmult * tokens).toFixed(6)
       const balance = gettokenbalance(boxbalance) **/
       //const buybox = ((gettokenbalance(boxbalance) - parseFloat(boxmult * tokens).toFixed(6)) * ((parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1)))).toFixed(4)
-      const multparse = (mult, nr, bal) => {
-        return Number(parseFloat(mult * tokens).toFixed(nr)) - gettokenbalance(bal)
+      var slippagetoohigh = false;
+      var slippagelist = []
+      const multparse = (mult,nr,bal) => {
+        return Number(parseFloat(mult*tokens).toFixed(nr)) - gettokenbalance(bal)
       }
-      const reserveparse = (token, reserve) => {
+      const reserveparse = (token,reserve) => {
         return Number(parseFloat(token?.rows[0][reserve]))
       }
-      const slippageparseflip = (token, mult, nr, balance) => {
-        return ((reserveparse(token, "reserve1") / reserveparse(token, "reserve0")) / ((reserveparse(token, "reserve1") / (reserveparse(token, "reserve0") + multparse(mult, nr, balance)))))
+      const slippageparseflip = (token,mult,nr,balance) => {
+        const slippage = ((reserveparse(token,"reserve1") / reserveparse(token,"reserve0")) / ((reserveparse(token,"reserve1") / (reserveparse(token,"reserve0") + multparse(mult,nr, balance)))))
+        if((slippage-1)*100 > 3){
+          console.log(token + " : " + (slippage-1)*100)
+          slippagelist.push({token:token?.rows[0].reserve0.split(" ")[1], amount:((slippage-1)*100).toFixed(2)})
+          slippagetoohigh = true
+          //slippagelist.push({token:token})
+        }
+        return slippage
       }
-      const slippageparse = (token, mult, nr, balance) => {
-        return ((reserveparse(token, "reserve0") / reserveparse(token, "reserve1")) / ((reserveparse(token, "reserve0") / (reserveparse(token, "reserve1") + multparse(mult, nr, balance)))))
+      const slippageparse = (token,mult,nr, balance) => {
+        const slippage = ((reserveparse(token,"reserve0") / reserveparse(token,"reserve1")) / ((reserveparse(token,"reserve0") / (reserveparse(token,"reserve1") + multparse(mult,nr, balance)))))
+        if((slippage-1)*100 > 3){
+          console.log(token + " : " + (slippage-1)*100)
+          slippagelist.push({token:token?.rows[0].reserve1.split(" ")[1], amount:((slippage-1)*100).toFixed(2)})
+          slippagetoohigh = true
+        }
+        return slippage
       }
 
       const buyogx = (((reserveparse(ogx, "reserve0") / reserveparse(ogx, "reserve1")) * 1.003 * multparse(ogxmult, 8, ogxbalance) * slippageparse(ogx, ogxmult, 8, ogxbalance)) + 0.001).toFixed(4)
@@ -1790,16 +1805,52 @@ function App(props) {
             }
           }
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+          if(buy==false){
           await activeUser.signTransaction(transaction, {
             broadcast: true,
             expireSeconds: 300,
-          });
+          })
+          sucessstake()
+          }
 
+          if(buy==true && slippagetoohigh == false){
+          await activeUser.signTransaction(transaction, {
+            broadcast: true,
+            expireSeconds: 300,
+          })
+          sucessstake()
+          }
+          else{
+            var slippagemessage ="";
+            if(Object.keys(slippagelist).length > 1){
+              slippagelist.forEach((item)=> {
+                slippagemessage = slippagemessage.concat(item.token, "(", item.amount, "%), ")
+              })
+            }
+            else{
+              slippagemessage = slippagemessage.concat(slippagelist[0].token, "(", slippagelist[0].amount, "%), ")
+            }
 
+            const message = "Slippage was higher than 3% for: " + slippagemessage.slice(0, -2) + "."
 
-          sucessstake();
-
-        } catch (error) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "bottom-end",
+              showConfirmButton: false,
+              timer: 6000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+            Toast.fire({
+              icon: "error",
+              title: message,
+            });
+          }
+        }
+        catch (error) {
           console.log(error.message);
           actionpuccis(
             error.message
