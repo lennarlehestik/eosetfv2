@@ -11,7 +11,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import Drawer from '@material-ui/core/Drawer';
 import ReactGA from "react-ga";
 import { Bar, Pie, Doughnut } from 'react-chartjs-2';
-import {Promise} from "bluebird";
+import { Promise } from "bluebird";
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Accordion from '@material-ui/core/Accordion';
@@ -195,19 +195,19 @@ function App(props) {
       title: err,
     });
   };
-  const[ogxdefibox,setOgxdefibox]=useState()
-  const[daddefibox,setDaddefibox]=useState()
-  const[boxdefibox,setBoxdefibox]=useState()
-  const[vigdefibox,setVigdefibox]=useState()
-  const[iqdefibox,setIqdefibox]=useState()
-  const[efxdefibox,setEfxdefibox]=useState()
-  const[dappdefibox,setDappdefibox]=useState()
-  const[chexdefibox,setChexdefibox]=useState()
-  const[pizzadefibox,setPizzadefibox]=useState()
-  const[dfsdefibox,setDfsdefibox]=useState()
-  const[emtdefibox,setEmtdefibox]=useState()
-  const[ndxdefibox,setNdxdefibox]=useState()
-  const[tptdefibox,setTptdefibox]=useState()
+  const [ogxdefibox, setOgxdefibox] = useState()
+  const [daddefibox, setDaddefibox] = useState()
+  const [boxdefibox, setBoxdefibox] = useState()
+  const [vigdefibox, setVigdefibox] = useState()
+  const [iqdefibox, setIqdefibox] = useState()
+  const [efxdefibox, setEfxdefibox] = useState()
+  const [dappdefibox, setDappdefibox] = useState()
+  const [chexdefibox, setChexdefibox] = useState()
+  const [pizzadefibox, setPizzadefibox] = useState()
+  const [dfsdefibox, setDfsdefibox] = useState()
+  const [emtdefibox, setEmtdefibox] = useState()
+  const [ndxdefibox, setNdxdefibox] = useState()
+  const [tptdefibox, setTptdefibox] = useState()
 
   const [ogxbalance, setOgx] = useState({ rows: [] });
   const [dadbalance, setDad] = useState({ rows: [] });
@@ -952,274 +952,274 @@ function App(props) {
 
 
   const send = async (buy) => {
-        const getogx = () => {
-        return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                json: true,
-                code: "swap.defi",
-                table: "pairs",
-                scope: "swap.defi",
-                lower_bound: 878,
-                upper_bound: 878,
-                limit: 1,
-            }),
-        }).then((response) => response.json());
-      }
-        const getdad = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 588,
-                    upper_bound: 588,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getbox = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 194,
-                    upper_bound: 194,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getvig = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 11,
-                    upper_bound: 11,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getiq = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 93,
-                    upper_bound: 93,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getefx = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 191,
-                    upper_bound: 191,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getdapp = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 193,
-                    upper_bound: 193,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getchex = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 28,
-                    upper_bound: 28,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getpizza = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 14,
-                    upper_bound: 14,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getdfs = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 22,
-                    upper_bound: 22,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getemt = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 255,
-                    upper_bound: 255,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const getndx = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 1,
-                    upper_bound: 1,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
-        const gettpt = () => {
-            return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    json: true,
-                    code: "swap.defi",
-                    table: "pairs",
-                    scope: "swap.defi",
-                    lower_bound: 4,
-                    upper_bound: 4,
-                    limit: 1,
-                }),
-            }).then((response) => response.json());
-        }
+    const getogx = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 878,
+          upper_bound: 878,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getdad = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 588,
+          upper_bound: 588,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getbox = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 194,
+          upper_bound: 194,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getvig = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 11,
+          upper_bound: 11,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getiq = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 93,
+          upper_bound: 93,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getefx = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 191,
+          upper_bound: 191,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getdapp = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 193,
+          upper_bound: 193,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getchex = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 28,
+          upper_bound: 28,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getpizza = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 14,
+          upper_bound: 14,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getdfs = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 22,
+          upper_bound: 22,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getemt = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 255,
+          upper_bound: 255,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getndx = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 1,
+          upper_bound: 1,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const gettpt = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 4,
+          upper_bound: 4,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
 
 
-    Promise.join(getogx(),getdad(),getbox(),getvig(),getiq(),getefx(),getdapp(),getchex(),getpizza(),getdfs(),getemt(),getndx(),gettpt(), async(ogx,dad,box,vig,iq,efx,dapp,chex,pizza,dfs,emt,ndx,tpt) => {
+    Promise.join(getogx(), getdad(), getbox(), getvig(), getiq(), getefx(), getdapp(), getchex(), getpizza(), getdfs(), getemt(), getndx(), gettpt(), async (ogx, dad, box, vig, iq, efx, dapp, chex, pizza, dfs, emt, ndx, tpt) => {
       /**const boxprice = (parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1))
       const needed = parseFloat(boxmult * tokens).toFixed(6)
       const balance = gettokenbalance(boxbalance) **/
       //const buybox = ((gettokenbalance(boxbalance) - parseFloat(boxmult * tokens).toFixed(6)) * ((parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1)))).toFixed(4)
-      const multparse = (mult,nr,bal) => {
-        return Number(parseFloat(mult*tokens).toFixed(nr)) - gettokenbalance(bal)
+      const multparse = (mult, nr, bal) => {
+        return Number(parseFloat(mult * tokens).toFixed(nr)) - gettokenbalance(bal)
       }
-      const reserveparse = (token,reserve) => {
+      const reserveparse = (token, reserve) => {
         return Number(parseFloat(token?.rows[0][reserve]))
       }
-      const slippageparseflip = (token,mult,nr,balance) => {
-        return ((reserveparse(token,"reserve1") / reserveparse(token,"reserve0")) / ((reserveparse(token,"reserve1") / (reserveparse(token,"reserve0") + multparse(mult,nr, balance)))))
+      const slippageparseflip = (token, mult, nr, balance) => {
+        return ((reserveparse(token, "reserve1") / reserveparse(token, "reserve0")) / ((reserveparse(token, "reserve1") / (reserveparse(token, "reserve0") + multparse(mult, nr, balance)))))
       }
-      const slippageparse = (token,mult,nr, balance) => {
-        return ((reserveparse(token,"reserve0") / reserveparse(token,"reserve1")) / ((reserveparse(token,"reserve0") / (reserveparse(token,"reserve1") + multparse(mult,nr, balance)))))
+      const slippageparse = (token, mult, nr, balance) => {
+        return ((reserveparse(token, "reserve0") / reserveparse(token, "reserve1")) / ((reserveparse(token, "reserve0") / (reserveparse(token, "reserve1") + multparse(mult, nr, balance)))))
       }
 
-      const buyogx = (((reserveparse(ogx,"reserve0")/reserveparse(ogx,"reserve1"))*1.003*multparse(ogxmult,8,ogxbalance) *slippageparse(ogx,ogxmult,8,ogxbalance))+0.001).toFixed(4)
-      const buydad = (((reserveparse(dad,"reserve0")/reserveparse(dad,"reserve1"))*1.003*multparse(dadmult,6,dadbalance) *slippageparse(dad,dadmult,6,dadbalance))+0.001).toFixed(4)
-      const buybox = (((reserveparse(box,"reserve0")/reserveparse(box,"reserve1"))*1.003*multparse(boxmult,6,boxbalance) *slippageparse(box,boxmult,6,boxbalance))+0.001).toFixed(4)
-      const buyvig = (((reserveparse(vig,"reserve1")/reserveparse(vig,"reserve0"))*1.003*multparse(vigmult,4,vigbalance) *slippageparseflip(vig,vigmult,4,vigbalance))+0.001).toFixed(4)
-      const buyiq = (((reserveparse(iq,"reserve0")/reserveparse(iq,"reserve1"))*1.003*multparse(iqmult,3,iqbalance) *slippageparse(iq,iqmult,3,iqbalance))+0.001).toFixed(4)
-      const buyefx = (((reserveparse(efx,"reserve0")/reserveparse(efx,"reserve1"))*1.003*multparse(efxmult,4,efxbalance) *slippageparse(efx,efxmult,4,efxbalance))+0.001).toFixed(4)
-      const buydapp = (((reserveparse(dapp,"reserve0")/reserveparse(dapp,"reserve1"))*1.003*multparse(dappmult,4,dappbalance) *slippageparse(dapp,dappmult,4,dappbalance))+0.001).toFixed(4)
-      const buychex = (((reserveparse(chex,"reserve0")/reserveparse(chex,"reserve1"))*1.003*multparse(chexmult,8,chexbalance) *slippageparse(chex,chexmult,8,chexbalance))+0.001).toFixed(4)
-      const buypizza = (((reserveparse(pizza,"reserve1")/reserveparse(pizza,"reserve0"))*1.003*multparse(pizzamult,4,pizzabalance) *slippageparseflip(pizza,pizzamult,4,pizzabalance))+0.001).toFixed(4)
-      const buydfs = (((reserveparse(dfs,"reserve1")/reserveparse(dfs,"reserve0"))*1.003*multparse(dfsmult,4,dfsbalance) *slippageparseflip(dfs,dfsmult,4,dfsbalance))+0.001).toFixed(4)
-      const buyemt = (((reserveparse(emt,"reserve1")/reserveparse(emt,"reserve0"))*1.003*multparse(emtmult,4,emtbalance) *slippageparseflip(emt,emtmult,4,emtbalance))+0.001).toFixed(4)
-      const buyndx = (((reserveparse(ndx,"reserve1")/reserveparse(ndx,"reserve0"))*1.003*multparse(ndxmult,4,ndxbalance) *slippageparseflip(ndx,ndxmult,4,ndxbalance))+0.001).toFixed(4)
-      const buytpt = (((reserveparse(tpt,"reserve1")/reserveparse(tpt,"reserve0"))*1.003*multparse(tptmult,4,tptbalance) *slippageparseflip(tpt,tptmult,4,tptbalance))+0.001).toFixed(4)
-      console.log([Number(buyogx),Number(buydad),Number(buybox),Number(buyvig),Number(buyiq),Number(buyefx),Number(buydapp),Number(buychex),Number(buypizza),Number(buydfs),Number(buyemt),Number(buyndx),Number(buytpt)].reduce((a, b) => a + b, 0))
+      const buyogx = (((reserveparse(ogx, "reserve0") / reserveparse(ogx, "reserve1")) * 1.003 * multparse(ogxmult, 8, ogxbalance) * slippageparse(ogx, ogxmult, 8, ogxbalance)) + 0.001).toFixed(4)
+      const buydad = (((reserveparse(dad, "reserve0") / reserveparse(dad, "reserve1")) * 1.003 * multparse(dadmult, 6, dadbalance) * slippageparse(dad, dadmult, 6, dadbalance)) + 0.001).toFixed(4)
+      const buybox = (((reserveparse(box, "reserve0") / reserveparse(box, "reserve1")) * 1.003 * multparse(boxmult, 6, boxbalance) * slippageparse(box, boxmult, 6, boxbalance)) + 0.001).toFixed(4)
+      const buyvig = (((reserveparse(vig, "reserve1") / reserveparse(vig, "reserve0")) * 1.003 * multparse(vigmult, 4, vigbalance) * slippageparseflip(vig, vigmult, 4, vigbalance)) + 0.001).toFixed(4)
+      const buyiq = (((reserveparse(iq, "reserve0") / reserveparse(iq, "reserve1")) * 1.003 * multparse(iqmult, 3, iqbalance) * slippageparse(iq, iqmult, 3, iqbalance)) + 0.001).toFixed(4)
+      const buyefx = (((reserveparse(efx, "reserve0") / reserveparse(efx, "reserve1")) * 1.003 * multparse(efxmult, 4, efxbalance) * slippageparse(efx, efxmult, 4, efxbalance)) + 0.001).toFixed(4)
+      const buydapp = (((reserveparse(dapp, "reserve0") / reserveparse(dapp, "reserve1")) * 1.003 * multparse(dappmult, 4, dappbalance) * slippageparse(dapp, dappmult, 4, dappbalance)) + 0.001).toFixed(4)
+      const buychex = (((reserveparse(chex, "reserve0") / reserveparse(chex, "reserve1")) * 1.003 * multparse(chexmult, 8, chexbalance) * slippageparse(chex, chexmult, 8, chexbalance)) + 0.001).toFixed(4)
+      const buypizza = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparse(pizzamult, 4, pizzabalance) * slippageparseflip(pizza, pizzamult, 4, pizzabalance)) + 0.001).toFixed(4)
+      const buydfs = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparse(dfsmult, 4, dfsbalance) * slippageparseflip(dfs, dfsmult, 4, dfsbalance)) + 0.001).toFixed(4)
+      const buyemt = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparse(emtmult, 4, emtbalance) * slippageparseflip(emt, emtmult, 4, emtbalance)) + 0.001).toFixed(4)
+      const buyndx = (((reserveparse(ndx, "reserve1") / reserveparse(ndx, "reserve0")) * 1.003 * multparse(ndxmult, 4, ndxbalance) * slippageparseflip(ndx, ndxmult, 4, ndxbalance)) + 0.001).toFixed(4)
+      const buytpt = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparse(tptmult, 4, tptbalance) * slippageparseflip(tpt, tptmult, 4, tptbalance)) + 0.001).toFixed(4)
+      console.log([Number(buyogx), Number(buydad), Number(buybox), Number(buyvig), Number(buyiq), Number(buyefx), Number(buydapp), Number(buychex), Number(buypizza), Number(buydfs), Number(buyemt), Number(buyndx), Number(buytpt)].reduce((a, b) => a + b, 0))
 
       const {
         ual: { login, displayError, showModal },
@@ -1501,294 +1501,294 @@ function App(props) {
 
             ],
           };
-          if(buy == true){
-          if (buyogx> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'878',
-                            quantity: buyogx + 'EOS',
+          if (buy == true) {
+            if (buyogx > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '878',
+                    quantity: buyogx + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buydad> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'588',
-                            quantity: buydad + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buydad > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '588',
+                    quantity: buydad + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buybox> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'194',
-                            quantity: buybox + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buybox > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '194',
+                    quantity: buybox + 'EOS',
 
-                          },
-                        }
-                      )
-                  }
-          if (buyvig> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'11',
-                            quantity: buyvig + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buyvig > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '11',
+                    quantity: buyvig + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buyiq> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'93',
-                            quantity: buyiq + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buyiq > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '93',
+                    quantity: buyiq + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buyefx> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'191',
-                            quantity: buyefx + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buyefx > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '191',
+                    quantity: buyefx + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buydapp> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'193',
-                            quantity: buydapp + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buydapp > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '193',
+                    quantity: buydapp + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buychex> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'28',
-                            quantity: buychex + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buychex > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '28',
+                    quantity: buychex + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buypizza> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'14',
-                            quantity: buypizza + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buypizza > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '14',
+                    quantity: buypizza + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buydfs> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'22',
-                            quantity: buydfs + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buydfs > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '22',
+                    quantity: buydfs + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buyemt> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'255',
-                            quantity: buyemt + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buyemt > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '255',
+                    quantity: buyemt + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buyndx> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'1',
-                            quantity: buyndx + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buyndx > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '1',
+                    quantity: buyndx + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-          if (buytpt> 0){
-                      transaction.actions.unshift(
-                        {
-                          account: 'eosio.token',
-                          name: 'transfer',
-                          authorization: [
-                            {
-                              actor: displayaccountname(), // use account that was logged in
-                              permission: 'active',
-                            },
-                          ],
-                          data: {
-                            from: displayaccountname(),
-                            to: 'swap.defi',
-                            //quantity: 19.2562 * tokens + ' DAPP',
-                            memo: 'swap,0,'+'4',
-                            quantity: buytpt + 'EOS',
+                  },
+                }
+              )
+            }
+            if (buytpt > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '4',
+                    quantity: buytpt + 'EOS',
 
-                          },
-                        }
-                      )
-                    }
-              }
+                  },
+                }
+              )
+            }
+          }
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
           await activeUser.signTransaction(transaction, {
             broadcast: true,
@@ -2046,9 +2046,10 @@ function App(props) {
                     </AccordionSummary>
                     <AccordionDetails className={classes.expansion2}>
                       <Scrollbars class="mask2" style={{ width: "100%", height: "25vh" }} >
-                        <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "46px" }}>
+                        <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "34px" }}>
                           Creation involves transfer of tokens to cet.f account, the code is unaudited and at this point there is no multisig.
-                                        <br /> <br />To create EOSETF your account must hold 13 different EOS mainnet tokens.
+                                        <br /> <br />To create EOSETF you have to own 13 different EOS mainnet tokens or you can use autobuy feature that purchases tokens you are missing from Defibox.
+                                        <br /> <br />Due to slippage, the displayed valuation of tokens might differ from autobuy purchase price, slippage protection is set to 3%, but please double-check the EOS being transferred before signing the transaction.
                                         <br /> <br />After creation your account is issued EOSETF and CETF tokens (starting with 65k CETF per 1 EOSETF).
                                         <br /> <br />CETF will be used as a governance and fee distribution token.
                                         <br /><br />Each time 20m CETF are issued the issuance of CETF is halved.
@@ -2056,18 +2057,19 @@ function App(props) {
                                       <br /> circulation 20m to 40m (CETF) | 1 EOSETF = 32.5k CETF
                                       <br /> circulation 40m to 60m (CETF) | 1 EOSETF = 16.250k CETF
                                       <br /> circulation 60m to 80m (CETF) | 1 EOSETF = 8.125k CETF
-
                                       <br />  <br />At 80m CETF (4615 EOSETF / 3 halvings) no more CETF will be issued.
                                       <br /> <br />Due to the initial CETF distribution, redemption of tokens <br /> will be activated after the CETF distribution or latest 31.04.2021 18:00 UTC.
                                       <br /> <br />Redemption fee is set to 5%
                                           </Typography>
+                        <div style={{ "display": "block", "opacity": "0" }}>.<br />.<br />.</div>
+
                       </Scrollbars>
                       <div class="fade" />
                     </AccordionDetails>
                   </Accordion>
                 </div>
                 <div class="slidertext">
-                  <a>You are creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF</a>
+                  <a>Creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF, consisting of tokens valued at <input class="eosvalue" type="number" value={parseFloat(tokens * getpricesum()).toFixed(2)}></input> EOS </a>
                 </div>
                 <div class="slider">
                   <CustomSlider
@@ -2307,8 +2309,8 @@ function App(props) {
               </Scrollbars>
               <div class="fade" />
               <div class="createbuttonwrapper">
-              <button onClick={() => send(false)} class="createbutton">Create EOSETF</button>
-              <button onClick={() => send(true)} class="createbutton">Buy and create</button>
+                <button onClick={() => send(false)} class="createbutton">Create</button>
+                <button onClick={() => send(true)} class="createbutton">Buy and Create</button>
               </div>
             </div>
 
@@ -2338,7 +2340,7 @@ function App(props) {
                         <Typography className={classes.heading}>Click here for more information</Typography>
                       </AccordionSummary>
                       <AccordionDetails className={classes.expansion2}>
-                        <Typography className={classes.heading}>
+                        <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "46px" }}>
                           To redeem 13 tokens, EOSETF must be sent to cet.f account. <br /><br />
                           Sent EOSETF tokens get burned.<br /><br />
                         Due to the initial CETF distribution, redemption of tokens will be activated when the CETF distribution ends or latest 31.04.2021 18:00 UTC.<br /><br />
@@ -2533,7 +2535,7 @@ function App(props) {
                   </div>
                 </Scrollbars>
                 <div class="createbuttonwrapper">
-                <button class="createbutton" onClick={() => sendetf()}>Redeem tokens</button>
+                  <button class="createbutton" onClick={() => sendetf()}>Redeem tokens</button>
                 </div>
               </div>
 

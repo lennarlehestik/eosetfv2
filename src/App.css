@@ -289,6 +289,20 @@ tr:hover{
   color:inherit;
 }
 
+
+
+.eosvalue{
+  background: transparent;
+  border: none;
+  border-bottom:solid 1px;
+  min-width:10px;
+  width:65px;
+  font-weight:600;
+  text-align:center;
+  color:inherit;
+}
+
+
 input[type="number"] {
   font-size:20px;
 }
