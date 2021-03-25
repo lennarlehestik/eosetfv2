@@ -19,6 +19,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CachedIcon from '@material-ui/icons/Cached';
 
 const CustomSlider = withStyles({
   root: {
@@ -234,6 +235,18 @@ function App(props) {
   const [etfbalance, setEtf] = useState({ rows: [] });
   const [eosetfbalanceind, setEosetfind] = useState({ rows: [] });
   const [etfbalanceind, setEtfind] = useState({ rows: [] });
+
+  const refresher = () => {
+    setAccountName("")
+    setTimeout(()=>{
+      if (activeUser) {
+        const accountName = activeUser.getAccountName();
+        accountName.then(function (result) {
+          setAccountName(result);
+        });
+      }
+    },100)
+  }
 
   const menuClick = (which) => {
     setView(which)
@@ -2598,7 +2611,9 @@ function App(props) {
                         >
 
                           Statistics
+                          <CachedIcon style={{"margin-left":"5px", "width":"24px", "height":"auto", "vertical-align": "middle"}} onClick={() => refresher()} />
                         </a>
+
                       </div>
                     </div>
                     <div className={classes.root}>
