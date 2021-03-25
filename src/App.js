@@ -1204,7 +1204,6 @@ function App(props) {
       const slippageparseflip = (token,mult,nr,balance) => {
         const slippage = ((reserveparse(token,"reserve1") / reserveparse(token,"reserve0")) / ((reserveparse(token,"reserve1") / (reserveparse(token,"reserve0") + multparse(mult,nr, balance)))))
         if((slippage-1)*100 > 3){
-          console.log(token + " : " + (slippage-1)*100)
           slippagelist.push({token:token?.rows[0].reserve0.split(" ")[1], amount:((slippage-1)*100).toFixed(2)})
           slippagetoohigh = true
           //slippagelist.push({token:token})
@@ -1214,7 +1213,6 @@ function App(props) {
       const slippageparse = (token,mult,nr, balance) => {
         const slippage = ((reserveparse(token,"reserve0") / reserveparse(token,"reserve1")) / ((reserveparse(token,"reserve0") / (reserveparse(token,"reserve1") + multparse(mult,nr, balance)))))
         if((slippage-1)*100 > 3){
-          console.log(token + " : " + (slippage-1)*100)
           slippagelist.push({token:token?.rows[0].reserve1.split(" ")[1], amount:((slippage-1)*100).toFixed(2)})
           slippagetoohigh = true
         }
@@ -1234,7 +1232,8 @@ function App(props) {
       const buyemt = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparse(emtmult, 4, emtbalance) * slippageparseflip(emt, emtmult, 4, emtbalance)) + 0.001).toFixed(4)
       const buyndx = (((reserveparse(ndx, "reserve1") / reserveparse(ndx, "reserve0")) * 1.003 * multparse(ndxmult, 4, ndxbalance) * slippageparseflip(ndx, ndxmult, 4, ndxbalance)) + 0.001).toFixed(4)
       const buytpt = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparse(tptmult, 4, tptbalance) * slippageparseflip(tpt, tptmult, 4, tptbalance)) + 0.001).toFixed(4)
-      console.log([Number(buyogx), Number(buydad), Number(buybox), Number(buyvig), Number(buyiq), Number(buyefx), Number(buydapp), Number(buychex), Number(buypizza), Number(buydfs), Number(buyemt), Number(buyndx), Number(buytpt)].reduce((a, b) => a + b, 0))
+      console.log( multparse(emtmult, 4, emtbalance))
+      //console.log([Number(buyogx), Number(buydad), Number(buybox), Number(buyvig), Number(buyiq), Number(buyefx), Number(buydapp), Number(buychex), Number(buypizza), Number(buydfs), Number(buyemt), Number(buyndx), Number(buytpt)].reduce((a, b) => a + b, 0))
 
       const {
         ual: { login, displayError, showModal },
@@ -1517,7 +1516,7 @@ function App(props) {
             ],
           };
           if (buy == true) {
-            if (buyogx > 0) {
+            if (multparse(ogxmult, 8, ogxbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1539,7 +1538,7 @@ function App(props) {
                 }
               )
             }
-            if (buydad > 0) {
+            if (multparse(dadmult, 6, dadbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1561,7 +1560,7 @@ function App(props) {
                 }
               )
             }
-            if (buybox > 0) {
+            if (multparse(boxmult, 6, boxbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1583,7 +1582,7 @@ function App(props) {
                 }
               )
             }
-            if (buyvig > 0) {
+            if (multparse(vigmult, 4, vigbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1605,7 +1604,7 @@ function App(props) {
                 }
               )
             }
-            if (buyiq > 0) {
+            if (multparse(iqmult, 3, iqbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1627,7 +1626,7 @@ function App(props) {
                 }
               )
             }
-            if (buyefx > 0) {
+            if (multparse(efxmult, 4, efxbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1649,7 +1648,7 @@ function App(props) {
                 }
               )
             }
-            if (buydapp > 0) {
+            if (multparse(dappmult, 4, dappbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1671,7 +1670,7 @@ function App(props) {
                 }
               )
             }
-            if (buychex > 0) {
+            if (multparse(chexmult, 8, chexbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1693,7 +1692,7 @@ function App(props) {
                 }
               )
             }
-            if (buypizza > 0) {
+            if (multparse(pizzamult, 4, pizzabalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1715,7 +1714,7 @@ function App(props) {
                 }
               )
             }
-            if (buydfs > 0) {
+            if (multparse(dfsmult, 4, dfsbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1737,7 +1736,7 @@ function App(props) {
                 }
               )
             }
-            if (buyemt > 0) {
+            if (multparse(emtmult, 4, emtbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1759,7 +1758,7 @@ function App(props) {
                 }
               )
             }
-            if (buyndx > 0) {
+            if (multparse(ndxmult, 4, ndxbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1781,7 +1780,7 @@ function App(props) {
                 }
               )
             }
-            if (buytpt > 0) {
+            if (multparse(tptmult, 4, tptbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
