@@ -238,14 +238,14 @@ function App(props) {
 
   const refresher = () => {
     setAccountName("")
-    setTimeout(()=>{
+    setTimeout(() => {
       if (activeUser) {
         const accountName = activeUser.getAccountName();
         accountName.then(function (result) {
           setAccountName(result);
         });
       }
-    },100)
+    }, 100)
   }
 
   const menuClick = (which) => {
@@ -1208,44 +1208,44 @@ function App(props) {
       //const buybox = ((gettokenbalance(boxbalance) - parseFloat(boxmult * tokens).toFixed(6)) * ((parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1)))).toFixed(4)
       var slippagetoohigh = false;
       var slippagelist = []
-      const multparse = (mult,nr,bal) => {
-        return Number(parseFloat(mult*tokens).toFixed(nr)) - gettokenbalance(bal)
+      const multparse = (mult, nr, bal) => {
+        return Number(parseFloat(mult * tokens).toFixed(nr)) - gettokenbalance(bal)
       }
-      const reserveparse = (token,reserve) => {
+      const reserveparse = (token, reserve) => {
         return Number(parseFloat(token?.rows[0][reserve]))
       }
-      const slippageparseflip = (token,mult,nr,balance) => {
-        const slippage = ((reserveparse(token,"reserve1") / reserveparse(token,"reserve0")) / ((reserveparse(token,"reserve1") / (reserveparse(token,"reserve0") + multparse(mult,nr, balance)))))
-        if((slippage-1)*100 > 3){
-          slippagelist.push({token:token?.rows[0].reserve0.split(" ")[1], amount:((slippage-1)*100).toFixed(2)})
+      const slippageparseflip = (token, mult, nr, balance) => {
+        const slippage = ((reserveparse(token, "reserve1") / reserveparse(token, "reserve0")) / ((reserveparse(token, "reserve1") / (reserveparse(token, "reserve0") + multparse(mult, nr, balance)))))
+        if ((slippage - 1) * 100 > 3) {
+          slippagelist.push({ token: token?.rows[0].reserve0.split(" ")[1], amount: ((slippage - 1) * 100).toFixed(2) })
           slippagetoohigh = true
           //slippagelist.push({token:token})
         }
         return slippage
       }
-      const slippageparse = (token,mult,nr, balance) => {
-        const slippage = ((reserveparse(token,"reserve0") / reserveparse(token,"reserve1")) / ((reserveparse(token,"reserve0") / (reserveparse(token,"reserve1") + multparse(mult,nr, balance)))))
-        if((slippage-1)*100 > 3){
-          slippagelist.push({token:token?.rows[0].reserve1.split(" ")[1], amount:((slippage-1)*100).toFixed(2)})
+      const slippageparse = (token, mult, nr, balance) => {
+        const slippage = ((reserveparse(token, "reserve0") / reserveparse(token, "reserve1")) / ((reserveparse(token, "reserve0") / (reserveparse(token, "reserve1") + multparse(mult, nr, balance)))))
+        if ((slippage - 1) * 100 > 3) {
+          slippagelist.push({ token: token?.rows[0].reserve1.split(" ")[1], amount: ((slippage - 1) * 100).toFixed(2) })
           slippagetoohigh = true
         }
         return slippage
       }
 
-      const buyogx = (((reserveparse(ogx, "reserve0") / reserveparse(ogx, "reserve1")) * 1.003 * multparse(ogxmult, 8, ogxbalance) * slippageparse(ogx, ogxmult, 8, ogxbalance)) + 0.001).toFixed(4)
-      const buydad = (((reserveparse(dad, "reserve0") / reserveparse(dad, "reserve1")) * 1.003 * multparse(dadmult, 6, dadbalance) * slippageparse(dad, dadmult, 6, dadbalance)) + 0.001).toFixed(4)
-      const buybox = (((reserveparse(box, "reserve0") / reserveparse(box, "reserve1")) * 1.003 * multparse(boxmult, 6, boxbalance) * slippageparse(box, boxmult, 6, boxbalance)) + 0.001).toFixed(4)
-      const buyvig = (((reserveparse(vig, "reserve1") / reserveparse(vig, "reserve0")) * 1.003 * multparse(vigmult, 4, vigbalance) * slippageparseflip(vig, vigmult, 4, vigbalance)) + 0.001).toFixed(4)
-      const buyiq = (((reserveparse(iq, "reserve0") / reserveparse(iq, "reserve1")) * 1.003 * multparse(iqmult, 3, iqbalance) * slippageparse(iq, iqmult, 3, iqbalance)) + 0.001).toFixed(4)
-      const buyefx = (((reserveparse(efx, "reserve0") / reserveparse(efx, "reserve1")) * 1.003 * multparse(efxmult, 4, efxbalance) * slippageparse(efx, efxmult, 4, efxbalance)) + 0.001).toFixed(4)
-      const buydapp = (((reserveparse(dapp, "reserve0") / reserveparse(dapp, "reserve1")) * 1.003 * multparse(dappmult, 4, dappbalance) * slippageparse(dapp, dappmult, 4, dappbalance)) + 0.001).toFixed(4)
-      const buychex = (((reserveparse(chex, "reserve0") / reserveparse(chex, "reserve1")) * 1.003 * multparse(chexmult, 8, chexbalance) * slippageparse(chex, chexmult, 8, chexbalance)) + 0.001).toFixed(4)
-      const buypizza = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparse(pizzamult, 4, pizzabalance) * slippageparseflip(pizza, pizzamult, 4, pizzabalance)) + 0.001).toFixed(4)
-      const buydfs = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparse(dfsmult, 4, dfsbalance) * slippageparseflip(dfs, dfsmult, 4, dfsbalance)) + 0.001).toFixed(4)
-      const buyemt = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparse(emtmult, 4, emtbalance) * slippageparseflip(emt, emtmult, 4, emtbalance)) + 0.001).toFixed(4)
-      const buyndx = (((reserveparse(ndx, "reserve1") / reserveparse(ndx, "reserve0")) * 1.003 * multparse(ndxmult, 4, ndxbalance) * slippageparseflip(ndx, ndxmult, 4, ndxbalance)) + 0.001).toFixed(4)
-      const buytpt = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparse(tptmult, 4, tptbalance) * slippageparseflip(tpt, tptmult, 4, tptbalance)) + 0.001).toFixed(4)
-      console.log( multparse(emtmult, 4, emtbalance))
+      const buyogx = (((reserveparse(ogx, "reserve0") / reserveparse(ogx, "reserve1")) * 1.003 * multparse(ogxmult, 8, ogxbalance) * slippageparse(ogx, ogxmult, 8, ogxbalance)) + 0.004).toFixed(4)
+      const buydad = (((reserveparse(dad, "reserve0") / reserveparse(dad, "reserve1")) * 1.003 * multparse(dadmult, 6, dadbalance) * slippageparse(dad, dadmult, 6, dadbalance)) + 0.004).toFixed(4)
+      const buybox = (((reserveparse(box, "reserve0") / reserveparse(box, "reserve1")) * 1.003 * multparse(boxmult, 6, boxbalance) * slippageparse(box, boxmult, 6, boxbalance)) + 0.004).toFixed(4)
+      const buyvig = (((reserveparse(vig, "reserve1") / reserveparse(vig, "reserve0")) * 1.003 * multparse(vigmult, 4, vigbalance) * slippageparseflip(vig, vigmult, 4, vigbalance)) + 0.004).toFixed(4)
+      const buyiq = (((reserveparse(iq, "reserve0") / reserveparse(iq, "reserve1")) * 1.003 * multparse(iqmult, 3, iqbalance) * slippageparse(iq, iqmult, 3, iqbalance)) + 0.004).toFixed(4)
+      const buyefx = (((reserveparse(efx, "reserve0") / reserveparse(efx, "reserve1")) * 1.003 * multparse(efxmult, 4, efxbalance) * slippageparse(efx, efxmult, 4, efxbalance)) + 0.004).toFixed(4)
+      const buydapp = (((reserveparse(dapp, "reserve0") / reserveparse(dapp, "reserve1")) * 1.003 * multparse(dappmult, 4, dappbalance) * slippageparse(dapp, dappmult, 4, dappbalance)) + 0.004).toFixed(4)
+      const buychex = (((reserveparse(chex, "reserve0") / reserveparse(chex, "reserve1")) * 1.003 * multparse(chexmult, 8, chexbalance) * slippageparse(chex, chexmult, 8, chexbalance)) + 0.004).toFixed(4)
+      const buypizza = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparse(pizzamult, 4, pizzabalance) * slippageparseflip(pizza, pizzamult, 4, pizzabalance)) + 0.004).toFixed(4)
+      const buydfs = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparse(dfsmult, 4, dfsbalance) * slippageparseflip(dfs, dfsmult, 4, dfsbalance)) + 0.004).toFixed(4)
+      const buyemt = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparse(emtmult, 4, emtbalance) * slippageparseflip(emt, emtmult, 4, emtbalance)) + 0.004).toFixed(4)
+      const buyndx = (((reserveparse(ndx, "reserve1") / reserveparse(ndx, "reserve0")) * 1.003 * multparse(ndxmult, 4, ndxbalance) * slippageparseflip(ndx, ndxmult, 4, ndxbalance)) + 0.004).toFixed(4)
+      const buytpt = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparse(tptmult, 4, tptbalance) * slippageparseflip(tpt, tptmult, 4, tptbalance)) + 0.004).toFixed(4)
+      console.log(multparse(emtmult, 4, emtbalance))
       //console.log([Number(buyogx), Number(buydad), Number(buybox), Number(buyvig), Number(buyiq), Number(buyefx), Number(buydapp), Number(buychex), Number(buypizza), Number(buydfs), Number(buyemt), Number(buyndx), Number(buytpt)].reduce((a, b) => a + b, 0))
 
       const {
@@ -1817,29 +1817,29 @@ function App(props) {
             }
           }
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
-          if(buy==false){
-          await activeUser.signTransaction(transaction, {
-            broadcast: true,
-            expireSeconds: 300,
-          })
-          sucessstake()
+          if (buy == false) {
+            await activeUser.signTransaction(transaction, {
+              broadcast: true,
+              expireSeconds: 300,
+            })
+            sucessstake()
           }
 
-          if(buy==true && slippagetoohigh == false){
-          await activeUser.signTransaction(transaction, {
-            broadcast: true,
-            expireSeconds: 300,
-          })
-          sucessstake()
+          if (buy == true && slippagetoohigh == false) {
+            await activeUser.signTransaction(transaction, {
+              broadcast: true,
+              expireSeconds: 300,
+            })
+            sucessstake()
           }
-          else{
-            var slippagemessage ="";
-            if(Object.keys(slippagelist).length > 1){
-              slippagelist.forEach((item)=> {
+          else {
+            var slippagemessage = "";
+            if (Object.keys(slippagelist).length > 1) {
+              slippagelist.forEach((item) => {
                 slippagemessage = slippagemessage.concat(item.token, "(", item.amount, "%), ")
               })
             }
-            else{
+            else {
               slippagemessage = slippagemessage.concat(slippagelist[0].token, "(", slippagelist[0].amount, "%), ")
             }
 
@@ -2611,7 +2611,7 @@ function App(props) {
                         >
 
                           Statistics
-                          <CachedIcon style={{"margin-left":"5px", "width":"24px", "height":"auto", "vertical-align": "middle"}} onClick={() => refresher()} />
+                          <CachedIcon style={{ "margin-left": "5px", "width": "24px", "height": "auto", "vertical-align": "middle" }} onClick={() => refresher()} />
                         </a>
 
                       </div>
