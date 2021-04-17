@@ -1545,7 +1545,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '878',
-                    quantity: buyogx + 'EOS',
+                    quantity: buyogx + ' EOS',
 
                   },
                 }
@@ -1567,7 +1567,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '588',
-                    quantity: buydad + 'EOS',
+                    quantity: buydad + ' EOS',
 
                   },
                 }
@@ -1589,7 +1589,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '194',
-                    quantity: buybox + 'EOS',
+                    quantity: buybox + ' EOS',
 
                   },
                 }
@@ -1611,7 +1611,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '11',
-                    quantity: buyvig + 'EOS',
+                    quantity: buyvig + ' EOS',
 
                   },
                 }
@@ -1633,7 +1633,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '93',
-                    quantity: buyiq + 'EOS',
+                    quantity: buyiq + ' EOS',
 
                   },
                 }
@@ -1655,7 +1655,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '191',
-                    quantity: buyefx + 'EOS',
+                    quantity: buyefx + ' EOS',
 
                   },
                 }
@@ -1677,7 +1677,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '193',
-                    quantity: buydapp + 'EOS',
+                    quantity: buydapp + ' EOS',
 
                   },
                 }
@@ -1699,7 +1699,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '28',
-                    quantity: buychex + 'EOS',
+                    quantity: buychex + ' EOS',
 
                   },
                 }
@@ -1721,7 +1721,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '14',
-                    quantity: buypizza + 'EOS',
+                    quantity: buypizza + ' EOS',
 
                   },
                 }
@@ -1743,7 +1743,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '22',
-                    quantity: buydfs + 'EOS',
+                    quantity: buydfs + ' EOS',
 
                   },
                 }
@@ -1765,7 +1765,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '255',
-                    quantity: buyemt + 'EOS',
+                    quantity: buyemt + ' EOS',
 
                   },
                 }
@@ -1787,7 +1787,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '1',
-                    quantity: buyndx + 'EOS',
+                    quantity: buyndx + ' EOS',
 
                   },
                 }
@@ -1809,12 +1809,13 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '4',
-                    quantity: buytpt + 'EOS',
+                    quantity: buytpt + ' EOS',
 
                   },
                 }
               )
             }
+            console.log(transaction)
           }
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
           if (buy == false) {
