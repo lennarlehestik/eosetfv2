@@ -3058,7 +3058,9 @@ function App(props) {
                       <Scrollbars class="mask2" style={{ width: "100%", height: "25vh" }} >
                         <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "34px" }}>
                           Creation involves transfer of tokens to cet.f account, the code is unaudited and at this point there is no multisig.
-                                        <br /> <br />To create EOSETF you have to own 13 different EOS mainnet tokens or you can use autobuy feature that purchases tokens you are missing from Defibox.
+                                        <br /> <br />To create EOSETF you have to own 13 different EOS mainnet tokens.
+                                        <br /> <br />BUY ALL AND CREATE - buys all the displayed tokens from Defibox and creates EOSETF.
+                                        <br /> <br />BUY MISSING AND CREATE - buys only the tokens you are missing from Defibox and creates EOSETF.
                                         <br /> <br />Due to slippage, the displayed valuation of tokens might differ from autobuy purchase price, slippage protection is set to 3%, but please double-check the EOS being transferred before signing the transaction.
                                         <br /> <br />After creation your account is issued EOSETF and CETF tokens (starting with 65k CETF per 1 EOSETF).
                                         <br /> <br />CETF will be used as a governance and fee distribution token.
@@ -3068,7 +3070,7 @@ function App(props) {
                                       <br /> circulation 40m to 60m (CETF) | 1 EOSETF = 16.250k CETF
                                       <br /> circulation 60m to 80m (CETF) | 1 EOSETF = 8.125k CETF
                                       <br />  <br />At 80m CETF (4615 EOSETF / 3 halvings) no more CETF will be issued.
-                                      <br /> <br />Due to the initial CETF distribution, redemption of tokens <br /> will be activated after the CETF distribution or latest 31.04.2021 18:00 UTC.
+                                      <br /> <br />Due to the initial CETF distribution, redemption of tokens <br /> will be activated after the CETF distribution or latest 30.04.2021 18:00 UTC.
                                       <br /> <br />Redemption fee is set to 5%
                                           </Typography>
                         <div style={{ "display": "block", "opacity": "0" }}>.<br />.<br />.</div>
@@ -3353,7 +3355,7 @@ function App(props) {
                         <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "46px" }}>
                           To redeem 13 tokens, EOSETF must be sent to cet.f account. <br /><br />
                           Sent EOSETF tokens get burned.<br /><br />
-                        Due to the initial CETF distribution, redemption of tokens will be activated when the CETF distribution ends or latest 31.04.2021 18:00 UTC.<br /><br />
+                        Due to the initial CETF distribution, redemption of tokens will be activated when the CETF distribution ends or latest 30.04.2021 18:00 UTC.<br /><br />
                         Redemption fee is set to 5%.
                       </Typography>
                       </AccordionDetails>
