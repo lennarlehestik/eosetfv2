@@ -964,6 +964,13 @@ function App(props) {
 
 
 
+
+
+
+
+
+
+
   const send = async (buy) => {
     const getogx = () => {
       return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
@@ -1882,6 +1889,945 @@ function App(props) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const sendbuyall = async (buy) => {
+    const getogx = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 878,
+          upper_bound: 878,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getdad = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 588,
+          upper_bound: 588,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getbox = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 194,
+          upper_bound: 194,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getvig = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 11,
+          upper_bound: 11,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getiq = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 93,
+          upper_bound: 93,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getefx = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 191,
+          upper_bound: 191,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getdapp = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 193,
+          upper_bound: 193,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getchex = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 28,
+          upper_bound: 28,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getpizza = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 14,
+          upper_bound: 14,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getdfs = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 22,
+          upper_bound: 22,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getemt = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 255,
+          upper_bound: 255,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const getndx = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 1,
+          upper_bound: 1,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+    const gettpt = () => {
+      return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: 4,
+          upper_bound: 4,
+          limit: 1,
+        }),
+      }).then((response) => response.json());
+    }
+
+
+    Promise.join(getogx(), getdad(), getbox(), getvig(), getiq(), getefx(), getdapp(), getchex(), getpizza(), getdfs(), getemt(), getndx(), gettpt(), async (ogx, dad, box, vig, iq, efx, dapp, chex, pizza, dfs, emt, ndx, tpt) => {
+      /**const boxprice = (parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1))
+      const needed = parseFloat(boxmult * tokens).toFixed(6)
+      const balance = gettokenbalance(boxbalance) **/
+      //const buybox = ((gettokenbalance(boxbalance) - parseFloat(boxmult * tokens).toFixed(6)) * ((parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1)))).toFixed(4)
+      var slippagetoohigh = false;
+      var slippagelist = []
+
+      const reserveparse = (token, reserve) => {
+        return Number(parseFloat(token?.rows[0][reserve]))
+      }
+
+
+      const multparsez = (mult, nr, bal) => {
+        return Number(parseFloat(mult * tokens).toFixed(nr))
+      }
+      const slippageparsez = (token, mult, nr, balance) => {
+        const slippage = ((reserveparse(token, "reserve0") / reserveparse(token, "reserve1")) / ((reserveparse(token, "reserve0") / (reserveparse(token, "reserve1")))))
+        if ((slippage - 1) * 100 > 3) {
+          slippagelist.push({ token: token?.rows[0].reserve1.split(" ")[1], amount: ((slippage - 1) * 100).toFixed(2) })
+          slippagetoohigh = true
+        }
+        return slippage
+      }
+      const slippageparseflipz = (token, mult, nr, balance) => {
+        const slippage = ((reserveparse(token, "reserve1") / reserveparse(token, "reserve0")) / ((reserveparse(token, "reserve1") / (reserveparse(token, "reserve0")))))
+        if ((slippage - 1) * 100 > 3) {
+          slippagelist.push({ token: token?.rows[0].reserve0.split(" ")[1], amount: ((slippage - 1) * 100).toFixed(2) })
+          slippagetoohigh = true
+          //slippagelist.push({token:token})
+        }
+        return slippage
+      }
+      const buyogxz = (((reserveparse(ogx, "reserve0") / reserveparse(ogx, "reserve1")) * 1.003 * multparsez(ogxmult, 8, 0) * slippageparsez(ogx, ogxmult, 8, 0)) + 0.004).toFixed(4)
+      const buydadz = (((reserveparse(dad, "reserve0") / reserveparse(dad, "reserve1")) * 1.003 * multparsez(dadmult, 6, 0) * slippageparsez(dad, dadmult, 6, 0)) + 0.004).toFixed(4)
+      const buyboxz = (((reserveparse(box, "reserve0") / reserveparse(box, "reserve1")) * 1.003 * multparsez(boxmult, 6, 0) * slippageparsez(box, boxmult, 6, 0)) + 0.004).toFixed(4)
+      const buyvigz = (((reserveparse(vig, "reserve1") / reserveparse(vig, "reserve0")) * 1.003 * multparsez(vigmult, 4, 0) * slippageparseflipz(vig, vigmult, 4, 0)) + 0.004).toFixed(4)
+      const buyiqz = (((reserveparse(iq, "reserve0") / reserveparse(iq, "reserve1")) * 1.003 * multparsez(iqmult, 3, 0) * slippageparsez(iq, iqmult, 3, 0)) + 0.004).toFixed(4)
+      const buyefxz = (((reserveparse(efx, "reserve0") / reserveparse(efx, "reserve1")) * 1.003 * multparsez(efxmult, 4, 0) * slippageparsez(efx, efxmult, 4, 0)) + 0.004).toFixed(4)
+      const buydappz = (((reserveparse(dapp, "reserve0") / reserveparse(dapp, "reserve1")) * 1.003 * multparsez(dappmult, 4, 0) * slippageparsez(dapp, dappmult, 4, 0)) + 0.004).toFixed(4)
+      const buychexz = (((reserveparse(chex, "reserve0") / reserveparse(chex, "reserve1")) * 1.003 * multparsez(chexmult, 8, 0) * slippageparsez(chex, chexmult, 8, 0)) + 0.004).toFixed(4)
+      const buypizzaz = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparsez(pizzamult, 4, 0) * slippageparseflipz(pizza, pizzamult, 4, 0)) + 0.004).toFixed(4)
+      const buydfsz = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparsez(dfsmult, 4, 0) * slippageparseflipz(dfs, dfsmult, 4, 0)) + 0.004).toFixed(4)
+      const buyemtz = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparsez(emtmult, 4, 0) * slippageparseflipz(emt, emtmult, 4, 0)) + 0.004).toFixed(4)
+      const buyndxz = (((reserveparse(ndx, "reserve1") / reserveparse(ndx, "reserve0")) * 1.003 * multparsez(ndxmult, 4, 0) * slippageparseflipz(ndx, ndxmult, 4, 0)) + 0.004).toFixed(4)
+      const buytptz = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparsez(tptmult, 4, 0) * slippageparseflipz(tpt, tptmult, 4, 0)) + 0.004).toFixed(4)
+
+
+
+      //console.log([Number(buyogx), Number(buydad), Number(buybox), Number(buyvig), Number(buyiq), Number(buyefx), Number(buydapp), Number(buychex), Number(buypizza), Number(buydfs), Number(buyemt), Number(buyndx), Number(buytpt)].reduce((a, b) => a + b, 0))
+
+      const {
+        ual: { login, displayError, showModal },
+      } = props;
+
+      const {
+        ual: { activeUser },
+      } = props;
+
+
+      if (activeUser) {
+        try {
+          const transaction = {
+            actions: [
+              {
+                account: "dappservices",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 19.2562 * tokens + " DAPP",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(dappmult * tokens).toFixed(4) + " DAPP",
+
+                },
+              },
+
+              {
+                account: "effecttokens",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 10.6593 * tokens + " EFX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(efxmult * tokens).toFixed(4) + " EFX",
+
+                },
+              },
+
+
+
+              {
+                account: "core.ogx",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 1.26108207 * tokens + " OGX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(ogxmult * tokens).toFixed(8) + " OGX",
+                },
+              },
+
+
+
+
+              {
+                account: "everipediaiq",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 50.082 * tokens + " IQ",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(iqmult * tokens).toFixed(3) + " IQ",
+
+                },
+              },
+
+
+
+              {
+                account: "vig111111111",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 196.7187 * tokens + " VIG",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(vigmult * tokens).toFixed(4) + " VIG",
+
+                },
+              },
+
+
+              {
+                account: "token.defi",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 0.035523 * tokens + " BOX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(boxmult * tokens).toFixed(6) + " BOX",
+
+                },
+              },
+
+
+              {
+                account: "dadtoken1111",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: efxmult * tokens + " DAD",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(dadmult * tokens).toFixed(6) + " DAD",
+
+                },
+              },
+
+
+
+
+
+              {
+                account: "pizzatotoken",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 10.6593 * tokens + " EFX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(pizzamult * tokens).toFixed(4) + " PIZZA",
+
+                },
+              },
+
+
+
+              {
+                account: "chexchexchex",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 10.6593 * tokens + " EFX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(chexmult * tokens).toFixed(8) + " CHEX",
+
+                },
+              },
+
+              {
+                account: "newdexissuer",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 10.6593 * tokens + " EFX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(ndxmult * tokens).toFixed(4) + " NDX",
+
+                },
+              },
+
+              {
+                account: "eosiotptoken",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 10.6593 * tokens + " EFX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(tptmult * tokens).toFixed(4) + " TPT",
+
+                },
+              },
+
+              {
+                account: "emanateoneos",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 10.6593 * tokens + " EFX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(emtmult * tokens).toFixed(4) + " EMT",
+
+                },
+              },
+
+
+              {
+                account: "minedfstoken",
+                name: "transfer",
+                authorization: [
+                  {
+                    actor: displayaccountname(), // use account that was logged in
+                    permission: "active",
+                  },
+                ],
+                data: {
+                  from: displayaccountname(),
+                  to: "cet.f",
+                  //quantity: 10.6593 * tokens + " EFX",
+                  memo: "EOSETF creation through eosetf.io",
+                  quantity: parseFloat(dfsmult * tokens).toFixed(4) + " DFS",
+
+                },
+              },
+
+
+
+
+            ],
+          };
+
+          if (buy == true) {
+            if (multparsez(ogxmult, 8) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '878',
+                    quantity: buyogxz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(dadmult, 6) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '588',
+                    quantity: buydadz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(boxmult, 6) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '194',
+                    quantity: buyboxz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(vigmult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '11',
+                    quantity: buyvigz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(iqmult, 3) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '93',
+                    quantity: buyiqz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(efxmult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '191',
+                    quantity: buyefxz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(dappmult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '193',
+                    quantity: buydappz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(chexmult, 8) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '28',
+                    quantity: buychexz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(pizzamult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '14',
+                    quantity: buypizzaz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(dfsmult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '22',
+                    quantity: buydfsz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(emtmult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '255',
+                    quantity: buyemtz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(ndxmult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '1',
+                    quantity: buyndxz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            if (multparsez(tptmult, 4) > 0) {
+              transaction.actions.unshift(
+                {
+                  account: 'eosio.token',
+                  name: 'transfer',
+                  authorization: [
+                    {
+                      actor: displayaccountname(), // use account that was logged in
+                      permission: 'active',
+                    },
+                  ],
+                  data: {
+                    from: displayaccountname(),
+                    to: 'swap.defi',
+                    //quantity: 19.2562 * tokens + ' DAPP',
+                    memo: 'swap,0,' + '4',
+                    quantity: buytptz + ' EOS',
+
+                  },
+                }
+              )
+            }
+            console.log(transaction)
+          }
+
+          if (buy == false) {
+            await activeUser.signTransaction(transaction, {
+              broadcast: true,
+              expireSeconds: 300,
+            })
+            sucessstake()
+          }
+
+          if (buy == true && slippagetoohigh == false) {
+            await activeUser.signTransaction(transaction, {
+              broadcast: true,
+              expireSeconds: 300,
+            })
+            sucessstake()
+          }
+          else {
+            var slippagemessage = "";
+            if (Object.keys(slippagelist).length > 1) {
+              slippagelist.forEach((item) => {
+                slippagemessage = slippagemessage.concat(item.token, "(", item.amount, "%), ")
+              })
+            }
+            else {
+              slippagemessage = slippagemessage.concat(slippagelist[0].token, "(", slippagelist[0].amount, "%), ")
+            }
+
+            const message = "Slippage was higher than 3% for: " + slippagemessage.slice(0, -2) + "."
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "bottom-end",
+              showConfirmButton: false,
+              timer: 6000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+            Toast.fire({
+              icon: "error",
+              title: message,
+            });
+          }
+        }
+        catch (error) {
+          console.log(error.message);
+          actionpuccis(
+            error.message
+          );
+        }
+      } else {
+        showModal();
+      }
+
+    });
+
+
+
+  };
+
+
+
+
   const sendetf = async () => {
     const {
       ual: { login, displayError, showModal },
@@ -2373,8 +3319,8 @@ function App(props) {
               </Scrollbars>
               <div class="fade" />
               <div class="createbuttonwrapper">
-                <button onClick={() => send(false)} class="createbutton">Create</button>
-                <button onClick={() => send(true)} class="createbutton">Buy and Create</button>
+                <button onClick={() => send(true)} class="createbutton">Buy missing and Create</button>
+                <button onClick={() => sendbuyall(true)} class="createbutton">Buy all and Create</button>
               </div>
             </div>
 
