@@ -2159,7 +2159,7 @@ function App(props) {
         return Number(parseFloat(mult * tokens).toFixed(nr))
       }
       const slippageparsez = (token, mult, nr, balance) => {
-        const slippage = ((reserveparse(token, "reserve0") / reserveparse(token, "reserve1")) / ((reserveparse(token, "reserve0") / (reserveparse(token, "reserve1")))))
+        const slippage = ((reserveparse(token, "reserve0") / reserveparse(token, "reserve1")) / ((reserveparse(token, "reserve0") / (reserveparse(token, "reserve1") + multparsez(mult, nr, balance)))))
         if ((slippage - 1) * 100 > 3) {
           slippagelist.push({ token: token?.rows[0].reserve1.split(" ")[1], amount: ((slippage - 1) * 100).toFixed(2) })
           slippagetoohigh = true
@@ -2167,7 +2167,7 @@ function App(props) {
         return slippage
       }
       const slippageparseflipz = (token, mult, nr, balance) => {
-        const slippage = ((reserveparse(token, "reserve1") / reserveparse(token, "reserve0")) / ((reserveparse(token, "reserve1") / (reserveparse(token, "reserve0")))))
+        const slippage = ((reserveparse(token, "reserve1") / reserveparse(token, "reserve0")) / ((reserveparse(token, "reserve1") / (reserveparse(token, "reserve0") + multparsez(mult, nr, balance)))))
         if ((slippage - 1) * 100 > 3) {
           slippagelist.push({ token: token?.rows[0].reserve0.split(" ")[1], amount: ((slippage - 1) * 100).toFixed(2) })
           slippagetoohigh = true
