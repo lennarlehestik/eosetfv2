@@ -12,6 +12,7 @@ import Drawer from '@material-ui/core/Drawer';
 import ReactGA from "react-ga";
 import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 import { Promise } from "bluebird";
+import Poll from './Poll'
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Accordion from '@material-ui/core/Accordion';
@@ -3008,6 +3009,10 @@ function App(props) {
                   <td><img class="menuimg" src="assets/productbox2.svg" /></td>
                   <td><a class="menuitemtext">Redeem</a></td>
                 </tr>
+                <tr onClick={() => setView("poll")}>
+                  <td><img class="menuimg" src="assets/productbox1.svg" /></td>
+                  <td><a class="menuitemtext">Poll</a></td>
+                </tr>
                 <tr onClick={() => setView("stats")}>
                   <td><img class="menuimg" src="assets/stats.svg" /></td>
                   <td><a class="menuitemtext">Statistics</a></td>
@@ -3614,6 +3619,8 @@ function App(props) {
                   </Scrollbars>
                   <div class="fade" />
                 </div>
+                : view == "poll" ?
+                <Poll />
                 : view == "about" ?
                   <div class="rightbar">
                     <div class="rightbartopbox">
