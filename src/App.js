@@ -2957,6 +2957,10 @@ function App(props) {
                       <td><img class="menuimg" src="assets/govern.svg" /></td>
                       <td><a class="menuitemtext">Govern</a></td>
                     </tr>
+                    <tr onClick={() => setView("poll")}>
+                      <td><img class="menuimg" src="assets/question.svg" /></td>
+                      <td><a class="menuitemtext">Poll</a></td>
+                    </tr>
                     <tr onClick={() => menuClick("stats")}>
                       <td><img class="menuimg" src="assets/stats.svg" /></td>
                       <td><a class="menuitemtext">Statistics</a></td>
@@ -3010,7 +3014,7 @@ function App(props) {
                   <td><a class="menuitemtext">Redeem</a></td>
                 </tr>
                 <tr onClick={() => setView("poll")}>
-                  <td><img class="menuimg" src="assets/productbox1.svg" /></td>
+                  <td><img class="menuimg" src="assets/question.svg" /></td>
                   <td><a class="menuitemtext">Poll</a></td>
                 </tr>
                 <tr onClick={() => setView("stats")}>
@@ -3620,24 +3624,24 @@ function App(props) {
                   <div class="fade" />
                 </div>
                 : view == "poll" ?
-                <Poll />
-                : view == "about" ?
-                  <div class="rightbar">
-                    <div class="rightbartopbox">
+                  <Poll />
+                  : view == "about" ?
+                    <div class="rightbar">
+                      <div class="rightbartopbox">
 
-                      <div class="createetftitle">
-                        EOSETF token allocation
+                        <div class="createetftitle">
+                          EOSETF token allocation
                     </div>
-                      <div class="slidertext">
-                        <a>Chart shows % (in USD) of each token in the fund</a>
+                        <div class="slidertext">
+                          <a>Chart shows % (in USD) of each token in the fund</a>
+                        </div>
+                      </div>
+                      <div class="chartwrapper">
+                        <Doughnut options={{ maintainAspectRatio: false, maxWidth: 300, height: "auto" }} responsive="true" data={data} legend={{ "position": "bottom" }} />
                       </div>
                     </div>
-                    <div class="chartwrapper">
-                      <Doughnut options={{ maintainAspectRatio: false, maxWidth: 300, height: "auto" }} responsive="true" data={data} legend={{ "position": "bottom" }} />
-                    </div>
-                  </div>
 
-                  : <a>Error</a>
+                    : <a>Error</a>
           }
         </div>
       </header>
