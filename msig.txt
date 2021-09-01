@@ -1,3 +1,7 @@
+cleos -u https: //eos.greymass.com  multisig propose pause '[{"actor": "dogmanlabs11", "permission": “active”},{“actor": "ha3dcnbxgyge", "permission": “active”},{“actor": "lennyaccount", "permission": "owner"},{“actor": "rvrkingfishr", "permission": “active”},{“actor": "vladislav.x", "permission": “active”}]’ '[{"actor": “cet.f”, "permission": “active”}]’ cet.f pause ‘{“ispaused”:”false”}’ -p vladislav.x@active
+
+
+
 {
     "proposer": "vladislav.x",
     "proposal_name": "prop1",
@@ -121,3 +125,8 @@ cleos -u https: //eos.greymass.com  multisig propose accreturn '[{"actor": "aloh
     ],
     "transaction_extensions": []
 }
+
+
+
+cleos -u https://eos.greymass.com multisig propose pause '[{"actor":"dogmanlabs11","permission":"active"},{"actor":"ha3dcnbxgyge","permission":"active"},{"actor":"lennyaccount","permission":"owner"},{"actor":"rvrkingfishr","permission":"active"},{"actor":"vladislav.x","permission":"owner"}]' '[{"actor": "cet.f", "permission": "active"}]' cet.f pause '{"ispaused":"0"}' -p vladislav.x@active
+

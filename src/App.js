@@ -138,7 +138,7 @@ function App(props) {
   const pizzamult = 4.4696
   const dfsmult = 0.0140
   const emtmult = 16.3399
-  const ndxmult = 338.5071
+  const dexmult = 3.3850
   const tptmult = 17.9856
 
 
@@ -223,7 +223,7 @@ function App(props) {
   const [pizzabalance, setPizza] = useState({ rows: [] });
   const [dfsbalance, setDfs] = useState({ rows: [] });
   const [emtbalance, setEmt] = useState({ rows: [] });
-  const [ndxbalance, setNdx] = useState({ rows: [] });
+  const [dexbalance, setDex] = useState({ rows: [] });
   const [tptbalance, setTpt] = useState({ rows: [] });
 
   const [govrnprice, setGovrnprice] = useState({ rows: [] });
@@ -362,7 +362,7 @@ function App(props) {
   useEffect(() => {
     const newdexcomms = [{ community: "box", symbol: "token.defi-box-eos" }, { community: "ogx", symbol: "core.ogx-ogx-eos" }, { community: "iq", symbol: "everipediaiq-iq-eos" }
       , { community: "dapp", symbol: "dappservices-dapp-eos" }, { community: "vig", symbol: "vig111111111-vig-eos" }, { community: "efx", symbol: "effecttokens-efx-eos" }, { community: "chex", symbol: "chexchexchex-chex-eos" }, { community: "pizza", symbol: "pizzatotoken-pizza-eos" }
-      , { community: "dfs", symbol: "minedfstoken-dfs-eos" }, { community: "emt", symbol: "emanateoneos-emt-eos" }, { community: "ndx", symbol: "newdexissuer-ndx-eos" }, { community: "tpt", symbol: "eosiotptoken-tpt-eos" }]
+      , { community: "dfs", symbol: "minedfstoken-dfs-eos" }, { community: "emt", symbol: "emanateoneos-emt-eos" }, { community: "dex", symbol: "token.newdex-dex-eos" }, { community: "tpt", symbol: "eosiotptoken-tpt-eos" }]
     newdexcomms.forEach((item) => {
       fetch('https://api.newdex.io/v1/price?symbol=' + item.symbol)
         .then(response => response.json())
@@ -414,7 +414,7 @@ function App(props) {
 
 
       return getprice("box") * boxmult + getprice("ogx") * ogxmult + getprice("iq") * iqmult + getprice("dapp") * dappmult + getprice("vig") * vigmult + getprice("efx") * efxmult + getprice("chex") * chexmult
-        + getprice("pizza") * pizzamult + getprice("dfs") * dfsmult + getprice("emt") * emtmult + getprice("ndx") * ndxmult + getprice("tpt") * tptmult + getdadprice() * dadmult;
+        + getprice("pizza") * pizzamult + getprice("dfs") * dfsmult + getprice("emt") * emtmult + getprice("dex") * dexmult + getprice("tpt") * tptmult + getdadprice() * dadmult;
 
 
     }
@@ -427,7 +427,7 @@ function App(props) {
 
 
   const data = {
-    labels: ['BOX', 'OGX', 'IQ', 'DAPP', 'VIG', 'EFX', 'CHEX', 'PIZZA', 'DFS', 'EMT', 'NDX', 'TPT', 'DAD'],
+    labels: ['BOX', 'OGX', 'IQ', 'DAPP', 'VIG', 'EFX', 'CHEX', 'PIZZA', 'DFS', 'EMT', 'DEX', 'TPT', 'DAD'],
     datasets: [
       {
         label: 'ETF weight',
@@ -440,7 +440,7 @@ function App(props) {
         borderJoinStyle: 'miter',
         data: [parseFloat((getprice("box") * boxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("ogx") * ogxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("iq") * iqmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("dapp") * dappmult / getpricesum() * 100)).toFixed(2),
         parseFloat((getprice("vig") * vigmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("efx") * efxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("chex") * chexmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("pizza") * pizzamult / getpricesum() * 100)).toFixed(2),
-        parseFloat((getprice("dfs") * dfsmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("emt") * emtmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("ndx") * ndxmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("tpt") * tptmult / getpricesum() * 100)).toFixed(2), parseFloat((getdadprice() * dadmult / getpricesum() * 100)).toFixed(2)]
+        parseFloat((getprice("dfs") * dfsmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("emt") * emtmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("dex") * dexmult / getpricesum() * 100)).toFixed(2), parseFloat((getprice("tpt") * tptmult / getpricesum() * 100)).toFixed(2), parseFloat((getdadprice() * dadmult / getpricesum() * 100)).toFixed(2)]
       }
     ]
   };
@@ -836,13 +836,13 @@ function App(props) {
         },
         body: JSON.stringify({
           json: true,
-          code: "newdexissuer",
+          code: "token.newdex",
           table: "accounts",
           scope: displayaccountname(),
           limit: 1,
         }),
       }).then((response) =>
-        response.json().then((ndxbalance) => setNdx(ndxbalance))
+        response.json().then((dexbalance) => setDex(dexbalance))
       );
     }
   }, [accountname]);
@@ -1171,7 +1171,7 @@ function App(props) {
         }),
       }).then((response) => response.json());
     }
-    const getndx = () => {
+    const getdex = () => {
       return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
         method: "POST",
         headers: {
@@ -1183,8 +1183,8 @@ function App(props) {
           code: "swap.defi",
           table: "pairs",
           scope: "swap.defi",
-          lower_bound: 1,
-          upper_bound: 1,
+          lower_bound: 1551,
+          upper_bound: 1551,
           limit: 1,
         }),
       }).then((response) => response.json());
@@ -1209,7 +1209,7 @@ function App(props) {
     }
 
 
-    Promise.join(getogx(), getdad(), getbox(), getvig(), getiq(), getefx(), getdapp(), getchex(), getpizza(), getdfs(), getemt(), getndx(), gettpt(), async (ogx, dad, box, vig, iq, efx, dapp, chex, pizza, dfs, emt, ndx, tpt) => {
+    Promise.join(getogx(), getdad(), getbox(), getvig(), getiq(), getefx(), getdapp(), getchex(), getpizza(), getdfs(), getemt(), getdex(), gettpt(), async (ogx, dad, box, vig, iq, efx, dapp, chex, pizza, dfs, emt, dex, tpt) => {
       /**const boxprice = (parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1))
       const needed = parseFloat(boxmult * tokens).toFixed(6)
       const balance = gettokenbalance(boxbalance) **/
@@ -1251,7 +1251,7 @@ function App(props) {
       const buypizza = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparse(pizzamult, 4, pizzabalance) * slippageparseflip(pizza, pizzamult, 4, pizzabalance)) + 0.004).toFixed(4)
       const buydfs = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparse(dfsmult, 4, dfsbalance) * slippageparseflip(dfs, dfsmult, 4, dfsbalance)) + 0.004).toFixed(4)
       const buyemt = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparse(emtmult, 4, emtbalance) * slippageparseflip(emt, emtmult, 4, emtbalance)) + 0.004).toFixed(4)
-      const buyndx = (((reserveparse(ndx, "reserve1") / reserveparse(ndx, "reserve0")) * 1.003 * multparse(ndxmult, 4, ndxbalance) * slippageparseflip(ndx, ndxmult, 4, ndxbalance)) + 0.004).toFixed(4)
+      const buydex = (((reserveparse(dex, "reserve1") / reserveparse(dex, "reserve0")) * 1.003 * multparse(dexmult, 4, dexbalance) * slippageparseflip(dex, dexmult, 4, dexbalance)) + 0.004).toFixed(4)
       const buytpt = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparse(tptmult, 4, tptbalance) * slippageparseflip(tpt, tptmult, 4, tptbalance)) + 0.004).toFixed(4)
       console.log(multparse(emtmult, 4, emtbalance))
       //console.log([Number(buyogx), Number(buydad), Number(buybox), Number(buyvig), Number(buyiq), Number(buyefx), Number(buydapp), Number(buychex), Number(buypizza), Number(buydfs), Number(buyemt), Number(buyndx), Number(buytpt)].reduce((a, b) => a + b, 0))
@@ -1455,7 +1455,7 @@ function App(props) {
               },
 
               {
-                account: "newdexissuer",
+                account: "token.newdex",
                 name: "transfer",
                 authorization: [
                   {
@@ -1468,7 +1468,7 @@ function App(props) {
                   to: "cet.f",
                   //quantity: 10.6593 * tokens + " EFX",
                   memo: "EOSETF creation through eosetf.io",
-                  quantity: parseFloat(ndxmult * tokens).toFixed(4) + " NDX",
+                  quantity: parseFloat(dexmult * tokens).toFixed(4) + " DEX",
 
                 },
               },
@@ -1779,7 +1779,7 @@ function App(props) {
                 }
               )
             }
-            if (multparse(ndxmult, 4, ndxbalance) > 0) {
+            if (multparse(dexmult, 4, dexbalance) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -1795,7 +1795,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '1',
-                    quantity: buyndx + ' EOS',
+                    quantity: buydex + ' EOS',
 
                   },
                 }
@@ -2105,7 +2105,7 @@ function App(props) {
         }),
       }).then((response) => response.json());
     }
-    const getndx = () => {
+    const getdex = () => {
       return fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
         method: "POST",
         headers: {
@@ -2117,8 +2117,8 @@ function App(props) {
           code: "swap.defi",
           table: "pairs",
           scope: "swap.defi",
-          lower_bound: 1,
-          upper_bound: 1,
+          lower_bound: 1551,
+          upper_bound: 1551,
           limit: 1,
         }),
       }).then((response) => response.json());
@@ -2143,7 +2143,7 @@ function App(props) {
     }
 
 
-    Promise.join(getogx(), getdad(), getbox(), getvig(), getiq(), getefx(), getdapp(), getchex(), getpizza(), getdfs(), getemt(), getndx(), gettpt(), async (ogx, dad, box, vig, iq, efx, dapp, chex, pizza, dfs, emt, ndx, tpt) => {
+    Promise.join(getogx(), getdad(), getbox(), getvig(), getiq(), getefx(), getdapp(), getchex(), getpizza(), getdfs(), getemt(), getdex(), gettpt(), async (ogx, dad, box, vig, iq, efx, dapp, chex, pizza, dfs, emt, dex, tpt) => {
       /**const boxprice = (parseFloat(box?.rows[0].reserve0) / parseFloat(box?.rows[0].reserve1))
       const needed = parseFloat(boxmult * tokens).toFixed(6)
       const balance = gettokenbalance(boxbalance) **/
@@ -2187,7 +2187,7 @@ function App(props) {
       const buypizzaz = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparsez(pizzamult, 4, 0) * slippageparseflipz(pizza, pizzamult, 4, 0)) + 0.004).toFixed(4)
       const buydfsz = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparsez(dfsmult, 4, 0) * slippageparseflipz(dfs, dfsmult, 4, 0)) + 0.004).toFixed(4)
       const buyemtz = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparsez(emtmult, 4, 0) * slippageparseflipz(emt, emtmult, 4, 0)) + 0.004).toFixed(4)
-      const buyndxz = (((reserveparse(ndx, "reserve1") / reserveparse(ndx, "reserve0")) * 1.003 * multparsez(ndxmult, 4, 0) * slippageparseflipz(ndx, ndxmult, 4, 0)) + 0.004).toFixed(4)
+      const buydexz = (((reserveparse(dex, "reserve1") / reserveparse(dex, "reserve0")) * 1.003 * multparsez(dexmult, 4, 0) * slippageparseflipz(dex, dexmult, 4, 0)) + 0.004).toFixed(4)
       const buytptz = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparsez(tptmult, 4, 0) * slippageparseflipz(tpt, tptmult, 4, 0)) + 0.004).toFixed(4)
 
 
@@ -2406,7 +2406,7 @@ function App(props) {
                   to: "cet.f",
                   //quantity: 10.6593 * tokens + " EFX",
                   memo: "EOSETF creation through eosetf.io",
-                  quantity: parseFloat(ndxmult * tokens).toFixed(4) + " NDX",
+                  quantity: parseFloat(dexmult * tokens).toFixed(4) + " DEX",
 
                 },
               },
@@ -2718,7 +2718,7 @@ function App(props) {
                 }
               )
             }
-            if (multparsez(ndxmult, 4) > 0) {
+            if (multparsez(dexmult, 4) > 0) {
               transaction.actions.unshift(
                 {
                   account: 'eosio.token',
@@ -2734,7 +2734,7 @@ function App(props) {
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
                     memo: 'swap,0,' + '1',
-                    quantity: buyndxz + ' EOS',
+                    quantity: buydexz + ' EOS',
 
                   },
                 }
@@ -3066,7 +3066,7 @@ function App(props) {
                     <AccordionDetails className={classes.expansion2}>
                       <Scrollbars class="mask2" style={{ width: "100%", height: "25vh" }} >
                         <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "34px" }}>
-                          Creation involves transfer of tokens to cet.f account, the code is unaudited and at this point there is no multisig.
+                          Creation involves transfer of tokens to cet.f account, the code is unaudited but there is multisig.
                                         <br /> <br />To create EOSETF you have to own 13 different EOS mainnet tokens.
                                         <br /> <br />BUY ALL AND CREATE - buys all the displayed tokens from Defibox and creates EOSETF.
                                         <br /> <br />BUY MISSING AND CREATE - buys only the tokens you are missing from Defibox and creates EOSETF.
@@ -3235,15 +3235,15 @@ function App(props) {
                     </div>
                   </div>
 
-                  <div class="smallcard" style={{ "border": parseFloat(ndxmult * tokens).toFixed(4) > gettokenbalance(ndxbalance) ? "solid 2px red" : "none" }}>
+                  <div class="smallcard" style={{ "border": parseFloat(dexmult * tokens).toFixed(4) > gettokenbalance(dexbalance) ? "solid 2px red" : "none" }}>
                     <div class="tokenlogo">
                       <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ndx.png" />
                     </div>
                     <div class="smallcardtext">
-                      <a> {parseFloat(ndxmult * tokens).toFixed(4)} NDX tokens</a>
+                      <a> {parseFloat(dexmult * tokens).toFixed(4)} DEX tokens</a>
                     </div>
                     <div class="trxbutton">
-                      {parseFloat(ndxmult * tokens).toFixed(4) < gettokenbalance(ndxbalance) ?
+                      {parseFloat(dexmult * tokens).toFixed(4) < gettokenbalance(dexbalance) ?
                         <img class="trximage" height="100%" src="assets/tick.svg" />
                         :
                         <img class="trximage" onClick={() => window.open('https://defibox.io/pool-market-details/1', "_blank")} height="100%" src="assets/connection.svg" />
@@ -3511,7 +3511,7 @@ function App(props) {
                         <img class="tokenlogoimage" height="100%" src="assets/tokenlogos/ndx.png" />
                       </div>
                       <div class="smallcardtext">
-                        <a>{(redeemtokens * ndxmult * redemptionfee).toFixed(4)} NDX tokens returned</a>
+                        <a>{(redeemtokens * dexmult * redemptionfee).toFixed(4)} DEX tokens returned</a>
                       </div>
                       <div class="trxbutton">
                         <img class="trximage" height="100%" src="assets/tick.svg" />

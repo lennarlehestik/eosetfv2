@@ -203,7 +203,7 @@ function Poll(props) {
   useEffect(() => {
     const newdexcomms = [{ community: "box", symbol: "token.defi-box-eos" }, { community: "ogx", symbol: "core.ogx-ogx-eos" }, { community: "iq", symbol: "everipediaiq-iq-eos" }
       , { community: "dapp", symbol: "dappservices-dapp-eos" }, { community: "vig", symbol: "vig111111111-vig-eos" }, { community: "efx", symbol: "effecttokens-efx-eos" }, { community: "chex", symbol: "chexchexchex-chex-eos" }, { community: "pizza", symbol: "pizzatotoken-pizza-eos" }
-      , { community: "dfs", symbol: "minedfstoken-dfs-eos" }, { community: "emt", symbol: "emanateoneos-emt-eos" }, { community: "ndx", symbol: "newdexissuer-ndx-eos" }, { community: "tpt", symbol: "eosiotptoken-tpt-eos" }, { community: "dad", symbol: "dadtoken1111-dad-eos" }]
+      , { community: "dfs", symbol: "minedfstoken-dfs-eos" }, { community: "emt", symbol: "emanateoneos-emt-eos" }, { community: "dex", symbol: "token.newdex-dex-eos" }, { community: "tpt", symbol: "eosiotptoken-tpt-eos" }, { community: "dad", symbol: "dadtoken1111-dad-eos" }]
     newdexcomms.forEach((item) => {
       fetch('https://api.newdex.io/v1/price?symbol=' + item.symbol)
         .then(response => response.json())
