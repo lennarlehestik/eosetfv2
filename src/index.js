@@ -10,6 +10,8 @@ import { Lynx } from 'ual-lynx'
 import { TokenPocket } from 'ual-token-pocket'
 import { Wombat } from 'ual-wombat'
 import { EOSIOAuth } from 'ual-eosio-reference-authenticator'
+import { Metamask } from 'ual-metamask'
+
 
 const appName = "EOSETF";
 
@@ -34,10 +36,12 @@ const lynx = new Lynx([chain])
 const tokenPocket = new TokenPocket([chain])
 const wombat = new Wombat([chain], { appName: 'EOSETF' })
 const eosioAuth = new EOSIOAuth([chain], { appName, protocol: 'eosio' })
+const metamask = new Metamask([chain])
+
 
 const supportedChains = [chain];
 const supportedAuthenticators = [
-  anchor, wombat, scatter, lynx, tokenPocket, eosioAuth
+  anchor, wombat, scatter, lynx, tokenPocket, eosioAuth, metamask
 ];
 
 ReactDOM.render(
