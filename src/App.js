@@ -1251,7 +1251,7 @@ function App(props) {
       const buypizza = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparse(pizzamult, 4, pizzabalance) * slippageparseflip(pizza, pizzamult, 4, pizzabalance)) + 0.004).toFixed(4)
       const buydfs = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparse(dfsmult, 4, dfsbalance) * slippageparseflip(dfs, dfsmult, 4, dfsbalance)) + 0.004).toFixed(4)
       const buyemt = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparse(emtmult, 4, emtbalance) * slippageparseflip(emt, emtmult, 4, emtbalance)) + 0.004).toFixed(4)
-      const buydex = (((reserveparse(dex, "reserve1") / reserveparse(dex, "reserve0")) * 1.003 * multparse(dexmult, 4, dexbalance) * slippageparseflip(dex, dexmult, 4, dexbalance)) + 0.004).toFixed(4)
+      const buydex = (((reserveparse(dex, "reserve0") / reserveparse(dex, "reserve1")) * 1.003 * multparse(dexmult, 4, dexbalance) * slippageparseflip(dex, dexmult, 4, dexbalance)) + 0.004).toFixed(4)
       const buytpt = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparse(tptmult, 4, tptbalance) * slippageparseflip(tpt, tptmult, 4, tptbalance)) + 0.004).toFixed(4)
       console.log(multparse(emtmult, 4, emtbalance))
       //console.log([Number(buyogx), Number(buydad), Number(buybox), Number(buyvig), Number(buyiq), Number(buyefx), Number(buydapp), Number(buychex), Number(buypizza), Number(buydfs), Number(buyemt), Number(buyndx), Number(buytpt)].reduce((a, b) => a + b, 0))
@@ -1794,7 +1794,7 @@ function App(props) {
                     from: displayaccountname(),
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
-                    memo: 'swap,0,' + '1',
+                    memo: 'swap,0,' + '1551',
                     quantity: buydex + ' EOS',
 
                   },
@@ -2187,7 +2187,7 @@ function App(props) {
       const buypizzaz = (((reserveparse(pizza, "reserve1") / reserveparse(pizza, "reserve0")) * 1.003 * multparsez(pizzamult, 4, 0) * slippageparseflipz(pizza, pizzamult, 4, 0)) + 0.004).toFixed(4)
       const buydfsz = (((reserveparse(dfs, "reserve1") / reserveparse(dfs, "reserve0")) * 1.003 * multparsez(dfsmult, 4, 0) * slippageparseflipz(dfs, dfsmult, 4, 0)) + 0.004).toFixed(4)
       const buyemtz = (((reserveparse(emt, "reserve1") / reserveparse(emt, "reserve0")) * 1.003 * multparsez(emtmult, 4, 0) * slippageparseflipz(emt, emtmult, 4, 0)) + 0.004).toFixed(4)
-      const buydexz = (((reserveparse(dex, "reserve1") / reserveparse(dex, "reserve0")) * 1.003 * multparsez(dexmult, 4, 0) * slippageparseflipz(dex, dexmult, 4, 0)) + 0.004).toFixed(4)
+      const buydexz = (((reserveparse(dex, "reserve0") / reserveparse(dex, "reserve1")) * 1.003 * multparsez(dexmult, 4, 0) * slippageparseflipz(dex, dexmult, 4, 0)) + 0.004).toFixed(4)
       const buytptz = (((reserveparse(tpt, "reserve1") / reserveparse(tpt, "reserve0")) * 1.003 * multparsez(tptmult, 4, 0) * slippageparseflipz(tpt, tptmult, 4, 0)) + 0.004).toFixed(4)
 
 
@@ -2393,7 +2393,7 @@ function App(props) {
               },
 
               {
-                account: "newdexissuer",
+                account: "token.newdex",
                 name: "transfer",
                 authorization: [
                   {
@@ -2733,7 +2733,7 @@ function App(props) {
                     from: displayaccountname(),
                     to: 'swap.defi',
                     //quantity: 19.2562 * tokens + ' DAPP',
-                    memo: 'swap,0,' + '1',
+                    memo: 'swap,0,' + '1551',
                     quantity: buydexz + ' EOS',
 
                   },
