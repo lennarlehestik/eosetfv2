@@ -12,7 +12,10 @@ import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withUAL } from "ual-reactjs-renderer";
 import Swal from "sweetalert2";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
 
+const animatedComponents = makeAnimated();
 
 
 
@@ -78,13 +81,14 @@ const CustomSlider = withStyles({
 function Poll(props) {
   const classes = useStyles();
   const [data, setData] = useState();
-  const [polldata, setpollData] = useState();
+  const [polldata, setpollData] = useState([]);
   const [prices, setPrices] = useState();
   const [percentages, setPercentages] = useState([]);
   const [percentagesum, setPercentagesum] = useState();
   const [allocationstate, setAllocationstate] = useState();
   const [counter, setCounter] = useState();
   const [chartdatastate, setChartdatastate] = useState();
+  const [options, setOptions] = useState([]);
 
 
   const {
@@ -201,11 +205,13 @@ function Poll(props) {
 
 
   useEffect(() => {
-    const newdexcomms = [{ community: "box", symbol: "token.defi-box-eos" }, { community: "ogx", symbol: "core.ogx-ogx-eos" }, { community: "iq", symbol: "everipediaiq-iq-eos" }
-      , { community: "dapp", symbol: "dappservices-dapp-eos" }, { community: "vig", symbol: "vig111111111-vig-eos" }, { community: "efx", symbol: "effecttokens-efx-eos" }, { community: "chex", symbol: "chexchexchex-chex-eos" }, { community: "pizza", symbol: "pizzatotoken-pizza-eos" }
-      , { community: "dfs", symbol: "minedfstoken-dfs-eos" }, { community: "emt", symbol: "emanateoneos-emt-eos" }, { community: "dex", symbol: "token.newdex-dex-eos" }, { community: "tpt", symbol: "eosiotptoken-tpt-eos" }, { community: "dad", symbol: "dadtoken1111-dad-eos" }]
-    newdexcomms.forEach((item) => {
-      fetch('https://api.newdex.io/v1/price?symbol=' + item.symbol)
+    console.log(props.fulldata)
+    const newdexcomms = props.fulldata
+    //[{ community: "box", symbol: "token.defi-box-eos" }, { community: "ogx", symbol: "core.ogx-ogx-eos" }, { community: "iq", symbol: "everipediaiq-iq-eos" }
+    //  , { community: "dapp", symbol: "dappservices-dapp-eos" }, { community: "vig", symbol: "vig111111111-vig-eos" }, { community: "efx", symbol: "effecttokens-efx-eos" }, { community: "chex", symbol: "chexchexchex-chex-eos" }, { community: "pizza", symbol: "pizzatotoken-pizza-eos" }
+    //  , { community: "dfs", symbol: "minedfstoken-dfs-eos" }, { community: "emt", symbol: "emanateoneos-emt-eos" }, { community: "dex", symbol: "token.newdex-dex-eos" }, { community: "tpt", symbol: "eosiotptoken-tpt-eos" }, { community: "dad", symbol: "dadtoken1111-dad-eos" }]
+      newdexcomms.forEach((item) => {
+      fetch('https://api.newdex.io/v1/price?symbol=' + `${item.contract}-${item.token.split(",")[1]}-eos`)
         .then(response => response.json())
         .then(data => {
           Object.assign(item, { price: data?.data?.price })
@@ -293,10 +299,10 @@ function Poll(props) {
   const getmult = (token) => {
     if (data) {
       var result = data.filter(obj => {
-        return obj.token.split(" ")[1].toLowerCase() == token.toLowerCase()
+        return obj?.token?.split(" ")[1].toLowerCase() == token?.toLowerCase()
       })
-      var minamountdivider = Math.pow(10, result[0].token.match((/0/g) || []).length)
-      var multiplier = result[0].minamount / minamountdivider
+      var minamountdivider = Math.pow(10, result[0]?.token.match((/0/g) || []).length)
+      var multiplier = result[0]?.minamount / minamountdivider
       return multiplier
     }
   }
@@ -319,6 +325,7 @@ function Poll(props) {
 
   useEffect(() => {
     const allocations = []
+    const optionslist = []
     for (let i in data) {
       const token = data[i].token.split(" ")[1]
       const allocation = getallocation(token)
@@ -326,16 +333,20 @@ function Poll(props) {
       if (allocation != "NaN") {
         allocationchange(token, allocation)
       }
-
+      if(allocation > 10){
+        optionslist[token] = allocation
+        optionslist.push({value:token, label:token})
+      }
     }
     setAllocationstate(allocations)
+    setOptions(optionslist)
     setCounter(counter + 1)
   }, [data, prices])
 
   const getprice = (token) => {
     if (prices) {
       var result = prices.filter(obj => {
-        return obj.community.toLowerCase() == token.toLowerCase()
+        return obj?.community?.toLowerCase() == token?.toLowerCase()
       })
       if (result[0]) {
         return result[0].price
@@ -370,6 +381,20 @@ function Poll(props) {
     }
   }
 
+
+  const renderoptionadder = () => {
+    const handleChange = (values) => {
+      console.log(values)
+    }
+    return(
+      <div>
+      <Select options={options} components={animatedComponents} isMulti onChange={handleChange}/>
+      <button>Add tokens</button>
+      <a>{JSON.stringify(props.fulldata)}</a>
+      </div>
+    )
+  }
+
   const rendercards = () => {
     const cards = data?.map((d) =>
       <div class="small-card">
@@ -397,6 +422,9 @@ function Poll(props) {
 
       <Scrollbars class="mask2" style={{ width: "100%", height: "90%" }} >
         <div class="chartarea">{chartdatastate ? <BarChart data={chartdatastate} /> : <CircularProgress />}</div>
+        <div>
+          {renderoptionadder()}
+        </div>
         <div class="card-wrapper">
           {rendercards()}
         </div>

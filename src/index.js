@@ -41,7 +41,7 @@ const metamask = new Metamask([chain])
 
 const supportedChains = [chain];
 const supportedAuthenticators = [
-  anchor, wombat, scatter, lynx, tokenPocket, eosioAuth, metamask
+  anchor, lynx, tokenPocket, eosioAuth, metamask //wombat, scatter removed due to development server error (works in prod)
 ];
 
 ReactDOM.render(
