@@ -341,10 +341,30 @@ function App(props) {
       console.log(fulldata)
       const datar = fulldata
       datar.forEach((element, index, array) => {
-        fetch('https://api.newdex.io/v1/price?symbol=' + `${element.contract}-${element.minamount.split(" ")[1].toLowerCase()}-eos`)
-        .then(response => response.json())
+        fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "swap.defi",
+          table: "pairs",
+          scope: "swap.defi",
+          lower_bound: datar[index].pairid,
+          upper_bound: datar[index].pairid,
+          limit: 1,
+        }),
+      }).then(resp => resp.json())
         .then(data => {
-          datar[index].price = data?.data?.price
+          console.log(data)
+          if(data?.rows[0].reserve0.split(" ")[1] == "EOS"){
+            datar[index].price = Number(data?.rows[0].price1_last)
+          }
+          else{
+            datar[index].price = Number(data?.rows[0].price0_last)
+          }
         }
         )
         .then(() => {
@@ -359,6 +379,15 @@ function App(props) {
           })
           setChartPrices(arr)
           setEtfprice(pricesum)
+        })
+        .then(()=>{
+          const prices = []
+          datar.map((value, index)=>{
+            prices.push(value?.price)
+            console.log("price"+value?.price)
+          })
+          const pricesum = prices.reduce((a, b) => a + b, 0)
+          console.log("PRICESUM" + pricesum)
         })
 
       })
@@ -441,21 +470,10 @@ function App(props) {
         }
     });
     setFulldata(data)
-
+    console.log(data)
 
     //TODO RIGHT NOW FOR PRICE SUM. NEED TO ADD MULTIPLIERS.
-    const prices = []
-    data.map((value, index)=>{
-      fetch('https://api.newdex.io/v1/price?symbol=' + value.contract + "-" + value.token.split(",")[1].toLowerCase() + '-eos')
-      .then(response => response.json())
-      .then(data => {
-        prices.push(data.data.price)
-      }
-      )
-    })
     }
-    const pricesum = prices.reduce((a, b) => a + b, 0)
-    console.log(pricesum)
   }
   },[accountname])
 
@@ -644,7 +662,7 @@ function App(props) {
   };
 
   const dynamicsend = (buy) => {
-    const fulldatacopy = fulldata
+    const fulldatacopy = fulldata.filter(item => item.ratio > 0);
     let alldata = [];
     if(fulldatacopy){
       Promise.all(fulldatacopy.map((value,index) =>{
@@ -708,8 +726,13 @@ function App(props) {
       var slippagelist = []
       const multparse = (mult, nr, bal) => {
         if(bal){
-          console.log(Number(parseFloat(mult * tokens).toFixed(nr)) - parseFloat(bal?.split(" ")[0]))
-          return Number(parseFloat(mult * tokens).toFixed(nr)) - parseFloat(bal?.split(" ")[0])
+          if(buy == true){
+            return Number(parseFloat(mult * tokens).toFixed(nr)) - parseFloat(bal?.split(" ")[0])
+          }
+          else{
+            return Number(parseFloat(mult * tokens).toFixed(nr))
+          }
+            
         }
       }
       const reserveparse = (token, reserve) => {
@@ -733,6 +756,7 @@ function App(props) {
       }
       totaldata.map((value, index)=>{
         let buyamount;
+        console.log(value.balance)
         if(value.defibox.rows[0].reserve0.split(" ")[1] == "EOS"){
           buyamount = (((reserveparse(value.defibox, "reserve0") / reserveparse(value.defibox, "reserve1")) * 1.003 * multparse(Number(value.minamount.split(" ")[0]), value.token.split(",")[0], value.balance) * slippageparse(value.defibox, Number(value.minamount.split(" ")[0]), value.token.split(",")[0], value.balance)) + 0.004).toFixed(4)
         }else{
@@ -768,7 +792,7 @@ function App(props) {
               }
             )
           })
-          if (buy == true) {
+
             totaldata.map((value, index)=>{
               if (multparse(value.minamount.split(" ")[0], value.token.split(",")[0], value.balance) > 0) {
                 transaction.actions.unshift(
@@ -794,17 +818,17 @@ function App(props) {
               }
             })
 
-          }
+          
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
-          if (buy == false) {
+
+          if (buy == true && slippagetoohigh == false) {
             await activeUser.signTransaction(transaction, {
               broadcast: true,
               expireSeconds: 300,
             })
             sucessstake()
           }
-
-          if (buy == true && slippagetoohigh == false) {
+          else if (buy == false && slippagetoohigh == false) {
             await activeUser.signTransaction(transaction, {
               broadcast: true,
               expireSeconds: 300,
@@ -926,7 +950,7 @@ function App(props) {
         <div class="outsidebutton twitterbutton" onClick={() => window.open('https://twitter.com/CETF13', "_blank")}><img class="outsideimgright" src="assets/twitter.png" /><div class="outsidebuttontext">TWIT</div></div>
         <div class="outsidebutton mediumbutton" onClick={() => window.open('https://medium.com/@eosetf', "_blank")}><img class="outsideimgright" src="assets/med.png" /><div class="outsidebuttontext">MED</div></div>
 
-        <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
+        <img src="assets/burger.svg" class="menubutton" onClick={() => toggleDrawer(true)} />
         <div class="maincard">
           <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
           <div class="outsidebutton buybutton" onClick={() => window.open('https://defibox.io/pool-market-details/1232', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
@@ -1115,7 +1139,9 @@ function App(props) {
               <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                 <div class="rightbar">
                   {fulldata ? 
-                  fulldata.map(row => (
+                  fulldata.map(row => {
+                    if(Number(row.tokeninfund)!==0){
+                    return(
                     <div class="smallcard" style={{ "border": (parseFloat(row.minamount.split(" ")[0]) * tokens).toFixed(String(row.decimals).length-1) > getbalance(row) ? "solid 2px red" : "none" }}>
                       <div class="tokenlogo">
                         <img class="tokenlogoimage" height="100%" src={row.image} />
@@ -1131,12 +1157,12 @@ function App(props) {
                       }
                     </div>
                     </div>
-                  ))
+                    )}
+                  })
                   :
                   <></>
                   }
                   <div style={{ "display": "block", "opacity": "0" }}>.<br />.<br />.</div>
-
                 </div>
               </Scrollbars>
               <div class="fade" />
@@ -1203,7 +1229,9 @@ function App(props) {
                 <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                   <div class="rightbar">
                   {fulldata ? 
-                  fulldata.map(row => (
+                  fulldata.map(row => {
+                    if(Number(row.tokeninfund)!==0){
+                      return(
                     <div class="smallcard">
                       <div class="tokenlogo">
                         <img class="tokenlogoimage" height="100%" src={row.image} />
@@ -1215,7 +1243,8 @@ function App(props) {
                         <img class="trximage" height="100%" src="assets/tick.svg" />
                       </div>
                     </div>
-                  ))
+                      )}
+                  })
                   :
                   <></>
                   }
