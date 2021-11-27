@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UALProvider } from 'ual-reactjs-renderer'
 import { Anchor } from 'ual-anchor'
-import { Scatter } from 'ual-scatter'
 import { Lynx } from 'ual-lynx'
 import { TokenPocket } from 'ual-token-pocket'
 import { Wombat } from 'ual-wombat'
@@ -31,7 +30,7 @@ const chain = {
 const anchor = new Anchor([chain], {
   appName,
 });
-const scatter = new Scatter([chain], { appName })
+
 const lynx = new Lynx([chain])
 const tokenPocket = new TokenPocket([chain])
 const wombat = new Wombat([chain], { appName: 'EOSETF' })
