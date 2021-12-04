@@ -377,6 +377,8 @@ function App(props) {
             const result = (((Number(i.price) * Number(i.minamount.split(" ").[0]))*100) / pricesum).toFixed(2)
             arr.push(result)
           })
+          console.log("chartprices")
+          console.log(arr)
           setChartPrices(arr)
           setEtfprice(pricesum)
         })
@@ -1342,7 +1344,15 @@ function App(props) {
                         </div>
                       </div>
                       <div class="chartwrapper">
-                        <Doughnut options={{ maintainAspectRatio: false, maxWidth: 300, height: "auto" }} responsive="true" data={data1} legend={{ "position": "bottom" }} />
+                        <Doughnut 
+                        options={{ 
+                          maintainAspectRatio: false, 
+                          maxWidth: 300, 
+                          height: "auto",
+                          }} responsive="true" data={data1} legend={{ "position": "bottom",
+                          labels: {
+                            filter: (legendItem, data) => data.datasets[0].data.[legendItem.index] != 0
+                          } }} />
                       </div>
                     </div>
 
