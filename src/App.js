@@ -98,6 +98,9 @@ function App(props) {
   };
   const [drawerstate, setDrawerstate] = useState(false)
   const [tokens, setTokens] = useState(0)
+  const [stake, setStake] = useState(0)
+  const [stakemax, setStakemax] = useState(0)
+  const [staketable, setStaketable] = useState()
   const [redeemtokens, setRedeemtokens] = useState(0)
   const [view, setView] = useState("create")
   const [accountname, setAccountName] = useState("")
@@ -194,6 +197,7 @@ function App(props) {
   const [eosetfbalanceind, setEosetfind] = useState({ rows: [] });
   const [etfbalanceind, setEtfind] = useState({ rows: [] });
 
+  const [dividendclaim, setDividendclaim] = useState()
   const [fulldata, setFulldata] = useState([])
   const [fulldataprices, setFulldataprices] = useState()
 
@@ -338,7 +342,6 @@ function App(props) {
 
   useEffect(()=>{
     if(fulldata){
-      console.log(fulldata)
       const datar = fulldata
       datar.forEach((element, index, array) => {
         fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
@@ -358,7 +361,6 @@ function App(props) {
         }),
       }).then(resp => resp.json())
         .then(data => {
-          console.log(data)
           if(data?.rows[0].reserve0.split(" ")[1] == "EOS"){
             datar[index].price = Number(data?.rows[0].price1_last)
           }
@@ -371,14 +373,11 @@ function App(props) {
           const arr = []
           const eosetfpricearray = []
           const pricesum = datar.map(p => p.price * Number(p.minamount.split(" ").[0])).reduce((a,b) => a + b)
-          console.log("PRICESUM:" + pricesum)
           datar.forEach((i)=>{
             //make result here (price * multiplier)/price_sum
             const result = (((Number(i.price) * Number(i.minamount.split(" ").[0]))*100) / pricesum).toFixed(2)
             arr.push(result)
           })
-          console.log("chartprices")
-          console.log(arr)
           setChartPrices(arr)
           setEtfprice(pricesum)
         })
@@ -386,10 +385,8 @@ function App(props) {
           const prices = []
           datar.map((value, index)=>{
             prices.push(value?.price)
-            console.log("price"+value?.price)
           })
           const pricesum = prices.reduce((a, b) => a + b, 0)
-          console.log("PRICESUM" + pricesum)
         })
 
       })
@@ -438,7 +435,7 @@ function App(props) {
         }),
       }).then((response) =>
         response.json().then((res) => fetcher(res))
-      );
+      )
     //fetch main table
     //for each row in main table, fetch more => append to items in main state
     //outside of this function, start replacing hardcoded state with dynamic
@@ -472,15 +469,19 @@ function App(props) {
         }
     });
     setFulldata(data)
-    console.log(data)
+
 
     //TODO RIGHT NOW FOR PRICE SUM. NEED TO ADD MULTIPLIERS.
     }
   }
   },[accountname])
+  
 
-  useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+  useEffect(async () => {
+    if(accountname){
+    let dividenddata = {}
+    
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -494,8 +495,215 @@ function App(props) {
         limit: 3,
       }),
     }).then((response) =>
-      response.json().then((etfbalanceind) => setEtfind(etfbalanceind))
+      response.json().then((etfbalanceind) => {
+        setEtfind(etfbalanceind)
+        fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            json: true,
+            code: "consortiumtt",
+            table: "persznstaked",
+            scope: displayaccountname(),
+            limit: 100,
+          }),
+        }).then((response) =>
+          response.json().then((res) => {
+            console.table(res)
+            if(res.rows[0]){
+              dividenddata["stakedata"] = res.rows
+              const sum = res.rows.map(o => Number(o.staked.split(" ")[0])).reduce((a, c) => { return a + c });
+              const stakedamount = Number(etfbalanceind.rows[0].balance.split(" ")[0]) - sum
+              setStakemax(stakedamount)
+              setStaketable(res)
+            }
+          })
+        );
+      })
     );
+    
+    //DIV PERIODSTART AND TOTAL CLAIM PERIOD
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "divperiod",
+        scope: "consortiumtt",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        dividenddata["periodstart"] = res.rows[0].periodstart
+        dividenddata["totalclaimperiod"] = res.rows[0].claimperiod
+      })
+    );
+    
+    //PERIOD FREQUENCY
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "clmperfreq",
+        scope: "consortiumtt",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        dividenddata["periodfreq"] = res.rows[0].periodfreq
+      })
+    );
+
+    //TOTAL STAKED
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "totalstk",
+        scope: "consortiumtt",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        dividenddata["totalstaked"] = res.rows[0].totalstaked
+      })
+    );
+    
+    //ETF FEES
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "etffees",
+        scope: "consortiumtt",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        dividenddata["totalfees"] = res.rows[0].totalfees
+      })
+    );
+
+    //FEES ADJUST
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "feesadjust",
+        scope: "consortiumtt",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        dividenddata["adjustcrtclm"] = res.rows[0].adjustcrtclm
+      })
+    );
+
+    //CLAIM TIME
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "claimtime",
+        scope: "consortiumtt",
+        lower_bound: displayaccountname(),
+        upper_bound: displayaccountname(),
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        if(res?.rows[0]?.claimperiod){
+         dividenddata["userclaimperiod"] = res.rows[0].claimperiod
+        }else{
+          dividenddata["userclaimperiod"] = false
+        }
+      })
+    );
+
+    console.log(dividenddata)
+    /** 
+      if 
+        {
+        (staketime + periodfreq)  < current time
+        }
+
+    {
+        "totalstaked": "132.0000 CETF",
+        "totalfees": "0.0166 EOSETF",
+        "userclaimperiod": false,
+        "periodfreq": 300,
+        "adjustcrtclm": "0.0000 EOSETF",
+        "periodstart": "2021-12-04T15:53:39",
+        "totalclaimperiod": 17,
+        "staked": "30.0000 CETF",
+        "staketime": "2021-12-04T13:23:00"
+    }
+    **/
+
+    dividenddata.stakedata.map((row,index)=>{
+      if(Date.parse(row.staketime) + dividenddata.periodfreq*1000 < Date.now()){
+        //keep it. else dump it from stakes as it doesn't count.
+        console.log("Removed: " + row.id)
+      }
+      else{
+        dividenddata.stakedata.splice(index, 1);
+      }
+    })
+
+    //How much user gets
+    const percgets = dividenddata.stakedata.reduce((a, b) => a + Number(b.staked.split(" ")[0]), 0) / Number(dividenddata.totalstaked.split(" ")[0])
+    console.log("User's share: " + percgets)
+
+    let dividend;
+
+    if(Date.parse(dividenddata.periodstart) + dividenddata.periodfreq < Date.now()){
+      dividend = percgets * (Number(dividenddata.totalfees.split(" ")[0]) + Number(dividenddata.adjustcrtclm.split(" ")[0]))
+    }
+    else{
+      dividend = percgets * Number(dividenddata.totalfees.split(" ")[0])
+    }
+    console.log("Dividend: " + dividend)
+
+    if(dividenddata.userclaimperiod == false || dividenddata.userclaimperiod == dividenddata.totalclaimperiod){
+      setDividendclaim(dividend)
+    }
+    else{
+      setDividendclaim(0)
+    }
+
+  }
   }, [accountname]);
 
   useEffect(() => {
@@ -584,7 +792,6 @@ function App(props) {
       response.json().then((eosetfbalance) => setEosetf(eosetfbalance))
     );
   }, [accountname]);
-
 
   const gettokenbalance = (token) => {
     if (token.rows[0]) {
@@ -721,9 +928,6 @@ function App(props) {
     }
 
     const sender = async(totaldata)=>{
-      console.log("DID IT")
-      console.log(totaldata)
-      console.log(chartprices)
       var slippagetoohigh = false;
       var slippagelist = []
       const multparse = (mult, nr, bal) => {
@@ -758,7 +962,6 @@ function App(props) {
       }
       totaldata.map((value, index)=>{
         let buyamount;
-        console.log(value.balance)
         if(value.defibox.rows[0].reserve0.split(" ")[1] == "EOS"){
           buyamount = (((reserveparse(value.defibox, "reserve0") / reserveparse(value.defibox, "reserve1")) * 1.003 * multparse(Number(value.minamount.split(" ")[0]), value.token.split(",")[0], value.balance) * slippageparse(value.defibox, Number(value.minamount.split(" ")[0]), value.token.split(",")[0], value.balance)) + 0.004).toFixed(4)
         }else{
@@ -879,6 +1082,94 @@ function App(props) {
       
     }
 
+  }
+
+  const unstake = async(index) => {
+    if(activeUser){
+      const transaction = {
+        actions: [
+          {
+            account: "consortiumtt",
+            name: "unstakecetf",
+            authorization: [
+              {
+                actor: displayaccountname(), // use account that was logged in
+                permission: "active",
+              },
+            ],
+            data: {
+              user: displayaccountname(),
+              quantity: [staketable.rows[index].staked],
+              id: [staketable.rows[index].id]
+            },
+          }
+
+        ],
+      };
+      // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+      await activeUser.signTransaction(transaction, {
+        broadcast: true,
+        expireSeconds: 300,
+      });
+  } 
+  }
+
+  const getdiv = async() => {
+    if(activeUser){
+      const transaction = {
+        actions: [
+          {
+            account: "consortiumtt",
+            name: "getdiv",
+            authorization: [
+              {
+                actor: displayaccountname(), // use account that was logged in
+                permission: "active",
+              },
+            ],
+            data: {
+              user: displayaccountname()
+            },
+          }
+
+        ],
+      };
+      // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+      await activeUser.signTransaction(transaction, {
+        broadcast: true,
+        expireSeconds: 300,
+      });
+  } 
+  }
+
+  const stakeetf = async() => {
+    if(activeUser){
+        const transaction = {
+          actions: [
+            {
+              account: "consortiumtt",
+              name: "stakecetf",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                user: displayaccountname(),
+                quantity: stake.toFixed(4) + " CETF",
+                id:Math.floor(Math.random() * 1000000000)
+              },
+            }
+
+          ],
+        };
+        // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+        await activeUser.signTransaction(transaction, {
+          broadcast: true,
+          expireSeconds: 300,
+        });
+    }
   }
 
 
@@ -1059,6 +1350,10 @@ function App(props) {
                 <tr onClick={() => setView("about")}>
                   <td><img class="menuimg" src="assets/briefcase.svg" /></td>
                   <td><a class="menuitemtext">Tokens</a></td>
+                </tr>
+                <tr onClick={() => setView("staking")}>
+                  <td><img class="menuimg" src="assets/stake.svg" /></td>
+                  <td><a class="menuitemtext">Staking</a></td>
                 </tr>
                 {accountname == "" ?
                   <tr onClick={() => showModal()}>
@@ -1356,7 +1651,44 @@ function App(props) {
                       </div>
                     </div>
 
-                    : <a>Error</a>
+                    : view == "staking" ? 
+                    <div class="rightbar">
+                      <div class="rightbartopbox">
+                      <div class="createetftitle">
+                        Staking
+                      </div>
+                      {stake + "/" + stakemax + " CETF"}
+                        <div class="slider">
+                          <CustomSlider
+                            defaultValue={0.0000}
+                            value={stake}
+                            aria-label="custom thumb label"
+                            step={1.0000}
+                            min={0}
+                            max={stakemax}
+                            onChangeCommitted={(e, val) => setStake(val)}
+                            style={{
+                              marginBottom: "10px",
+                              "margin-top": "10px",
+                              color: "white",
+                            }}
+                          />
+                        </div>
+                        <div class="createbuttonwrapper">
+                        <button class="createbutton" onClick={() => getdiv()}>Get {dividendclaim.toFixed(4) + " CETF"} Dividend</button>
+                        <button class="createbutton" onClick={()=>stakeetf()}>Stake</button>
+                        
+</div>
+                      </div>
+                      {
+                          staketable?.rows.map((row, index) => {
+                            return(<div class="stakecard"><div>ID: {row.id}</div> <div>Staked: {row.staked}</div> <button class="unstakebutton" onClick={()=>unstake(index)}>Unstake</button></div>)
+                          })
+                        }
+                        
+                          
+                    </div>
+                    :<a>Error</a>
           }
         </div>
       </header>
