@@ -80,8 +80,8 @@
   margin-top:2vh;
   display: flex;
   align-items:center;
-  justify-content:space-evenly;
-  flex-direction: row;
+  flex-direction:row;
+  font-size:14px;
 }
 
 .rightbar{
@@ -180,6 +180,9 @@ tr:hover{
 }
 
 @media only screen and (max-width: 800px) {
+  .stakecard{
+    font-size:12px;
+  }
   .leftbar{
       display:none;
   }
@@ -190,7 +193,6 @@ tr:hover{
     right:10px;
   }
   .createbutton{
-    width:80%;
 
 
       border: "none";
@@ -268,6 +270,10 @@ tr:hover{
 
 .createbuttonwrapper{
   width:80%;
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  flex-direction:row;
 }
 
 .createbutton{
@@ -286,6 +292,7 @@ tr:hover{
   font-size:12px;
   box-shadow: 0 0 20px rgba( 31, 38, 135, 0.1 );
   float:right;
+  width:100%;
 }
 
 .createbutton:hover {
@@ -375,6 +382,51 @@ input[type=number]::-webkit-outer-spin-button {
   justify-content: center;
   flex-direction: column;
 }
+
+.staketopcardwrapper{
+  display:flex;
+  flex-direction:row;
+  justify-content:stretch;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.staketopcard{
+  font-size:14px;
+  background: rgba( 255, 255, 255, 0.7 );
+  border-radius:15px;
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.2 );
+  min-width:100px;
+  width:30%;
+  height:80px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.stakedescriptor{
+  font-size:12px;
+  font-weight:400;
+  text-align:center;
+}
+
+.stakestat{
+  font-size:14px;
+  font-weight:500;
+  text-align:center;
+}
+
+.flexalign{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
 
 .stat{
   font-size:16px;
@@ -468,15 +520,24 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 @media only screen and (max-width: 800px) {
+  .unstakebutton{
+    padding:5px;
+    font-size:10px;
+    height:30px;
+  }
   .outsidebutton{
     display:none;
   }
   .createbutton{
     float:none;
+    padding:15px;
+    width:100%;
   }
   .createbuttonwrapper{
     display:flex;
     justify-content:center;
+    align-items:stretch;
+    flex-direction:row;
   }
 }
 

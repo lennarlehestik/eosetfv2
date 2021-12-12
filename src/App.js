@@ -13,6 +13,8 @@ import ReactGA from "react-ga";
 import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 import { Promise } from "bluebird";
 import Poll from './Poll'
+import Countdown from 'react-countdown';
+
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Accordion from '@material-ui/core/Accordion';
@@ -100,6 +102,7 @@ function App(props) {
   const [tokens, setTokens] = useState(0)
   const [stake, setStake] = useState(0)
   const [stakemax, setStakemax] = useState(0)
+  const [timetilnext, setTimetilnext] = useState(0)
   const [staketable, setStaketable] = useState()
   const [redeemtokens, setRedeemtokens] = useState(0)
   const [view, setView] = useState("create")
@@ -127,6 +130,42 @@ function App(props) {
   const dexmult = 3.3850
   const tptmult = 17.9856
 
+
+  const swal_success = (message) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 6000,
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: message,
+    });
+  };
+
+  const swal_error = (message) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 6000,
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    Toast.fire({
+      icon: "error",
+      title: message,
+    });
+  };
 
   const sucessstake = () => {
     const Toast = Swal.mixin({
@@ -191,15 +230,29 @@ function App(props) {
 
   const [prices, setPrices] = useState([]);
   const [chartprices, setChartPrices] = useState([]);
+  const [refresh, setRefresh] = useState(0);
 
   const [eosetfbalance, setEosetf] = useState({ rows: [] });
   const [etfbalance, setEtf] = useState({ rows: [] });
   const [eosetfbalanceind, setEosetfind] = useState({ rows: [] });
   const [etfbalanceind, setEtfind] = useState({ rows: [] });
 
-  const [dividendclaim, setDividendclaim] = useState()
+  const [dividendclaim, setDividendclaim] = useState(0)
   const [fulldata, setFulldata] = useState([])
   const [fulldataprices, setFulldataprices] = useState()
+
+  const Completionist = () => <div class="flexalign"><div class="stakestat">Period has ended!</div><div class="stakedescriptor">Claim dividend to start new period.</div></div>;
+
+// Renderer callback with condition
+const renderer = ({ hours, minutes, seconds, completed }) => {
+  if (completed) {
+    // Render a completed state
+    return <Completionist />;
+  } else {
+    // Render a countdown
+    return <div class="flexalign"><div class="stakestat">{hours}:{minutes}:{seconds}</div><div class="stakedescriptor">Time until end of period</div></div>;
+  }
+};
 
   const refresher = () => {
     setAccountName("")
@@ -459,7 +512,7 @@ function App(props) {
               limit: 1,
             }),
           }).then((response) =>
-            response.json().then((balance) => attachbalance(balance.rows[0].balance))
+            response.json().then((balance) => attachbalance(balance?.rows[0]?.balance))
           );
         }
         //FETCH HERE
@@ -480,6 +533,25 @@ function App(props) {
   useEffect(async () => {
     if(accountname){
     let dividenddata = {}
+
+    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "accounts",
+        scope: displayaccountname(),
+        lower_bound: "EOSETF",
+        upper_bound: "EOSETF",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((eosetfbalanceind) => setEosetfind(eosetfbalanceind))
+    );
     
     await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
       method: "POST",
@@ -492,11 +564,14 @@ function App(props) {
         code: "consortiumtt",
         table: "accounts",
         scope: displayaccountname(),
-        limit: 3,
+        limit: 1,
+        upper_bound:"CETF",
+        lower_bound:"CETF"
       }),
     }).then((response) =>
       response.json().then((etfbalanceind) => {
         setEtfind(etfbalanceind)
+
         fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
           method: "POST",
           headers: {
@@ -513,6 +588,8 @@ function App(props) {
         }).then((response) =>
           response.json().then((res) => {
             console.table(res)
+            const stakedamount = Number(etfbalanceind?.rows[0].balance.split(" ")[0])
+            setStakemax(stakedamount)
             if(res.rows[0]){
               dividenddata["stakedata"] = res.rows
               const sum = res.rows.map(o => Number(o.staked.split(" ")[0])).reduce((a, c) => { return a + c });
@@ -522,8 +599,10 @@ function App(props) {
             }
           })
         );
+        
       })
     );
+    
     
     //DIV PERIODSTART AND TOTAL CLAIM PERIOD
     await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
@@ -671,40 +750,71 @@ function App(props) {
         "staketime": "2021-12-04T13:23:00"
     }
     **/
+    const now = new Date(Date.now()+(new Date().getTimezoneOffset()*60000)).getTime()
 
-    dividenddata.stakedata.map((row,index)=>{
-      if(Date.parse(row.staketime) + dividenddata.periodfreq*1000 < Date.now()){
-        //keep it. else dump it from stakes as it doesn't count.
-        console.log("Removed: " + row.id)
-      }
-      else{
-        dividenddata.stakedata.splice(index, 1);
-      }
-    })
-
-    //How much user gets
-    const percgets = dividenddata.stakedata.reduce((a, b) => a + Number(b.staked.split(" ")[0]), 0) / Number(dividenddata.totalstaked.split(" ")[0])
-    console.log("User's share: " + percgets)
-
-    let dividend;
-
-    if(Date.parse(dividenddata.periodstart) + dividenddata.periodfreq < Date.now()){
-      dividend = percgets * (Number(dividenddata.totalfees.split(" ")[0]) + Number(dividenddata.adjustcrtclm.split(" ")[0]))
+    console.log("UTC Time: " + now)
+    console.log("Div time: " + Date.parse(dividenddata.periodstart))
+    const timetilnextperiod = Date.parse(dividenddata.periodstart) + dividenddata.periodfreq*1000 - now
+    console.log(timetilnextperiod)
+    if(timetilnextperiod > 0){
+      setTimetilnext((timetilnextperiod/(1000)).toFixed(0))
     }
     else{
-      dividend = percgets * Number(dividenddata.totalfees.split(" ")[0])
+      setTimetilnext(0)
     }
-    console.log("Dividend: " + dividend)
+    
 
-    if(dividenddata.userclaimperiod == false || dividenddata.userclaimperiod == dividenddata.totalclaimperiod){
-      setDividendclaim(dividend)
+    if(dividenddata.stakedata){
+      dividenddata.stakedata.map((row,index)=>{
+        //THIS IS FUCKED. THIS IS FUCKED. THIS IS FUCKED.
+        if(Date.parse(row.staketime) + dividenddata.periodfreq*1000 > now){
+          //keep it. else dump it from stakes as it doesn't count.
+          dividenddata.stakedata[index].flag = true
+        }
+        else{
+          dividenddata.stakedata[index].flag = false
+        }
+      })
+
+      //How much user gets
+      let substract = 0;
+      dividenddata.stakedata.forEach((row)=>{
+        if(Date.parse(row.staketime) + dividenddata.periodfreq*1000 > now){
+          substract += Number(row.staked.split(" ")[0])
+        }
+      })
+      console.log("Substract: " + substract)
+      const percgets = dividenddata.stakedata.filter(x => x.flag == false).reduce((a, b) => a + Number(b.staked.split(" ")[0]), 0) / (Number(dividenddata.totalstaked.split(" ")[0]) - substract)
+      console.log("User's share: " + percgets)
+
+      let dividend;
+      console.log(Date.parse(dividenddata.periodstart) + dividenddata.periodfreq*1000 - now)
+      if(Date.parse(dividenddata.periodstart) + dividenddata.periodfreq*1000 < now){
+        dividend = percgets * (Number(dividenddata.totalfees.split(" ")[0]) + Number(dividenddata.adjustcrtclm.split(" ")[0]))
+      }
+      else{
+        dividend = percgets * Number(dividenddata.totalfees.split(" ")[0])
+      }
+      console.log("Dividend: " + dividend)
+      
+      if(dividenddata.userclaimperiod == false){
+        setDividendclaim(dividend)
+      }
+
+      if(dividenddata.userclaimperiod == dividenddata.totalclaimperiod && Date.parse(dividenddata.periodstart) + dividenddata.periodfreq*1000 > now){
+        setDividendclaim(0)
+      }
+
+      if(Date.parse(dividenddata.periodstart) + dividenddata.periodfreq*1000 < now){
+        setDividendclaim(dividend)
+      }
     }
     else{
       setDividendclaim(0)
     }
 
   }
-  }, [accountname]);
+  }, [accountname, refresh]);
 
   useEffect(() => {
     fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
@@ -726,30 +836,6 @@ function App(props) {
       response.json().then((etfbalanceind) => setEtfind(etfbalanceind))
     );
   }, [accountname]);
-
-
-  useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "consortiumtt",
-        table: "accounts",
-        scope: displayaccountname(),
-        lower_bound: "EOSETF",
-        upper_bound: "EOSETF",
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((eosetfbalanceind) => setEosetfind(eosetfbalanceind))
-    );
-  }, [accountname]);
-
-
 
 
   useEffect(() => {
@@ -1086,6 +1172,7 @@ function App(props) {
 
   const unstake = async(index) => {
     if(activeUser){
+      try{
       const transaction = {
         actions: [
           {
@@ -1111,11 +1198,19 @@ function App(props) {
         broadcast: true,
         expireSeconds: 300,
       });
+      swal_success("Successfully unstaked!")
+      setTimeout(()=>{
+        setRefresh(refresh+1)
+      },3000)
+    }catch(e){
+      swal_error(e)
+    }
   } 
   }
 
   const getdiv = async() => {
     if(activeUser){
+      try{
       const transaction = {
         actions: [
           {
@@ -1139,11 +1234,20 @@ function App(props) {
         broadcast: true,
         expireSeconds: 300,
       });
+      swal_success("Dividends claimed!")
+      setTimeout(()=>{
+        setRefresh(refresh+1)
+      },3000)
+    }
+    catch(e){
+      swal_error(e)
+    }
   } 
   }
 
   const stakeetf = async() => {
     if(activeUser){
+      try{
         const transaction = {
           actions: [
             {
@@ -1169,6 +1273,14 @@ function App(props) {
           broadcast: true,
           expireSeconds: 300,
         });
+        swal_success("Successfully staked " + stake.toFixed(4) + " CETF!")
+        setTimeout(()=>{
+          setRefresh(refresh+1)
+        },2000)
+      }catch(e){
+        swal_error(e)
+      }
+
     }
   }
 
@@ -1243,7 +1355,7 @@ function App(props) {
         <div class="outsidebutton twitterbutton" onClick={() => window.open('https://twitter.com/CETF13', "_blank")}><img class="outsideimgright" src="assets/twitter.png" /><div class="outsidebuttontext">TWIT</div></div>
         <div class="outsidebutton mediumbutton" onClick={() => window.open('https://medium.com/@eosetf', "_blank")}><img class="outsideimgright" src="assets/med.png" /><div class="outsidebuttontext">MED</div></div>
 
-        <img src="assets/burger.svg" class="menubutton" onClick={() => toggleDrawer(true)} />
+        <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
         <div class="maincard">
           <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
           <div class="outsidebutton buybutton" onClick={() => window.open('https://defibox.io/pool-market-details/1232', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
@@ -1287,6 +1399,10 @@ function App(props) {
                       <td><img class="menuimg" src="assets/question.svg" /></td>
                       <td><a class="menuitemtext">Poll</a></td>
                     </tr>
+                    <tr onClick={() => menuClick("staking")}>
+                  <td><img class="menuimg" src="assets/stake.svg" /></td>
+                  <td><a class="menuitemtext">Staking</a></td>
+                </tr>
                     <tr onClick={() => menuClick("stats")}>
                       <td><img class="menuimg" src="assets/stats.svg" /></td>
                       <td><a class="menuitemtext">Statistics</a></td>
@@ -1652,12 +1768,19 @@ function App(props) {
                     </div>
 
                     : view == "staking" ? 
+                    <Scrollbars class="mask" style={{ width: "100%", height: "100%", display:"flex" }} autoHide >
                     <div class="rightbar">
                       <div class="rightbartopbox">
                       <div class="createetftitle">
                         Staking
                       </div>
-                      {stake + "/" + stakemax + " CETF"}
+                      <div class="staketopcardwrapper">
+                        <div class="staketopcard"><div class="stakestat">{stake + "/" + stakemax + " CETF"}</div><div class="stakedescriptor">Staking</div></div>
+
+                        <div class="staketopcard"><div class="stakestat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOSETF"}</div><div class="stakedescriptor">Balance</div></div>
+
+                        <div class="staketopcard"><div class="stakestat">{timetilnext > 0 ? <Countdown date={Date.now() + timetilnext*1000} renderer={renderer} onComplete={()=> setRefresh(refresh+1)}/> : <div class="flexalign"><div class="stakestat">Period has ended!</div><div class="stakedescriptor">Claim dividend to start new period.</div></div>}</div></div>
+                      </div>
                         <div class="slider">
                           <CustomSlider
                             defaultValue={0.0000}
@@ -1674,20 +1797,23 @@ function App(props) {
                             }}
                           />
                         </div>
-                        <div class="createbuttonwrapper">
-                        <button class="createbutton" onClick={() => getdiv()}>Get {dividendclaim.toFixed(4) + " CETF"} Dividend</button>
+                        <div class="createbuttonwrapper" style={{width:"100%"}}>
+                        <button class="createbutton" onClick={() => getdiv()}>Get {dividendclaim.toFixed(4) + " EOSETF"} Dividend</button>
                         <button class="createbutton" onClick={()=>stakeetf()}>Stake</button>
                         
-</div>
                       </div>
+                      </div>
+                      
                       {
                           staketable?.rows.map((row, index) => {
-                            return(<div class="stakecard"><div>ID: {row.id}</div> <div>Staked: {row.staked}</div> <button class="unstakebutton" onClick={()=>unstake(index)}>Unstake</button></div>)
+                            return(<div class="stakecard"><div style={{width:"30%", marginLeft:"20px"}}>ID: {row.id}</div> <div style={{width:"40%"}}>Staked: {row.staked}</div> <div class="unstakebuttonwrapper" style={{width:"20%", marginRight:"10px"}}><button class="unstakebutton" onClick={()=>unstake(index)}>Unstake</button></div></div>)
                           })
                         }
-                        
+                      <div style={{ "display": "block", "opacity": "0" }}>.<br />.<br />.</div>
+                      
                           
                     </div>
+                    </Scrollbars>
                     :<a>Error</a>
           }
         </div>

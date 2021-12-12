@@ -20,6 +20,7 @@
     "nivo": "^0.31.0",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
+    "react-countdown": "^2.3.2",
     "react-custom-scrollbar": "^1.0.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^17.0.1",
