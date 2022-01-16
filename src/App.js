@@ -655,13 +655,13 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
       body: JSON.stringify({
         json: true,
         code: "consortiumtt",
-        table: "totalstk",
+        table: "totstk",
         scope: "consortiumtt",
         limit: 1,
       }),
     }).then((response) =>
       response.json().then((res) => {
-        dividenddata["totalstaked"] = res.rows[0].totalstaked
+        dividenddata["totalstaked"] = res?.rows[0]?.totalstaked
       })
     );
     
@@ -1355,7 +1355,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
         <div class="outsidebutton twitterbutton" onClick={() => window.open('https://twitter.com/CETF13', "_blank")}><img class="outsideimgright" src="assets/twitter.png" /><div class="outsidebuttontext">TWIT</div></div>
         <div class="outsidebutton mediumbutton" onClick={() => window.open('https://medium.com/@eosetf', "_blank")}><img class="outsideimgright" src="assets/med.png" /><div class="outsidebuttontext">MED</div></div>
 
-        <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
+        
         <div class="maincard">
           <div class="outsidebutton govrnbutton" onClick={() => window.open('https://app.consortium.vote/community/zlmdhu2blclw', "_blank")}><img class="outsideimg" src="assets/consologo.png" /><div class="outsidebuttontext">VOTE</div></div>
           <div class="outsidebutton buybutton" onClick={() => window.open('https://defibox.io/pool-market-details/1232', "_blank")}><img class="outsideimg" src="assets/buylogo.png" /><div class="outsidebuttontext">BUY/SELL</div></div>
@@ -1814,10 +1814,22 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                           
                     </div>
                     </Scrollbars>
+                    : view == "earn" ? 
+                    <div>Earn sht</div>
+                    : view == "portfolio" ? 
+                    <div>Portfolio stats</div>
                     :<a>Error</a>
           }
         </div>
+        <div class="floating-menu">
+          <div onClick={() => setView("create")} style={{fontWeight:view=="create" ? 600 : 400}}>Fund</div>
+          <div onClick={() => setView("earn")} style={{fontWeight:view=="earn" ? 600 : 400}}>Earn</div>
+          <div onClick={() => setView("staking")} style={{fontWeight:view=="staking" ? 600 : 400}}>Stake</div>
+          <div onClick={() => setView("portfolio")} style={{fontWeight:view=="portfolio" ? 600 : 400}}>My portfolio</div>
+          <img src="assets/burger.svg" class="menubutton" onClick={toggleDrawer(true)} />
+        </div>
       </header>
+      
     </div>
   );
 }
