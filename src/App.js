@@ -14,6 +14,10 @@ import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 import { Promise } from "bluebird";
 import Poll from './Poll'
 import Countdown from 'react-countdown';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -105,7 +109,7 @@ function App(props) {
   const [timetilnext, setTimetilnext] = useState(0)
   const [staketable, setStaketable] = useState()
   const [redeemtokens, setRedeemtokens] = useState(0)
-  const [view, setView] = useState("create")
+  const [view, setView] = useState("earn")
   const [accountname, setAccountName] = useState("")
 
   const logmeout = () => {
@@ -1815,9 +1819,109 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                     </div>
                     </Scrollbars>
                     : view == "earn" ? 
-                    <div>Earn sht</div>
+                    <div class="rightbar">
+                      <div class="rightbartopbox">
+                        <div class="createetftitle">
+                          Earn CETF
+                        </div>
+                        <div class="depositlabel">Choose amount to deposit</div>
+                        <TextField
+                          id="outlined"
+                          defaultValue="100"
+                          sx={{
+                            backgroundColor:"white",
+                            borderRadius:"5px",
+                            width:"100%"
+                          }}
+                          InputProps={{
+                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                            startAdornment: <InputAdornment position="start">EOSETF</InputAdornment>,
+                          }}
+                        />
+                        <TextField
+                          id="outlined"
+                          defaultValue="100"
+                          sx={{
+                            backgroundColor:"white",
+                            borderRadius:"5px",
+                            width:"100%",
+                            marginTop:"5px"
+                          }}
+                          InputProps={{
+                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                            startAdornment: <InputAdornment position="start">EOS</InputAdornment>,
+                          }}
+                        />
+                        <button class="depositbutton">Deposit</button>
+
+                        <div class="depositlabel">Choose amount to withdraw</div>
+                        <TextField
+                          id="outlined"
+                          defaultValue="100"
+                          sx={{
+                            backgroundColor:"white",
+                            borderRadius:"5px",
+                            width:"100%"
+                          }}
+                          InputProps={{
+                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                            startAdornment: <InputAdornment position="start">EOSETF</InputAdornment>,
+                          }}
+                        />
+                        <TextField
+                          id="outlined"
+                          defaultValue="100"
+                          sx={{
+                            backgroundColor:"white",
+                            borderRadius:"5px",
+                            width:"100%",
+                            marginTop:"5px"
+                          }}
+                          InputProps={{
+                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                            startAdornment: <InputAdornment position="start">EOS</InputAdornment>,
+                          }}
+                        />
+                        <button class="depositbutton">Withdraw</button>
+                      </div>
+                    </div>
                     : view == "portfolio" ? 
-                    <div>Portfolio stats</div>
+                    <div class="rightbar">
+                      <div class="rightbartopbox">
+                        <div class="createetftitle">
+                          My portfolio
+                        </div>
+                        <div class="portfoliotopcardwrapper">
+                          <div class="portfoliotopcard">
+                            <div class="portfoliodescriptor">Your EOSETF Balance</div>
+                            <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOSETF"}</div>
+                            <div class="portfoliodescriptor">~50 USD</div>
+                          </div>
+                          <div class="portfoliotopcard">
+                            <div class="portfoliodescriptor">Your EOS Balance</div>
+                            <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOS"}</div>
+                            <div class="portfoliodescriptor">~50 USD</div>
+                          </div>
+                          <div class="portfoliotopcard">
+                            <div class="portfoliodescriptor">Your CETF Balance</div>
+                            <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 CETF"}</div>
+                            <div class="portfoliodescriptor">~50 USD</div>
+                          </div>
+                        </div>
+                        <div class="portfoliobottomwrapper">
+                          <div style={{ width: "30%", height: "200px" }}>
+                            <CircularProgressbar value={5} maxValue={8} text={`${5} days`} />
+                            <div style={{textAlign:"center"}}>Until end of claim period 55</div>
+                          </div>
+                          <div style={{ width: "30%", height: "auto" }}>
+                            Available to claim <br/>
+                            3 EOSETF <br/>
+                            50,000 CETF
+                            <button class="createbutton">Claim</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     :<a>Error</a>
           }
         </div>
