@@ -18,7 +18,8 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Accordion from '@material-ui/core/Accordion';
@@ -84,7 +85,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App(props) {
+  const a11yProps = (index) => {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+  const [tabvalue, setTabvalue] = useState(0)
 
+  const handleTabchange = (event, newValue) => {
+    setTabvalue(newValue);
+  };
+
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <div>
+            {children}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   const classes = useStyles();
 
@@ -109,7 +140,7 @@ function App(props) {
   const [timetilnext, setTimetilnext] = useState(0)
   const [staketable, setStaketable] = useState()
   const [redeemtokens, setRedeemtokens] = useState(0)
-  const [view, setView] = useState("earn")
+  const [view, setView] = useState("create")
   const [accountname, setAccountName] = useState("")
 
   const logmeout = () => {
@@ -231,10 +262,12 @@ function App(props) {
   const [dadpriceeos, setDadprice] = useState({ rows: [] });
   const [eosetfprice, setEosetfprice] = useState({ rows: [] });
   const [etfprice, setEtfprice] = useState();
+  const [periodbutton, setPeriodbutton] = useState("year");
 
   const [prices, setPrices] = useState([]);
   const [chartprices, setChartPrices] = useState([]);
   const [refresh, setRefresh] = useState(0);
+  const [eosusdt, setEosusdt] = useState();
 
   const [eosetfbalance, setEosetf] = useState({ rows: [] });
   const [etfbalance, setEtf] = useState({ rows: [] });
@@ -293,6 +326,24 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
       }),
     }).then((response) =>
       response.json().then((dadpriceeos) => setDadprice(dadpriceeos))
+    );
+    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "swap.defi",
+        table: "pairs",
+        scope: "swap.defi",
+        lower_bound: 12,
+        upper_bound: 12,
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((price) => setEosusdt(price.rows[0].price0_last))
     );
   }, [accountname]);
 
@@ -1000,7 +1051,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                 limit: 1,
               }),
             }).then((response) =>
-              response.json().then((balance) => attachbalance(balance.rows[0].balance))
+              response.json().then((balance) => attachbalance(balance?.rows[0]?.balance))
             );
           }
           //FETCH HERE
@@ -1496,44 +1547,11 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                   <div>
                     <a
                     >
-
-                      Create EOSETF
-
-
+                      Invest
                     </a>
                   </div>
                 </div>
-                <div className={classes.root}>
-                  <Accordion className={classes.expansion}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                      className={classes.summary}
-                    >
-                      <Typography className={classes.heading}>Click here for more information</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails className={classes.expansion2}>
-                      <Scrollbars class="mask2" style={{ width: "100%", height: "25vh" }} >
-                        <Typography className={classes.heading} style={{ "padding-right": "10px", "padding-bottom": "34px" }}>
-                          Creation involves transfer of tokens to cet.f account, the code is unaudited but there is multisig.
-                                        <br /> <br />To create EOSETF you have to own 13 different EOS mainnet tokens.
-                                        <br /> <br />BUY ALL AND CREATE - buys all the displayed tokens from Defibox and creates EOSETF.
-                                        <br /> <br />BUY MISSING AND CREATE - buys only the tokens you are missing from Defibox and creates EOSETF.
-                                        <br /> <br />Due to slippage, the displayed valuation of tokens might differ from autobuy purchase price, slippage protection is set to 3%, but please double-check the EOS being transferred before signing the transaction.
-                                        <br /> <br />After creation your account is issued EOSETF and CETF tokens (10 CETF per 1 EOSETF).
-                                        <br /> <br />CETF will be used as a governance and fee distribution token.
-                                      <br />  <br />At 80m CETF (4615 EOSETF / 3 halvings) no more CETF will be issued.
-                                      <br /> <br />Redemption fee is set to 5%
-                                          </Typography>
-                        <div style={{ "display": "block", "opacity": "0" }}>.<br />.<br />.</div>
-
-                      </Scrollbars>
-                      <div class="fade" />
-                    </AccordionDetails>
-                  </Accordion>
-                </div>
-                <div class="slidertext">
+                {/**<div class="slidertext">
                   <a>Creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF, consisting of tokens valued at <input class="eosvalue" type="number" value={parseFloat(tokens * etfprice).toFixed(2)}></input> EOS </a>
                 </div>
                 <div class="slider">
@@ -1551,8 +1569,72 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                       color: "white",
                     }}
                   />
-                </div>
+                </div>**/}
               </div>
+              <div class="colorcreatecard">
+                  <div class="promotext">100 USD invested {periodbutton} ago, now 2500 USD</div>
+                  <div class="periodbuttons">
+                    <div class="periodbutton" onClick={()=>setPeriodbutton("year")} style={{fontWeight: periodbutton == "year" ? 600 : 400}}>Year</div>
+                    <div class="periodbutton" onClick={()=>setPeriodbutton("month")} style={{fontWeight: periodbutton == "month" ? 600 : 400}}>Month</div>
+                    <div class="periodbutton" onClick={()=>setPeriodbutton("week")} style={{fontWeight: periodbutton == "week" ? 600 : 400}}>Week</div>
+                  </div>
+              </div>
+              <div class="tabwrapper">
+              <Tabs value={tabvalue} onChange={handleTabchange} aria-label="basic tabs example">
+                <Tab label="Invest" {...a11yProps(0)} />
+                <Tab label="Sell" {...a11yProps(1)} />
+              </Tabs>
+              <TabPanel value={tabvalue} index={0}>
+              <div class="invest">
+                <div class="portfoliotopcard" style={{"width":"50%"}}>
+                    <div class="portfoliodescriptor">Your EOS Balance</div>
+                    <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOS"}</div>
+                    <div class="portfoliodescriptor">~50 USD</div>
+                </div>
+                <div class="depositlabel" style={{marginTop:"20px"}}>Choose investment amount</div>
+                <TextField
+                  id="outlined"
+                  defaultValue={tokens}
+                  onBlur={e => setTokens(e.target.value)}
+                  sx={{
+                    backgroundColor:"white",
+                    borderRadius:"5px",
+                    width:"100%"
+                  }}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">{(parseFloat(geteosetfprice().toFixed(2))*tokens * Number(eosusdt)).toFixed(1) + " USD"}</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">EOS</InputAdornment>,
+                  }}
+                />
+                <button onClick={() => dynamicsend(true)} class="depositbutton">Invest</button>
+              </div>
+              </TabPanel>
+              <TabPanel value={tabvalue} index={1}>
+              <div class="invest">
+                <div class="portfoliotopcard" style={{"width":"50%"}}>
+                    <div class="portfoliodescriptor">Your EOSETF Balance</div>
+                    <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOSETF"}</div>
+                    <div class="portfoliodescriptor">~50 USD</div>
+                </div>
+                <div class="depositlabel" style={{marginTop:"20px"}}>Choose amount to sell</div>
+                <TextField
+                  id="outlined"
+                  defaultValue="100"
+                  sx={{
+                    backgroundColor:"white",
+                    borderRadius:"5px",
+                    width:"100%"
+                  }}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">EOSETF</InputAdornment>,
+                  }}
+                />
+                <button onClick={() => dynamicsend(true)} class="depositbutton">Sell</button>
+              </div>
+              </TabPanel>
+              </div>
+              {/**
               <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                 <div class="rightbar">
                   {fulldata ? 
@@ -1587,6 +1669,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                 <button onClick={() => dynamicsend(true)} class="createbutton">Buy missing and Create</button>
                 <button onClick={() => dynamicsend(false)} class="createbutton">Buy all and Create</button>
               </div>
+              **/}
             </div>
 
 
@@ -1783,10 +1866,23 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
 
                         <div class="staketopcard"><div class="stakestat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOSETF"}</div><div class="stakedescriptor">Balance</div></div>
 
-                        <div class="staketopcard"><div class="stakestat">{timetilnext > 0 ? <Countdown date={Date.now() + timetilnext*1000} renderer={renderer} onComplete={()=> setRefresh(refresh+1)}/> : <div class="flexalign"><div class="stakestat">Period has ended!</div><div class="stakedescriptor">Claim dividend to start new period.</div></div>}</div></div>
                       </div>
                         <div class="slider">
-                          <CustomSlider
+                        <div class="depositlabel" style={{marginTop:"20px"}}>Choose amount to stake</div>
+                            <TextField
+                              id="outlined"
+                              defaultValue="1000"
+                              sx={{
+                                backgroundColor:"white",
+                                borderRadius:"5px",
+                                width:"100%"
+                              }}
+                              InputProps={{
+                                endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                                startAdornment: <InputAdornment position="start">CETF</InputAdornment>,
+                              }}
+                            />
+                          {/**<CustomSlider
                             defaultValue={0.0000}
                             value={stake}
                             aria-label="custom thumb label"
@@ -1799,18 +1895,17 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                               "margin-top": "10px",
                               color: "white",
                             }}
-                          />
+                          />**/}
                         </div>
                         <div class="createbuttonwrapper" style={{width:"100%"}}>
-                        <button class="createbutton" onClick={() => getdiv()}>Get {dividendclaim.toFixed(4) + " EOSETF"} Dividend</button>
-                        <button class="createbutton" onClick={()=>stakeetf()}>Stake</button>
+                        <button class="depositbutton" onClick={()=>stakeetf()}>Stake</button>
                         
                       </div>
                       </div>
                       
                       {
                           staketable?.rows.map((row, index) => {
-                            return(<div class="stakecard"><div style={{width:"30%", marginLeft:"20px"}}>ID: {row.id}</div> <div style={{width:"40%"}}>Staked: {row.staked}</div> <div class="unstakebuttonwrapper" style={{width:"20%", marginRight:"10px"}}><button class="unstakebutton" onClick={()=>unstake(index)}>Unstake</button></div></div>)
+                            return(<div class="stakecard"><div style={{width:"60%", marginLeft:"10px"}}>Staked: {row.staked}</div> <div class="unstakebuttonwrapper" style={{width:"40%", marginRight:"10px"}}><button class="unstakebutton" onClick={()=>unstake(index)}>Unstake</button></div></div>)
                           })
                         }
                       <div style={{ "display": "block", "opacity": "0" }}>.<br />.<br />.</div>
