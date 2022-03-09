@@ -28,6 +28,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CachedIcon from '@material-ui/icons/Cached';
+import Switch from '@mui/material/Switch';
 
 const CustomSlider = withStyles({
   root: {
@@ -92,6 +93,8 @@ function App(props) {
     };
   }
   const [tabvalue, setTabvalue] = useState(0)
+  const [depositamounteosetf, setDepositamounteosetf] = useState()
+  const [depositamounteos, setDepositamounteos] = useState(100)
 
   const handleTabchange = (event, newValue) => {
     setTabvalue(newValue);
@@ -262,7 +265,7 @@ function App(props) {
   const [dadpriceeos, setDadprice] = useState({ rows: [] });
   const [eosetfprice, setEosetfprice] = useState({ rows: [] });
   const [etfprice, setEtfprice] = useState();
-  const [periodbutton, setPeriodbutton] = useState("year");
+  const [periodbutton, setPeriodbutton] = useState("week");
 
   const [prices, setPrices] = useState([]);
   const [chartprices, setChartPrices] = useState([]);
@@ -277,9 +280,22 @@ function App(props) {
   const [dividendclaim, setDividendclaim] = useState(0)
   const [fulldata, setFulldata] = useState([])
   const [fulldataprices, setFulldataprices] = useState()
+  const[portfoliodata, setPortfoliodata] = useState([])
+  const[withdrawamounts, setWithdrawamounts] = useState([])
+  const [checked, setChecked] = useState(false);
+  const [checked1, setChecked1] = useState(false);
+  const [historicalprices, setHistoricalprices] = useState();
+
+  const handleSwitchChange = (event) => {
+    setChecked(event.target.checked);
+  };
+  const handleSwitchChange1 = (event) => {
+    setChecked1(event.target.checked);
+  };
 
   const Completionist = () => <div class="flexalign"><div class="stakestat">Period has ended!</div><div class="stakedescriptor">Claim dividend to start new period.</div></div>;
 
+  const endpoint = "https://api.main.alohaeos.com"
 // Renderer callback with condition
 const renderer = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -290,6 +306,92 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     return <div class="flexalign"><div class="stakestat">{hours}:{minutes}:{seconds}</div><div class="stakedescriptor">Time until end of period</div></div>;
   }
 };
+
+useEffect(async()=>{
+  const block_time = 3
+  const week_blocks = 604800/block_time
+  const month_blocks = 2592000/block_time
+  const three_month_blocks = 7776000/block_time
+  let headblock;
+
+  await fetch(`${endpoint}/v1/chain/get_info`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  }).then((response) =>
+    response.json().then((info) => {
+      headblock = info.head_block_num
+    })
+  );
+  const week_blocks_ago = headblock - week_blocks
+  const month_blocks_ago = headblock - month_blocks
+  const three_month_blocks_ago = headblock - three_month_blocks
+  let week_price;
+  let month_price;
+  let three_month_price;
+  let current_price;
+  
+  await fetch(`https://eos.dfuse.eosnation.io/v0/state/table/row?account=swap.defi&scope=swap.defi&table=pairs&key_type=uint64&block_num=${week_blocks_ago}&primary_key=1232&json=true`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  }).then((response) =>
+    response.json().then((val) => {
+      week_price = val.row.json.price1_last
+    })
+  );
+  await fetch(`https://eos.dfuse.eosnation.io/v0/state/table/row?account=swap.defi&scope=swap.defi&table=pairs&key_type=uint64&block_num=${month_blocks_ago}&primary_key=1232&json=true`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  }).then((response) =>
+    response.json().then((val) => {
+      month_price = val.row.json.price1_last
+    })
+  );
+  await fetch(`https://eos.dfuse.eosnation.io/v0/state/table/row?account=swap.defi&scope=swap.defi&table=pairs&key_type=uint64&block_num=${three_month_blocks_ago}&primary_key=1232&json=true`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+  }).then((response) =>
+    response.json().then((val) => {
+      three_month_price = val.row.json.price1_last
+    })
+  );
+  await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      json: true,
+      code: "swap.defi",
+      table: "pairs",
+      scope: "swap.defi",
+      lower_bound: 1232,
+      upper_bound: 1232,
+      limit: 1,
+    }),
+  }).then((response) =>
+    response.json().then((val) => {
+      current_price = val.rows[0].price1_last
+    })
+  );
+  const data = []
+  data.week = (100 + (current_price-week_price)*100).toFixed(2)
+  data.month = (100 + (current_price-month_price)*100).toFixed(2)
+  data.three_month = (100 + (current_price-three_month_price)*100).toFixed(2)
+  setHistoricalprices(data)
+},[])
 
   const refresher = () => {
     setAccountName("")
@@ -309,7 +411,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
   }
 
   useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -327,7 +429,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     }).then((response) =>
       response.json().then((dadpriceeos) => setDadprice(dadpriceeos))
     );
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -347,11 +449,249 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     );
   }, [accountname]);
 
+  useEffect(async()=>{
+    const data = []
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "swap.defi",
+        table: "pairs",
+        scope: "swap.defi",
+        lower_bound: "1232",
+        upper_bound: "1232",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        data.defibox = result.rows[0]
+      })
+    );
+
+    data.reserve0overliquidity = Number(data.defibox.reserve0.split(" ")[0])/data.defibox.liquidity_token
+    data.reserve1overliquidity = Number(data.defibox.reserve1.split(" ")[0])/data.defibox.liquidity_token
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "lptoken.defi",
+        table: "accounts",
+        scope: displayaccountname(),
+        lower_bound: "BOXAUJ",
+        upper_bound: "BOXAUJ",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        if(result?.rows[0]?.balance){
+          data.boxaujbalance = result.rows[0]
+        }
+        else{
+          data.boxaujbalance = {balance:"0 BOXAUJ"}
+        }
+      })
+    );
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "eosio.token",
+        table: "accounts",
+        scope: displayaccountname(),
+        lower_bound: "EOS",
+        upper_bound: "EOS",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        if(result?.rows[0]?.balance){
+          data.eosbalance = result.rows[0]
+        }
+        else{
+          data.eosbalance = {balance:"0.0000 EOS"}
+        }
+      })
+    );
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "cet.f",
+        table: "accounts",
+        scope: displayaccountname(),
+        lower_bound: "EOSETF",
+        upper_bound: "EOSETF",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        if(result?.rows[0]?.balance){
+          data.eosetfbalance = result.rows[0]
+        }
+        else{
+          data.eosetfbalance = {balance:"0.0000 EOSETF"}
+        }
+      })
+    );
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "cet.f",
+        table: "accounts",
+        scope: displayaccountname(),
+        lower_bound: "CETF",
+        upper_bound: "CETF",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        if(result?.rows[0]?.balance){
+          data.cetfbalance = result.rows[0]
+        }
+        else{
+          data.cetfbalance = {balance:"0.0000 CETF"}
+        }
+      })
+    );
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "swap.defi",
+        table: "pairs",
+        scope: "swap.defi",
+        lower_bound: "12",
+        upper_bound: "12",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        data.eosdefibox = result.rows[0]
+      })
+    );
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "indstkdetf",
+        scope: displayaccountname(),
+        limit:100
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        data.alldeposits = result.rows
+      })
+    );
+    
+
+    setDepositamounteosetf(parseFloat(depositamounteos/Number(data.defibox.price1_last)).toFixed(4))
+    data.eosetfpriceineos = Number(data.defibox.price1_last)
+    data.eosetfpriceinusd = Number(data.defibox.price1_last) * Number(data.eosdefibox.price0_last)
+    data.eospriceinusd = Number(data.eosdefibox.price0_last)
+    data.eosetfinusd = Number(data.defibox.price1_last) * Number(data.eosdefibox.price0_last) * Number(data?.eosetfbalance?.balance.split(" ")[0])
+    data.eosinusd = Number(data.eosdefibox.price0_last) * Number(data?.eosbalance?.balance.split(" ")[0])
+    let withdrawamounts = []
+    data?.alldeposits?.forEach((value, index)=>{
+      withdrawamounts.push({index:index, withdrawamount:0})
+    })
+    setWithdrawamounts(withdrawamounts)
+    console.log(data)
+    setPortfoliodata(data)
+
+  }, [accountname])
+  
+  const withdrawhandler = (index, amount) => {
+    console.log(index)
+    console.log(amount)
+    let withdraw = withdrawamounts
+    withdraw[index].withdrawamount = amount
+    setWithdrawamounts(withdraw)
+    console.log(withdraw)
+  }
+
+  const withdraw = async(index) => {
+    console.log(index)
+    const finalamount = Math.floor(Number(withdrawamounts[index].withdrawamount)/100*Number(portfoliodata.alldeposits[index].staked.split(" ")[0]))
+    console.log(finalamount)
+    if(activeUser){
+      try{
+      const transaction = {
+        actions: [
+          {
+            account: "consortiumtt",
+            name: "unstakeetf",
+            authorization: [
+              {
+                actor: displayaccountname(), // use account that was logged in
+                permission: "active",
+              },
+            ],
+            data: {
+              user: displayaccountname(),
+              quantity: [`${finalamount} BOXAUJ`],
+              id: [index],
+              clmspecifier:"cetfcetfcetf",
+      
+            },
+          }
+        ],
+      };
+      await activeUser.signTransaction(transaction, {
+        broadcast: true,
+        expireSeconds: 300,
+      });
+      swal_success(`${finalamount} ETF unstaked!`)
+      setTimeout(()=>{
+        setRefresh(refresh+1)
+      },3000)
+    }
+    catch(e){
+      swal_error(e)
+    }
+    } 
+  }
+
 
 
 
   useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -438,6 +778,103 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     }
   }
 
+  const senddeposit = async() => {
+    if(activeUser){
+      const boxaujtransfer = Math.floor((Number(portfoliodata?.defibox?.liquidity_token)/Number(portfoliodata?.defibox?.reserve0?.split(" ")[0]))*depositamounteos)
+      console.log(boxaujtransfer)
+      try{
+      const transaction = {
+        actions: [
+          {
+            "account": "eosio.token",
+            "name": "transfer",
+            "authorization": [
+              {
+                "actor": displayaccountname(),
+                "permission": "active"
+              }
+            ],
+            "data": {
+              "from": displayaccountname(),
+              "to": "swap.defi",
+              "quantity": parseFloat(depositamounteos).toFixed(4)+" EOS",
+              "memo": "deposit,1232"
+            }
+          },
+          {
+            "account": "cet.f",
+            "name": "transfer",
+            "authorization": [
+              {
+                "actor": displayaccountname(),
+                "permission": "active"
+              }
+            ],
+            "data": {
+              "from": displayaccountname(),
+              "to": "swap.defi",
+              "quantity": parseFloat(depositamounteosetf).toFixed(4) +" EOSETF",
+              "memo": "deposit,1232"
+            }
+          },
+          {
+            "account": "swap.defi",
+            "name": "deposit",
+            "authorization": [
+              {
+                "actor": displayaccountname(),
+                "permission": "active"
+              }
+            ],
+            "data": {
+              "owner": displayaccountname(),
+              "pair_id": 1232
+            }
+          },
+       {
+            "account": "lptoken.defi",
+            "name": "transfer",
+            "authorization": [
+              {
+                "actor": displayaccountname(),
+                "permission": "active"
+              }
+            ],
+            "data": {
+             "from": displayaccountname(),
+              "to": "consortiumtt",
+              "quantity": boxaujtransfer+" BOXAUJ",
+              "memo": "deposit,1232"
+            }
+          }
+        ],
+      };
+      // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+      await activeUser.signTransaction(transaction, {
+        broadcast: true,
+        expireSeconds: 300,
+      });
+      swal_success("Successfully staked!")
+      setTimeout(()=>{
+        setRefresh(refresh+1)
+      },3000)
+    }catch(e){
+      swal_error(e)
+    }
+  } 
+  }
+
+  const deposit = (value, currency) =>{
+    if(currency == "EOS"){
+      setDepositamounteos(value)
+      setDepositamounteosetf(parseFloat(value/portfoliodata?.eosetfpriceineos).toFixed(4)) //SIIA HINNAGA KORRUTIS
+    }
+    else{
+      setDepositamounteos(parseFloat(value * portfoliodata?.eosetfpriceineos).toFixed(4))
+      setDepositamounteosetf(value)
+    }
+  }
+
 
   const labelarray = (data) => {
     const arr = []
@@ -452,7 +889,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     if(fulldata){
       const datar = fulldata
       datar.forEach((element, index, array) => {
-        fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        fetch(`${endpoint}/v1/chain/get_table_rows`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -469,11 +906,11 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
         }),
       }).then(resp => resp.json())
         .then(data => {
-          if(data?.rows[0].reserve0.split(" ")[1] == "EOS"){
+          if(data?.rows[0]?.reserve0.split(" ")[1] == "EOS"){
             datar[index].price = Number(data?.rows[0].price1_last)
           }
           else{
-            datar[index].price = Number(data?.rows[0].price0_last)
+            datar[index].price = Number(data?.rows[0]?.price0_last)
           }
         }
         )
@@ -528,7 +965,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
   }
   
   useEffect(()=>{
-      fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+      fetch(`${endpoint}/v1/chain/get_table_rows`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -553,7 +990,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
       let data = fetchdata.rows
       data.forEach((element, index, array) => {
         if(accountname){
-          fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+          fetch(`${endpoint}/v1/chain/get_table_rows`, {
             method: "POST",
             headers: {
               Accept: "application/json",
@@ -566,8 +1003,15 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
               scope: displayaccountname(),
               limit: 1,
             }),
-          }).then((response) =>
-            response.json().then((balance) => attachbalance(balance?.rows[0]?.balance))
+          }).then(function(response) {
+            if(response.ok)
+            {
+              return response;  
+            }
+            data[index].balance = "0.0000 TOKENS"
+            console.log("POST500")
+        }).then((response) =>
+            response?.json().then((balance) => {if(balance?.rows?.length !==0){attachbalance(balance?.rows[0]?.balance)}else{data[index].balance = "0.0000 TOKENS"}})
           );
         }
         //FETCH HERE
@@ -589,7 +1033,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     if(accountname){
     let dividenddata = {}
 
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -608,7 +1052,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
       response.json().then((eosetfbalanceind) => setEosetfind(eosetfbalanceind))
     );
     
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -627,7 +1071,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
       response.json().then((etfbalanceind) => {
         setEtfind(etfbalanceind)
 
-        fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        fetch(`${endpoint}/v1/chain/get_table_rows`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -660,7 +1104,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     
     
     //DIV PERIODSTART AND TOTAL CLAIM PERIOD
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -681,7 +1125,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     );
     
     //PERIOD FREQUENCY
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -701,7 +1145,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     );
 
     //TOTAL STAKED
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -721,7 +1165,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     );
     
     //ETF FEES
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -741,7 +1185,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     );
 
     //FEES ADJUST
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -761,7 +1205,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     );
 
     //CLAIM TIME
-    await fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -872,7 +1316,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
   }, [accountname, refresh]);
 
   useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -894,7 +1338,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
 
 
   useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -916,7 +1360,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
 
 
   useEffect(() => {
-    fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+    fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -1017,7 +1461,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     if(fulldatacopy){
       Promise.all(fulldatacopy.map((value,index) =>{
         return new Promise((resolve) => {
-        fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+        fetch(`${endpoint}/v1/chain/get_table_rows`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -1037,7 +1481,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
       }).then(()=>{
         fulldatacopy.forEach((element, index, array) => {
           if(accountname){
-            fetch("https://api.main.alohaeos.com:443/v1/chain/get_table_rows", {
+            fetch(`${endpoint}/v1/chain/get_table_rows`, {
               method: "POST",
               headers: {
                 Accept: "application/json",
@@ -1242,7 +1686,8 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
             data: {
               user: displayaccountname(),
               quantity: [staketable.rows[index].staked],
-              id: [staketable.rows[index].id]
+              id: [staketable.rows[index].id],
+              clmspecifier:"eosetfeosetf"
             },
           }
 
@@ -1278,10 +1723,24 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
               },
             ],
             data: {
-              user: displayaccountname()
+              user: displayaccountname(),
+              clmspecifier: "eosetfeosetf"
             },
+          },
+          {
+            account: "consortiumtt",
+            name: "getcetf",
+            authorization: [
+              {
+                actor: displayaccountname(), // use account that was logged in
+                permission: "active",
+              },
+            ],
+            data: {
+              user: displayaccountname(),
+              clmspecifier: "cetfcetfcetf"
+            }
           }
-
         ],
       };
       // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
@@ -1572,9 +2031,9 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                 </div>**/}
               </div>
               <div class="colorcreatecard">
-                  <div class="promotext">100 USD invested {periodbutton} ago, now 2500 USD</div>
+                  <div class="promotext">100 USD invested {periodbutton} ago, now {historicalprices ? historicalprices[periodbutton]: <></>} USD</div>
                   <div class="periodbuttons">
-                    <div class="periodbutton" onClick={()=>setPeriodbutton("year")} style={{fontWeight: periodbutton == "year" ? 600 : 400}}>Year</div>
+                    <div class="periodbutton" onClick={()=>setPeriodbutton("three_month")} style={{fontWeight: periodbutton == "three_month" ? 600 : 400}}>3 Months</div>
                     <div class="periodbutton" onClick={()=>setPeriodbutton("month")} style={{fontWeight: periodbutton == "month" ? 600 : 400}}>Month</div>
                     <div class="periodbutton" onClick={()=>setPeriodbutton("week")} style={{fontWeight: periodbutton == "week" ? 600 : 400}}>Week</div>
                   </div>
@@ -1607,6 +2066,19 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                   }}
                 />
                 <button onClick={() => dynamicsend(true)} class="depositbutton">Invest</button>
+                <label style={{fontSize:"12px"}}>Advanced</label>
+                <Switch
+                checked={checked1}
+                onChange={handleSwitchChange1}
+                />
+                {checked1 ?
+                <>
+                <div style={{fontSize:"12px"}}>Uses your existing tokens to invest.</div>
+                <button onClick={() => dynamicsend(true)} class="depositbutton">Buy missing and invest</button>
+                </>
+                :
+                <></>
+                }
               </div>
               </TabPanel>
               <TabPanel value={tabvalue} index={1}>
@@ -1631,6 +2103,19 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                   }}
                 />
                 <button onClick={() => dynamicsend(true)} class="depositbutton">Sell</button>
+                <label style={{fontSize:"12px"}}>Advanced</label>
+                <Switch
+                checked={checked}
+                onChange={handleSwitchChange}
+                />
+                {checked ?
+                <>
+                <div style={{fontSize:"12px"}}>Redeem returns the underlying tokens.</div>
+                <button onClick={() => dynamicsend(true)} class="depositbutton">Redeem</button>
+                </>
+                :
+                <></>
+                }
               </div>
               </TabPanel>
               </div>
@@ -1922,20 +2407,23 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                         <div class="depositlabel">Choose amount to deposit</div>
                         <TextField
                           id="outlined"
-                          defaultValue="100"
+                          value={depositamounteosetf}
+                          onChange={e => deposit(e.target.value, "EOSETF")}
                           sx={{
                             backgroundColor:"white",
                             borderRadius:"5px",
                             width:"100%"
+                            
                           }}
                           InputProps={{
-                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                            endAdornment: <InputAdornment position="end">~{parseFloat(depositamounteosetf*portfoliodata?.eosetfpriceinusd)?.toFixed(2)} USD</InputAdornment>,
                             startAdornment: <InputAdornment position="start">EOSETF</InputAdornment>,
                           }}
                         />
                         <TextField
                           id="outlined"
-                          defaultValue="100"
+                          value={depositamounteos}
+                          onChange={e => deposit(e.target.value, "EOS")}
                           sx={{
                             backgroundColor:"white",
                             borderRadius:"5px",
@@ -1943,41 +2431,36 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                             marginTop:"5px"
                           }}
                           InputProps={{
-                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
+                            endAdornment: <InputAdornment position="end">~{parseFloat(depositamounteos*portfoliodata?.eospriceinusd)?.toFixed(2)} USD</InputAdornment>,
                             startAdornment: <InputAdornment position="start">EOS</InputAdornment>,
                           }}
                         />
-                        <button class="depositbutton">Deposit</button>
+                        <button class="depositbutton" onClick={()=>senddeposit()}>Deposit</button>
 
                         <div class="depositlabel">Choose amount to withdraw</div>
-                        <TextField
-                          id="outlined"
-                          defaultValue="100"
-                          sx={{
-                            backgroundColor:"white",
-                            borderRadius:"5px",
-                            width:"100%"
-                          }}
-                          InputProps={{
-                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
-                            startAdornment: <InputAdornment position="start">EOSETF</InputAdornment>,
-                          }}
-                        />
-                        <TextField
-                          id="outlined"
-                          defaultValue="100"
-                          sx={{
-                            backgroundColor:"white",
-                            borderRadius:"5px",
-                            width:"100%",
-                            marginTop:"5px"
-                          }}
-                          InputProps={{
-                            endAdornment: <InputAdornment position="end">~50 USD</InputAdornment>,
-                            startAdornment: <InputAdornment position="start">EOS</InputAdornment>,
-                          }}
-                        />
-                        <button class="depositbutton">Withdraw</button>
+                        {portfoliodata?.alldeposits?.map((value, index)=>{
+                          return(
+                            <div class="withdrawcard">
+                              <div class="withdrawvalue">{value.staked}</div>
+                              <br/>
+                              <div class="withdrawsecondrow">
+                              <div class="withdrawsliderwrapper">
+                              <Slider
+                                defaultValue={25}
+                                step={25}
+                                onChangeCommitted={(e, val) => withdrawhandler(index, val)}
+                                valueLabelDisplay="auto"
+                                marks
+                                min={0}
+                                max={100}
+                                valueLabelFormat={value => <div>{value}%</div>}
+                              />
+                              </div>
+                              <div class="withdrawbuttonwrapper"><button class="withdrawbutton" onClick={()=>withdraw(index)}>Withdraw</button></div>
+                              </div>
+                            </div>
+                          )
+                        })}
                       </div>
                     </div>
                     : view == "portfolio" ? 
@@ -1989,18 +2472,17 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                         <div class="portfoliotopcardwrapper">
                           <div class="portfoliotopcard">
                             <div class="portfoliodescriptor">Your EOSETF Balance</div>
-                            <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOSETF"}</div>
-                            <div class="portfoliodescriptor">~50 USD</div>
+                            <div class="portfoliostat">{accountname ? portfoliodata?.eosetfbalance?.balance : "0.0000 EOSETF"}</div>
+                            <div class="portfoliodescriptor">~{portfoliodata?.eosetfinusd?.toFixed(2)} USD</div>
                           </div>
                           <div class="portfoliotopcard">
                             <div class="portfoliodescriptor">Your EOS Balance</div>
-                            <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 EOS"}</div>
-                            <div class="portfoliodescriptor">~50 USD</div>
+                            <div class="portfoliostat">{accountname ? portfoliodata?.eosbalance?.balance : "0.0000 EOS"}</div>
+                            <div class="portfoliodescriptor">~{portfoliodata?.eosinusd?.toFixed(2)} USD</div>
                           </div>
                           <div class="portfoliotopcard">
                             <div class="portfoliodescriptor">Your CETF Balance</div>
-                            <div class="portfoliostat">{accountname ? eosetfbalanceind?.rows[0]?.balance : "0.0000 CETF"}</div>
-                            <div class="portfoliodescriptor">~50 USD</div>
+                            <div class="portfoliostat">{accountname ? portfoliodata?.cetfbalance?.balance : "0.0000 CETF"}</div>
                           </div>
                         </div>
                         <div class="portfoliobottomwrapper">
@@ -2012,7 +2494,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                             Available to claim <br/>
                             3 EOSETF <br/>
                             50,000 CETF
-                            <button class="createbutton">Claim</button>
+                            <button class="createbutton" onClick={() => getdiv()}>Claim</button>
                           </div>
                         </div>
                       </div>
