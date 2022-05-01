@@ -137,6 +137,7 @@ function App(props) {
   const [stake, setStake] = useState(0);
   const [stakemax, setStakemax] = useState(0);
   const [timetilnext, setTimetilnext] = useState(0);
+  const [displaytime, setDisplaytime] = useState(0);
   const [staketable, setStaketable] = useState();
   const [redeemtokens, setRedeemtokens] = useState(0);
   const [view, setView] = useState("create");
@@ -349,6 +350,7 @@ function App(props) {
     ).then((response) =>
       response.json().then((val) => {
         week_price = val.row.json.price1_last;
+        console.log("WEEK PRICE:" + week_price)
       })
     );
     await fetch(
@@ -397,6 +399,7 @@ function App(props) {
     }).then((response) =>
       response.json().then((val) => {
         current_price = val.rows[0].price1_last;
+        console.log("CURRENT PRICE:" + current_price)
       })
     );
     const data = [];
@@ -1100,6 +1103,8 @@ function App(props) {
           .json()
           .then((eosetfbalanceind) => setEosetfind(eosetfbalanceind))
       );
+      let userstake;
+      let feetouser;
 
       await fetch(`${endpoint}/v1/chain/get_table_rows`, {
         method: "POST",
@@ -1151,6 +1156,7 @@ function App(props) {
                   Number(etfbalanceind.rows[0].balance.split(" ")[0]) - sum;
                 setStakemax(stakedamount);
                 setStaketable(res);
+                userstake = stakedamount;
               }
             })
           );
@@ -1175,6 +1181,7 @@ function App(props) {
         response.json().then((res) => {
           dividenddata["periodstart"] = res.rows[0].periodstart;
           dividenddata["totalclaimperiod"] = res.rows[0].claimperiod;
+          console.table(dividenddata)
         })
       );
 
@@ -1215,6 +1222,8 @@ function App(props) {
       }).then((response) =>
         response.json().then((res) => {
           dividenddata["totalstaked"] = res?.rows[0]?.totalstaked;
+          feetouser = userstake/Number(res?.rows[0]?.totalstaked.split(" ")[0])
+          console.log("FEE TO USER: " + feetouser)
         })
       );
 
@@ -1237,6 +1246,7 @@ function App(props) {
           dividenddata["totalfees"] = res.rows[0].totalfees;
         })
       );
+      
 
       //FEES ADJUST
       await fetch(`${endpoint}/v1/chain/get_table_rows`, {
@@ -1313,7 +1323,16 @@ function App(props) {
         Date.parse(dividenddata.periodstart) +
         dividenddata.periodfreq * 1000 -
         now;
-      console.log(timetilnextperiod);
+      console.log("TILNEXT" + timetilnextperiod);
+      if(timetilnextperiod/1000 > 86400){
+        setDisplaytime(timetilnextperiod/1000/60/60/24 + " days")
+      }
+      if(timetilnextperiod/1000 < 86400){
+        setDisplaytime(timetilnextperiod/1000/60/60 + " hours")
+      }
+      if(timetilnextperiod/1000 < 0){
+        setDisplaytime(0 + " hours")
+      }
       if (timetilnextperiod > 0) {
         setTimetilnext((timetilnextperiod / 1000).toFixed(0));
       } else {
@@ -2346,15 +2365,6 @@ function App(props) {
                 </Tabs>
                 <TabPanel value={tabvalue} index={0}>
                   <div class="invest">
-                    <div class="portfoliotopcard" style={{ width: "50%" }}>
-                      <div class="portfoliodescriptor">Your EOS Balance</div>
-                      <div class="portfoliostat">
-                        {accountname
-                          ? eosetfbalanceind?.rows[0]?.balance
-                          : "0.0000 EOS"}
-                      </div>
-                      <div class="portfoliodescriptor">~50 USD</div>
-                    </div>
                     <div class="depositlabel" style={{ marginTop: "20px" }}>
                       Choose investment amount
                     </div>
@@ -2364,6 +2374,7 @@ function App(props) {
                       onBlur={(e) => setTokens(e.target.value)}
                       sx={{
                         backgroundColor: "white",
+                        opacity:0.8,
                         borderRadius: "5px",
                         width: "100%",
                       }}
@@ -2376,14 +2387,18 @@ function App(props) {
                               Number(eosusdt)
                             ).toFixed(1) + " USD"}
                           </InputAdornment>
+                          
                         ),
                         startAdornment: (
                           <InputAdornment position="start">EOS</InputAdornment>
                         ),
                       }}
                     />
+                    <div class="depositlabel">
+                      Balance: 69 EOS
+                    </div>
                     <button
-                      onClick={() => dynamicsend(true)}
+                      onClick={() => dynamicsend(false)}
                       class="depositbutton"
                     >
                       Invest
@@ -2409,15 +2424,6 @@ function App(props) {
                 </TabPanel>
                 <TabPanel value={tabvalue} index={1}>
                   <div class="invest">
-                    <div class="portfoliotopcard" style={{ width: "50%" }}>
-                      <div class="portfoliodescriptor">Your EOSETF Balance</div>
-                      <div class="portfoliostat">
-                        {accountname
-                          ? eosetfbalanceind?.rows[0]?.balance
-                          : "0.0000 EOSETF"}
-                      </div>
-                      <div class="portfoliodescriptor">~50 USD</div>
-                    </div>
                     <div class="depositlabel" style={{ marginTop: "20px" }}>
                       Choose amount to sell
                     </div>
@@ -2442,6 +2448,9 @@ function App(props) {
                         ),
                       }}
                     />
+                    <div class="depositlabel">
+                      Balance: 69 EOSETF
+                    </div>
                     <button
                       onClick={() => dynamicsend(true)}
                       class="depositbutton"
@@ -2870,6 +2879,7 @@ function App(props) {
                     backgroundColor: "white",
                     borderRadius: "5px",
                     width: "100%",
+                    opacity:0.8,
                   }}
                   InputProps={{
                     endAdornment: (
@@ -2895,6 +2905,7 @@ function App(props) {
                     borderRadius: "5px",
                     width: "100%",
                     marginTop: "5px",
+                    opacity:0.8,
                   }}
                   InputProps={{
                     endAdornment: (
@@ -2993,9 +3004,9 @@ function App(props) {
                 <div class="portfoliobottomwrapper">
                   <div style={{ width: "30%", height: "200px" }}>
                     <CircularProgressbar
-                      value={5}
-                      maxValue={8}
-                      text={`${5} days`}
+                      value={7 - timetilnext/60/60/24}
+                      maxValue={7}
+                      text={displaytime}
                     />
                     <div style={{ textAlign: "center" }}>
                       Until end of claim period 55
@@ -3003,7 +3014,7 @@ function App(props) {
                   </div>
                   <div style={{ width: "30%", height: "auto" }}>
                     Available to claim <br />
-                    3 EOSETF <br />
+                    {dividendclaim} EOSETF <br />
                     50,000 CETF
                     <button class="createbutton" onClick={() => getdiv()}>
                       Claim
