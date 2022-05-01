@@ -731,15 +731,6 @@ function App(props) {
     );
   }, [accountname]);
 
-  useEffect(() => {
-    fetch(
-      "https://api.newdex.io/v1/price?symbol=consortiumlv-govrn-eos",
-      {}
-    ).then((response) =>
-      response.json().then((govrnprice) => setGovrnprice(govrnprice.data.price))
-    );
-  }, [accountname]);
-
   const getdadprice = () => {
     if (dadpriceeos.rows[0]) {
       return Number(dadpriceeos.rows[0].price1_last);
@@ -2798,7 +2789,7 @@ function App(props) {
                           Staking CETF enables you to claim fees that the EOSETF
                           generates. <br />
                           <br />
-                          Fees can be claimed once a week under My portfolio.
+                          Fees can be claimed once a week under Claim.
                           <br />
                           <br />
                           Fees are distributed between all the stakers
@@ -2967,32 +2958,36 @@ function App(props) {
                   <div class="portfoliotopcard">
                     <div class="portfoliostat">
                       {accountname
-                        ? portfoliodata?.eosetfbalance?.balance
-                        : "0.0000 EOSETF"}
+                        ? Number(
+                            portfoliodata?.eosetfbalance?.balance?.split(" ")[0]
+                          ).toFixed(0) + " EOSETF"
+                        : "0 EOSETF"}
                     </div>
                     <div class="portfoliodescriptor">
-                      ~{portfoliodata?.eosetfinusd?.toFixed(2)} USD
+                      ~{portfoliodata?.eosetfinusd?.toFixed(0)} USD
                     </div>
                   </div>
                   <div class="portfoliotopcard">
                     <div class="portfoliostat">
                       {accountname
-                        ? portfoliodata?.eosbalance?.balance
-                        : "0.0000 EOS"}
+                        ? Number(
+                            portfoliodata?.eosbalance?.balance.split(" ")[0]
+                          ).toFixed(0) + " EOS"
+                        : "0 EOS"}
                     </div>
                     <div class="portfoliodescriptor">
-                      ~{portfoliodata?.eosinusd?.toFixed(2)} USD
+                      ~{portfoliodata?.eosinusd?.toFixed(0)} USD
                     </div>
                   </div>
                   <div class="portfoliotopcard">
                     <div class="portfoliostat">
                       {accountname
-                        ? portfoliodata?.cetfbalance?.balance
-                        : "0.0000 CETF"}
+                        ? Number(
+                            portfoliodata?.cetfbalance?.balance.split(" ")[0]
+                          ).toFixed(0) + " CETF"
+                        : "0 CETF"}
                     </div>
-                    <div class="portfoliodescriptor">
-                      ~{portfoliodata?.eosinusd?.toFixed(2)} USD
-                    </div>
+                    <div class="portfoliodescriptor">~{0} USD</div>
                   </div>
                 </div>
                 <div class="portfoliobottomwrapper">
