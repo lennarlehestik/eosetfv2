@@ -2078,37 +2078,24 @@ function App(props) {
                 </div>
                 <div class="menuitemswrapper">
                   <table class="menuitems">
-                    <tr onClick={() => menuClick("create")}>
+                    <tr onClick={() => menuClick("about")}>
                       <td>
-                        <img class="menuimg" src="assets/productbox1.svg" />
+                        <img class="menuimg" src="assets/briefcase.svg" />
                       </td>
                       <td>
-                        <a class="menuitemtext">Create</a>
-                      </td>
-                    </tr>
-                    <tr onClick={() => menuClick("redeem")}>
-                      <td>
-                        <img class="menuimg" src="assets/productbox2.svg" />
-                      </td>
-                      <td>
-                        <a class="menuitemtext">Redeem</a>
+                        <a class="menuitemtext">Tokens</a>
                       </td>
                     </tr>
-                    <tr
-                      onClick={() =>
-                        window.open(
-                          "https://defibox.io/pool-market-details/1232",
-                          "_blank"
-                        )
-                      }
-                    >
+
+                    <tr onClick={() => menuClick("stats")}>
                       <td>
-                        <img class="menuimg" src="assets/checkout.svg" />
+                        <img class="menuimg" src="assets/stats.svg" />
                       </td>
                       <td>
-                        <a class="menuitemtext">Buy</a>
+                        <a class="menuitemtext">Tokenomics</a>
                       </td>
                     </tr>
+
                     <tr
                       onClick={() =>
                         window.open(
@@ -2121,7 +2108,7 @@ function App(props) {
                         <img class="menuimg" src="assets/govern.svg" />
                       </td>
                       <td>
-                        <a class="menuitemtext">Govern</a>
+                        <a class="menuitemtext">Vote</a>
                       </td>
                     </tr>
                     <tr
@@ -2133,31 +2120,23 @@ function App(props) {
                         <img class="menuimg" src="assets/question.svg" />
                       </td>
                       <td>
-                        <a class="menuitemtext">Poll</a>
+                        <a class="menuitemtext">Rebalance</a>
                       </td>
                     </tr>
-                    <tr onClick={() => menuClick("staking")}>
+
+                    <tr
+                      onClick={() =>
+                        window.open(
+                          "https://defibox.io/pool-market-details/1232",
+                          "_blank"
+                        )
+                      }
+                    >
                       <td>
-                        <img class="menuimg" src="assets/stake.svg" />
+                        <img class="menuimg" src="assets/checkout.svg" />
                       </td>
                       <td>
-                        <a class="menuitemtext">Staking</a>
-                      </td>
-                    </tr>
-                    <tr onClick={() => menuClick("stats")}>
-                      <td>
-                        <img class="menuimg" src="assets/stats.svg" />
-                      </td>
-                      <td>
-                        <a class="menuitemtext">Statistics</a>
-                      </td>
-                    </tr>
-                    <tr onClick={() => menuClick("about")}>
-                      <td>
-                        <img class="menuimg" src="assets/briefcase.svg" />
-                      </td>
-                      <td>
-                        <a class="menuitemtext">Tokens</a>
+                        <a class="menuitemtext">Defibox</a>
                       </td>
                     </tr>
                     <tr
@@ -2256,7 +2235,7 @@ function App(props) {
                     <img class="menuimg" src="assets/stats.svg" />
                   </td>
                   <td>
-                    <a class="menuitemtext">Statistics</a>
+                    <a class="menuitemtext">Tokenomics</a>
                   </td>
                 </tr>
                 <tr onClick={() => setView("about")}>
@@ -2693,7 +2672,7 @@ function App(props) {
                 <div class="createetftitle">
                   <div>
                     <a>
-                      Statistics
+                      Tokenomics
                       <CachedIcon
                         style={{
                           "margin-left": "5px",
@@ -2720,8 +2699,7 @@ function App(props) {
                     </AccordionSummary>
                     <AccordionDetails className={classes.expansion2}>
                       <Typography className={classes.heading}>
-                        Distribution of CETF will end when circulating supply of
-                        EOSETF will be 4615. <br /> <br />
+                        SIIA INF UUEST TOKENOMICSIST. <br /> <br />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -2767,7 +2745,7 @@ function App(props) {
                     <a class="stat">
                       {halvings(gettokensupply(etfbalance)).toLocaleString()}
                     </a>
-                    <a class="statexplainer">Halvings (Max 3)</a>
+                    <a class="statexplainer">Halvings</a>
                   </div>
                   <div class="statcard">
                     <a class="stat">
@@ -3103,7 +3081,7 @@ function App(props) {
                       text={displaytime}
                     />
                     <div style={{ textAlign: "center" }}>
-                      Until end of claim period 55
+                      Next claiming period in:
                     </div>
                   </div>
                   <div style={{ width: "30%", height: "auto" }}>
