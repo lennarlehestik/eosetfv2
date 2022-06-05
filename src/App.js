@@ -2207,35 +2207,31 @@ function App(props) {
                     <img class="menuimg" src="assets/productbox1.svg" />
                   </td>
                   <td>
-                    <a class="menuitemtext">Create</a>
+                    <a class="menuitemtext">Invest</a>
                   </td>
                 </tr>
-                <tr onClick={() => setView("redeem")}>
+                <tr onClick={() => setView("staking")}>
                   <td>
-                    <img class="menuimg" src="assets/productbox2.svg" />
+                    <img class="menuimg" src="assets/stake.svg" />
                   </td>
                   <td>
-                    <a class="menuitemtext">Redeem</a>
+                    <a class="menuitemtext">Stake</a>
                   </td>
                 </tr>
-                <tr
-                  onClick={() =>
-                    (window.location = "https://polling.eosetf.io")
-                  }
-                >
+                <tr onClick={() => setView("earn")}>
+                  <td>
+                    <img class="menuimg" src="assets/stake.svg" />
+                  </td>
+                  <td>
+                    <a class="menuitemtext">Earn</a>
+                  </td>
+                </tr>
+                <tr onClick={() => setView("portfolio")}>
                   <td>
                     <img class="menuimg" src="assets/question.svg" />
                   </td>
                   <td>
-                    <a class="menuitemtext">Poll</a>
-                  </td>
-                </tr>
-                <tr onClick={() => setView("stats")}>
-                  <td>
-                    <img class="menuimg" src="assets/stats.svg" />
-                  </td>
-                  <td>
-                    <a class="menuitemtext">Tokenomics</a>
+                    <a class="menuitemtext">Claim</a>
                   </td>
                 </tr>
                 <tr onClick={() => setView("about")}>
@@ -2246,14 +2242,15 @@ function App(props) {
                     <a class="menuitemtext">Tokens</a>
                   </td>
                 </tr>
-                <tr onClick={() => setView("staking")}>
+                <tr onClick={() => setView("stats")}>
                   <td>
-                    <img class="menuimg" src="assets/stake.svg" />
+                    <img class="menuimg" src="assets/stats.svg" />
                   </td>
                   <td>
-                    <a class="menuitemtext">Staking</a>
+                    <a class="menuitemtext">Tokenomics</a>
                   </td>
                 </tr>
+
                 {accountname == "" ? (
                   <tr onClick={() => showModal()}>
                     <td>
@@ -2300,7 +2297,7 @@ function App(props) {
                           className={classes.heading}
                           style={{
                             "padding-right": "10px",
-                            "padding-bottom": "46px",
+                            "padding-bottom": "1px",
                           }}
                         >
                           NB! CETF is a new protocol, there might be exploits in
@@ -2324,8 +2321,6 @@ function App(props) {
                           <br />
                           Tokens in the fund are under msig between five Eden
                           members.
-                          <br />
-                          <br />
                         </Typography>
                       </AccordionDetails>
                     </Accordion>
@@ -2456,7 +2451,7 @@ function App(props) {
                 </TabPanel>
                 <TabPanel value={tabvalue} index={1}>
                   <div class="invest">
-                    <div class="depositlabel" style={{ marginTop: "20px" }}>
+                    <div class="depositlabel" style={{ marginTop: "60px" }}>
                       Choose amount to sell
                     </div>
                     <TextField
@@ -2466,6 +2461,7 @@ function App(props) {
                         backgroundColor: "white",
                         borderRadius: "5px",
                         width: "100%",
+                        opacity: 0.7,
                       }}
                       InputProps={{
                         endAdornment: (
@@ -2480,18 +2476,26 @@ function App(props) {
                         ),
                       }}
                     />
-                    <div class="depositlabel">Balance: 69 EOSETF</div>
+                    <div class="depositlabel">
+                      Balance:{" "}
+                      {accountname
+                        ? Number(
+                            portfoliodata?.eosetfbalance?.balance?.split(" ")[0]
+                          ).toFixed(4) + " EOSETF"
+                        : "0 EOSETF"}
+                    </div>
                     <button
-                      onClick={() => dynamicsend(true)}
+                      onClick={() => sendetf()}
                       class="depositbutton"
+                      style={{ marginTop: "40px" }}
                     >
                       Sell
                     </button>
-                    <label style={{ fontSize: "12px" }}>Advanced</label>
+                    <label style={{ fontSize: "13px" }}>Advanced</label>
                     <Switch checked={checked} onChange={handleSwitchChange} />
                     {checked ? (
                       <>
-                        <div style={{ fontSize: "12px" }}>
+                        <div style={{ fontSize: "13px" }}>
                           Redeem returns the underlying tokens.
                         </div>
                         <button
@@ -2698,8 +2702,14 @@ function App(props) {
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails className={classes.expansion2}>
-                      <Typography className={classes.heading}>
-                        SIIA INF UUEST TOKENOMICSIST. <br /> <br />
+                      <Typography
+                        className={classes.heading}
+                        style={{
+                          "padding-right": "10px",
+                          "padding-bottom": "12px",
+                        }}
+                      >
+                        SIIA INF UUEST TOKENOMICSIST. <br />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -2821,7 +2831,7 @@ function App(props) {
                           className={classes.heading}
                           style={{
                             "padding-right": "10px",
-                            "padding-bottom": "46px",
+                            "padding-bottom": "1px",
                           }}
                         >
                           Staking CETF enables you to claim fees that the EOSETF
@@ -2834,7 +2844,7 @@ function App(props) {
                           proportionally to the amount they have staked.
                           <br />
                           <br />
-                          Fees can be claimed week after staking CETF.{" "}
+                          Fees can be claimed week after staking CETF.
                         </Typography>
                       </AccordionDetails>
                     </Accordion>
@@ -2916,7 +2926,7 @@ function App(props) {
                         className={classes.heading}
                         style={{
                           "padding-right": "10px",
-                          "padding-bottom": "46px",
+                          "padding-bottom": "1px",
                         }}
                       >
                         You can earn CETF tokens by depositing EOS and EOSETF to
@@ -3037,6 +3047,32 @@ function App(props) {
             <div class="rightbar">
               <div class="rightbartopbox">
                 <div class="createetftitle">My portfolio</div>
+                <div className={classes.root}>
+                  <Accordion className={classes.expansion}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                      className={classes.summary}
+                    >
+                      <Typography className={classes.heading}>
+                        Click here for more information
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails className={classes.expansion2}>
+                      <Typography
+                        className={classes.heading}
+                        style={{
+                          "padding-right": "10px",
+                          "padding-bottom": "1px",
+                        }}
+                      >
+                        EOS and EOSETF balance includes tokens deposited to
+                        Defibox.
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                </div>
                 <div class="portfoliotopcardwrapper">
                   <div class="portfoliotopcard">
                     <div class="portfoliostat">
