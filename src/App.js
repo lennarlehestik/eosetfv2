@@ -1093,7 +1093,7 @@ function App(props) {
                 if (response.ok) {
                   return response;
                 }
-                data[index].balance = "0.0000 TOKENS";
+                data[index].balance = "0.0000 " + data[index].minamount.split(" ")[1];
                 console.log("POST500");
               })
               .then((response) =>
@@ -1101,7 +1101,7 @@ function App(props) {
                   if (balance?.rows?.length !== 0) {
                     attachbalance(balance?.rows[0]?.balance);
                   } else {
-                    data[index].balance = "0.0000 TOKENS";
+                    data[index].balance = "0.0000 " + data[index].minamount.split(" ")[1];
                   }
                 })
               );
@@ -1112,6 +1112,7 @@ function App(props) {
             data[index].balance = balance;
           };
         });
+        console.log(data)
         setFulldata(data);
 
         //TODO RIGHT NOW FOR PRICE SUM. NEED TO ADD MULTIPLIERS.
@@ -1622,12 +1623,21 @@ function App(props) {
                         scope: displayaccountname(),
                         limit: 1,
                       }),
-                    }).then((response) =>
-                      response
-                        .json()
-                        .then((balance) =>
-                          attachbalance(balance?.rows[0]?.balance)
-                        )
+                    })
+                    .then(function (response) {
+                      if (response.ok) {
+                        return response;
+                      }
+                      attachbalance("0.0000 " + fulldatacopy[index].minamount.split(" ")[1])
+                    })
+                    .then((response) =>
+                      response?.json().then((balance) => {
+                        if (balance?.rows?.length !== 0) {
+                          attachbalance(balance?.rows[0]?.balance);
+                        } else {
+                          attachbalance("0.0000 " + fulldatacopy[index].minamount.split(" ")[1])
+                        }
+                      })
                     );
                   }
                   //FETCH HERE
@@ -1641,22 +1651,28 @@ function App(props) {
           });
         })
       ).then(() => {
-        sender(fulldatacopy);
+        sender(fulldatacopy, buy);
       });
     }
 
-    const sender = async (totaldata) => {
-      var slippagetoohigh = false;
-      var slippagelist = [];
+    const sender = async (totaldata, buyornot) => {
+      console.log("BUY: " + buy)
+      console.log(totaldata)
+      let slippagetoohigh = false;
+      let slippagelist = [];
       const multparse = (mult, nr, bal) => {
         if (bal) {
-          if (buy == true) {
+          if (buyornot == true) {
+            console.log("ATTENTION")
+            console.log(parseFloat(bal?.split(" ")[0]))
             return (
               Number(
                 parseFloat((mult * tokens) / geteosetfprice()).toFixed(nr)
               ) - parseFloat(bal?.split(" ")[0])
             );
           } else {
+            console.log("ATTENTION")
+            console.log(parseFloat(bal?.split(" ")[0]))
             return Number(
               parseFloat((mult * tokens) / geteosetfprice()).toFixed(nr)
             );
@@ -1736,6 +1752,7 @@ function App(props) {
           ).toFixed(4);
         }
         totaldata[index].buyamount = buyamount;
+        console.log("BUYAMOUNT" + buyamount)
       });
 
       if (activeUser) {
@@ -1798,13 +1815,13 @@ function App(props) {
 
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
 
-          if (buy == true && slippagetoohigh == false) {
+          if (buyornot == true && slippagetoohigh == false) {
             await activeUser.signTransaction(transaction, {
               broadcast: true,
               expireSeconds: 300,
             });
             sucessstake();
-          } else if (buy == false && slippagetoohigh == false) {
+          } else if (buyornot == false && slippagetoohigh == false) {
             await activeUser.signTransaction(transaction, {
               broadcast: true,
               expireSeconds: 300,
@@ -2396,24 +2413,24 @@ function App(props) {
                 <div class="periodbuttons">
                   <div
                     class="periodbutton"
-                    onClick={() => setPeriodbutton("month")}
+                    onClick={() => setPeriodbutton("a month")}
                     style={{
-                      fontWeight: periodbutton == "month" ? 600 : 400,
+                      fontWeight: periodbutton == "a month" ? 600 : 400,
                     }}
                   >
                     1 Month
                   </div>
                   <div
                     class="periodbutton"
-                    onClick={() => setPeriodbutton("six_month")}
-                    style={{ fontWeight: periodbutton == "six_month" ? 600 : 400 }}
+                    onClick={() => setPeriodbutton("six months")}
+                    style={{ fontWeight: periodbutton == "six months" ? 600 : 400 }}
                   >
                     6 Months
                   </div>
                   <div
                     class="periodbutton"
-                    onClick={() => setPeriodbutton("year")}
-                    style={{ fontWeight: periodbutton == "year" ? 600 : 400 }}
+                    onClick={() => setPeriodbutton("a year")}
+                    style={{ fontWeight: periodbutton == "a year" ? 600 : 400 }}
                   >
                     Year
                   </div>
