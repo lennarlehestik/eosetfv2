@@ -288,6 +288,26 @@ tr:hover{
   width:100%;
 }
 
+.claimbutton{
+  background-image: linear-gradient(to right, #21D2FF 0%, #F17AE9  51%, #21D2FF  100%);
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  border:0px;
+  font-weight:600;
+  font-size:12px;
+  box-shadow: 0 0 20px rgba( 31, 38, 135, 0.1 );
+  float:right;
+  width:100%;
+  margin-top:10px;
+}
+
+
+
 .depositbutton{
   margin-top:5px;
   margin-bottom:10px;
@@ -412,7 +432,6 @@ input[type=number]::-webkit-outer-spin-button {
 .portfoliobottomwrapper{
   display:flex;
   flex-direction:row;
-  justify-content:space-around;
   align-items:center;
   margin-top:30px;
 }
@@ -440,6 +459,16 @@ input[type=number]::-webkit-outer-spin-button {
 .portfoliostat{
   font-size:14px;
   font-weight:500;
+  text-align:center;
+}
+
+.claimtexts{
+  font-size:14px;
+  text-align:left;
+}
+
+.countercomment{
+  font-size:14px;
   text-align:center;
 }
 
@@ -665,6 +694,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size:13px;
 }
 
+
 .promotext{
   font-size:16px;
   color:white;
@@ -672,11 +702,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .tabwrapper{
   width:80%;
-  margin-top:20px;
+  margin-top:30px;
 }
 
 .invest{
-  margin-top:20px;
+  margin-top:10px;
   width:100%;
 }
 

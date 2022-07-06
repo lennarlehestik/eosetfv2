@@ -18,8 +18,8 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import Button from '@mui/material/Button';
+
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Accordion from "@material-ui/core/Accordion";
@@ -92,13 +92,13 @@ function App(props) {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   };
-  const [tabvalue, setTabvalue] = useState(0);
+  const [tabbutton, setTabbutton] = useState("invest");
   const [depositamounteosetf, setDepositamounteosetf] = useState();
   const [depositamounteos, setDepositamounteos] = useState(100);
+  const [selltokenamount, setSelltokenamount] = useState(100)
 
-  const handleTabchange = (event, newValue) => {
-    setTabvalue(newValue);
-  };
+
+
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -258,7 +258,7 @@ function App(props) {
   const [dadpriceeos, setDadprice] = useState({ rows: [] });
   const [eosetfprice, setEosetfprice] = useState({ rows: [] });
   const [etfprice, setEtfprice] = useState();
-  const [periodbutton, setPeriodbutton] = useState("week");
+  const [periodbutton, setPeriodbutton] = useState("year");
 
   const [prices, setPrices] = useState([]);
   const [chartprices, setChartPrices] = useState([]);
@@ -273,7 +273,7 @@ function App(props) {
   const [dividendclaim, setDividendclaim] = useState(0);
   const [fulldata, setFulldata] = useState([]);
   const [fulldataprices, setFulldataprices] = useState();
-  const [portfoliodata, setPortfoliodata] = useState([]);
+  const [portfoliodata, setPortfoliodata] = useState();
   const [withdrawamounts, setWithdrawamounts] = useState([]);
   const [checked, setChecked] = useState(false);
   const [checked1, setChecked1] = useState(false);
@@ -314,9 +314,9 @@ function App(props) {
 
   useEffect(async () => {
     const block_time = 3;
-    const week_blocks = 604800 / block_time;
-    const month_blocks = 2592000 / block_time;
-    const three_month_blocks = 7776000 / block_time;
+    const year_blocks = 31536000 / block_time;
+    const six_month_blocks = 2592000 / block_time;
+    const month_blocks = 2678400 / block_time;
     let headblock;
 
     await fetch(`${endpoint}/v1/chain/get_info`, {
@@ -330,16 +330,16 @@ function App(props) {
         headblock = info.head_block_num;
       })
     );
-    const week_blocks_ago = headblock - week_blocks;
+    const year_blocks_ago = headblock - year_blocks;
+    const six_month_blocks_ago = headblock - six_month_blocks;
     const month_blocks_ago = headblock - month_blocks;
-    const three_month_blocks_ago = headblock - three_month_blocks;
-    let week_price;
+    let year_price;
+    let six_month_price;
     let month_price;
-    let three_month_price;
     let current_price;
 
     await fetch(
-      `https://eos.dfuse.eosnation.io/v0/state/table/row?account=swap.defi&scope=swap.defi&table=pairs&key_type=uint64&block_num=${week_blocks_ago}&primary_key=1232&json=true`,
+      `https://eos.dfuse.eosnation.io/v0/state/table/row?account=swap.defi&scope=swap.defi&table=pairs&key_type=uint64&block_num=${year_blocks_ago}&primary_key=1232&json=true`,
       {
         method: "GET",
         headers: {
@@ -349,8 +349,22 @@ function App(props) {
       }
     ).then((response) =>
       response.json().then((val) => {
-        week_price = val.row.json.price1_last;
-        console.log("WEEK PRICE:" + week_price);
+        year_price = val.row.json.price1_last;
+      })
+    );
+    await fetch(
+      `https://eos.dfuse.eosnation.io/v0/state/table/row?account=swap.defi&scope=swap.defi&table=pairs&key_type=uint64&block_num=${six_month_blocks_ago}&primary_key=1232&json=true`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) =>
+      response.json().then((val) => {
+        six_month_price = val.row.json.price1_last;
+        console.log("6mprice" + six_month_price)
       })
     );
     await fetch(
@@ -365,20 +379,6 @@ function App(props) {
     ).then((response) =>
       response.json().then((val) => {
         month_price = val.row.json.price1_last;
-      })
-    );
-    await fetch(
-      `https://eos.dfuse.eosnation.io/v0/state/table/row?account=swap.defi&scope=swap.defi&table=pairs&key_type=uint64&block_num=${three_month_blocks_ago}&primary_key=1232&json=true`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) =>
-      response.json().then((val) => {
-        three_month_price = val.row.json.price1_last;
       })
     );
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
@@ -403,11 +403,12 @@ function App(props) {
       })
     );
     const data = [];
-    data.week = (100 + (current_price - week_price) * 100).toFixed(2);
-    data.month = (100 + (current_price - month_price) * 100).toFixed(2);
-    data.three_month = (
+    data.year = (100 + (current_price - year_price) * 100).toFixed(2);
+    data.six_month = (100 + (current_price - six_month_price) * 100).toFixed(2);
+    console.log(data.six_month + "6mdata")
+    data.month = (
       100 +
-      (current_price - three_month_price) * 100
+      (current_price - month_price) * 100
     ).toFixed(2);
     setHistoricalprices(data);
   }, []);
@@ -658,7 +659,9 @@ function App(props) {
     });
     setWithdrawamounts(withdrawamounts);
     console.log(data);
+    if(!portfoliodata){
     setPortfoliodata(data);
+    }
   }, [accountname]);
 
   const withdrawhandler = (index, amount) => {
@@ -712,6 +715,43 @@ function App(props) {
       }
     }
   };
+
+  const selltokens = async() => {
+    if (activeUser) {
+      try {
+        const transaction = {
+          actions: [
+            {
+              account: "eosio.token",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: displayaccountname(),
+                  permission: "active",
+                },
+              ],
+              data: {
+                from: displayaccountname(),
+                to: "swap.defi",
+                quantity: parseFloat(selltokenamount).toFixed(4) + " EOSETF",
+                memo: "deposit,1743",
+              },
+            },
+          ],
+        };
+        await activeUser.signTransaction(transaction, {
+          broadcast: true,
+          expireSeconds: 300,
+        });
+        swal_success(`${selltokenamount} EOSETF sold!`);
+        setTimeout(() => {
+          setRefresh(refresh + 1);
+        }, 3000);
+      } catch (e) {
+        swal_error(e);
+      }
+    }
+  }
 
   useEffect(() => {
     fetch(`${endpoint}/v1/chain/get_table_rows`, {
@@ -1902,7 +1942,7 @@ function App(props) {
         swal_success("Dividends claimed!");
         setTimeout(() => {
           setRefresh(refresh + 1);
-        }, 3000);
+        }, 10000);
       } catch (e) {
         swal_error(e);
       }
@@ -1946,6 +1986,7 @@ function App(props) {
     }
   };
 
+
   const sendetf = async () => {
     const {
       ual: { login, displayError, showModal },
@@ -1973,7 +2014,7 @@ function App(props) {
               data: {
                 from: displayaccountname(),
                 to: "consortiumtt",
-                quantity: eosetf + " EOSETF",
+                quantity: Number(selltokenamount).toFixed(4) + " EOSETF",
                 memo: "EOSETF redemption through eosetf.io",
               },
             },
@@ -2355,161 +2396,161 @@ function App(props) {
                 <div class="periodbuttons">
                   <div
                     class="periodbutton"
-                    onClick={() => setPeriodbutton("three_month")}
+                    onClick={() => setPeriodbutton("month")}
                     style={{
-                      fontWeight: periodbutton == "three_month" ? 600 : 400,
+                      fontWeight: periodbutton == "month" ? 600 : 400,
                     }}
                   >
-                    3 Months
+                    1 Month
                   </div>
                   <div
                     class="periodbutton"
-                    onClick={() => setPeriodbutton("month")}
-                    style={{ fontWeight: periodbutton == "month" ? 600 : 400 }}
+                    onClick={() => setPeriodbutton("six_month")}
+                    style={{ fontWeight: periodbutton == "six_month" ? 600 : 400 }}
                   >
-                    Month
+                    6 Months
                   </div>
                   <div
                     class="periodbutton"
-                    onClick={() => setPeriodbutton("week")}
-                    style={{ fontWeight: periodbutton == "week" ? 600 : 400 }}
+                    onClick={() => setPeriodbutton("year")}
+                    style={{ fontWeight: periodbutton == "year" ? 600 : 400 }}
                   >
-                    Week
+                    Year
                   </div>
                 </div>
               </div>
               <div class="tabwrapper">
-                <Tabs
-                  value={tabvalue}
-                  onChange={handleTabchange}
-                  aria-label="basic tabs example"
-                >
-                  <Tab label="Invest" {...a11yProps(0)} />
-                  <Tab label="Sell" {...a11yProps(1)} />
-                </Tabs>
-                <TabPanel value={tabvalue} index={0}>
-                  <div class="invest">
-                    <div class="depositlabel" style={{ marginTop: "60px" }}>
-                      Choose investment amount
-                    </div>
+                <div class="tabbuttons">
+                  <Button sx={{borderRadius:"0"}} style={{"border-bottom": tabbutton=="invest"?"0.125rem solid #1976d2" :"none", lineHeight:"1rem"}} onClick={()=> setTabbutton("invest")}>Invest</Button>
+                  <Button sx={{borderRadius:"0"}} style={{"border-bottom": tabbutton=="sell"?"0.125rem solid #1976d2" :"none", lineHeight:"1rem"}} onClick={()=> setTabbutton("sell")}>Sell</Button>
+                </div>
+                {tabbutton == "invest" ?
+                <div class="invest">
+                  <div class="depositlabel">
+                    Choose investment amount
+                  </div>
 
-                    <TextField
-                      id="outlined"
-                      defaultValue={tokens}
-                      onChange={(e) => setTokens(e.target.value)}
-                      sx={{
-                        backgroundColor: "white",
-                        opacity: 0.7,
-                        borderRadius: "5px",
-                        width: "100%",
-                      }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            {parseFloat(
-                              tokens * portfoliodata?.eospriceinusd
-                            )?.toFixed(2)}
-                            {" USD"}
-                          </InputAdornment>
-                        ),
-                        startAdornment: (
-                          <InputAdornment position="start">EOS</InputAdornment>
-                        ),
-                      }}
-                    />
-                    <div class="depositlabel">
-                      Balance:{" "}
-                      {Number(
-                        portfoliodata?.eosbalance?.balance.split(" ")[0]
-                      ).toFixed(0) + " EOS"}
-                    </div>
-                    <button
-                      onClick={() => dynamicsend(false)}
-                      class="depositbutton"
-                      style={{ marginTop: "40px" }}
-                    >
-                      Invest
-                    </button>
-                    <label style={{ fontSize: "13px" }}>Advanced</label>
-                    <Switch checked={checked1} onChange={handleSwitchChange1} />
-                    {checked1 ? (
-                      <>
-                        <div style={{ fontSize: "13px" }}>
-                          Uses your existing tokens to invest
-                        </div>
-                        <button
-                          onClick={() => dynamicsend(true)}
-                          class="depositbutton"
-                        >
-                          Buy missing and invest
-                        </button>
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                  <TextField
+                    id="outlined"
+                    value={tokens}
+                    onChange={(e) => setTokens(e.target.value)}
+                    sx={{
+                      backgroundColor: "white",
+                      opacity: 0.7,
+                      borderRadius: "5px",
+                      width: "100%",
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {parseFloat(
+                            tokens * portfoliodata?.eospriceinusd
+                          )?.toFixed(2)}
+                          {" USD"}
+                        </InputAdornment>
+                      ),
+                      startAdornment: (
+                        <InputAdornment position="start">EOS</InputAdornment>
+                      ),
+                    }}
+                  />
+                  <div class="depositlabel">
+                    Balance:{" "}
+                    {Number(
+                      portfoliodata?.eosbalance?.balance.split(" ")[0]
+                    ).toFixed(0) + " EOS"}
                   </div>
-                </TabPanel>
-                <TabPanel value={tabvalue} index={1}>
-                  <div class="invest">
-                    <div class="depositlabel" style={{ marginTop: "60px" }}>
-                      Choose amount to sell
-                    </div>
-                    <TextField
-                      id="outlined"
-                      defaultValue="100"
-                      sx={{
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "100%",
-                        opacity: 0.7,
-                      }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            ~50 USD
-                          </InputAdornment>
-                        ),
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            EOSETF
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <div class="depositlabel">
-                      Balance:{" "}
-                      {accountname
-                        ? Number(
-                            portfoliodata?.eosetfbalance?.balance?.split(" ")[0]
-                          ).toFixed(4) + " EOSETF"
-                        : "0 EOSETF"}
-                    </div>
-                    <button
-                      onClick={() => sendetf()}
-                      class="depositbutton"
-                      style={{ marginTop: "40px" }}
-                    >
-                      Sell
-                    </button>
-                    <label style={{ fontSize: "13px" }}>Advanced</label>
-                    <Switch checked={checked} onChange={handleSwitchChange} />
-                    {checked ? (
-                      <>
-                        <div style={{ fontSize: "13px" }}>
-                          Redeem returns the underlying tokens.
-                        </div>
-                        <button
-                          onClick={() => dynamicsend(true)}
-                          class="depositbutton"
-                        >
-                          Redeem
-                        </button>
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                  <button
+                    onClick={() => dynamicsend(false)}
+                    class="depositbutton"
+                    style={{ marginTop: "20px" }}
+                  >
+                    Invest
+                  </button>
+                  <label style={{ fontSize: "13px" }}>Advanced</label>
+                  <Switch checked={checked1} onChange={handleSwitchChange1} />
+                  {checked1 ? (
+                    <>
+                      <div style={{ fontSize: "13px" }}>
+                        Uses your existing tokens to invest
+                      </div>
+                      <button
+                        onClick={() => dynamicsend(true)}
+                        class="depositbutton"
+                      >
+                        Buy missing and invest
+                      </button>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                :
+                <div class="invest">
+                  <div class="depositlabel">
+                    Choose amount to sell
                   </div>
-                </TabPanel>
+                  <TextField
+                    id="outlined"
+                    defaultValue="100"
+                    onChange = {(e) => setSelltokenamount(e.target.value)}
+                    value = {selltokenamount}
+                    sx={{
+                      backgroundColor: "white",
+                      borderRadius: "5px",
+                      width: "100%",
+                      opacity: 0.7,
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {parseFloat(
+                            selltokenamount * portfoliodata?.eosetfpriceinusd
+                          )?.toFixed(2)}
+                          {" USD"}
+                        </InputAdornment>
+                      ),
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          EOSETF
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <div class="depositlabel">
+                    Balance:{" "}
+                    {accountname
+                      ? Number(
+                          portfoliodata?.eosetfbalance?.balance?.split(" ")[0]
+                        ).toFixed(4) + " EOSETF"
+                      : "0 EOSETF"}
+                  </div>
+                  <button
+                    onClick={() => selltokens()}
+                    class="depositbutton"
+                    style={{ marginTop: "20px" }}
+                  >
+                    Sell
+                  </button>
+                  <label style={{ fontSize: "13px" }}>Advanced</label>
+                  <Switch checked={checked} onChange={handleSwitchChange} />
+                  {checked ? (
+                    <>
+                      <div style={{ fontSize: "13px" }}>
+                        Redeem returns the underlying tokens.
+                      </div>
+                      <button
+                        onClick={() => sendetf()}
+                        class="depositbutton"
+                      >
+                        Redeem
+                      </button>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                }
               </div>
               {/**
               <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
@@ -2906,6 +2947,11 @@ function App(props) {
               </div>
             </Scrollbars>
           ) : view == "earn" ? (
+            <Scrollbars
+            class="mask2"
+            style={{ width: "100%", height: "100%" }}
+            autoHide
+            >
             <div class="rightbar">
               <div class="rightbartopbox">
                 <div class="createetftitle">Earn CETF</div>
@@ -3042,7 +3088,11 @@ function App(props) {
                   );
                 })}
               </div>
+              <div style={{ display: "block", opacity: "0", marginTop:"50px" }}>
+                  .<br />.<br />.
+              </div>
             </div>
+            </Scrollbars>
           ) : view == "portfolio" ? (
             <div class="rightbar">
               <div class="rightbartopbox">
@@ -3116,15 +3166,15 @@ function App(props) {
                       maxValue={7}
                       text={displaytime}
                     />
-                    <div style={{ textAlign: "center" }}>
-                      Next claiming period in:
+                    <div style={{marginTop:"10px" }}>
+                    <div class="countercomment">Until next claiming period</div>
                     </div>
                   </div>
-                  <div style={{ width: "30%", height: "auto" }}>
-                    Available to claim <br />
-                    {dividendclaim.toFixed(4)} EOSETF <br />
-                    50,000 CETF
-                    <button class="createbutton" onClick={() => getdiv()}>
+                  <div style={{ width: "40%", height: "auto", "margin-left":"10%"}}>
+                  <div class="claimtexts" style={{fontWeight:"500"}}>Available to claim</div>
+                  <div class="claimtexts">{dividendclaim.toFixed(4)} EOSETF</div>
+                  <div class="claimtexts">50,000 CETF</div>
+                    <button class="claimbutton" onClick={() => getdiv()}>
                       Claim
                     </button>
                   </div>
