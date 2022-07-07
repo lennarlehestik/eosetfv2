@@ -2354,78 +2354,85 @@ mult = Number(value.minamount.split(" ")[0])**/
             </div>
           </div>
           {view == "create" ? (
+            <Scrollbars
+            class="mask"
+            style={{ width: "100%", height: "90%" }}
+            autoHide
+          >
             <div class="rightbar">
-              <div class="rightbartopbox">
-                <div class="createetftitle">
-                  <div>
-                    <a>Invest</a>
-                  </div>
-                  <div className={classes.root}>
-                    <Accordion className={classes.expansion}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                        className={classes.summary}
-                      >
-                        <Typography className={classes.heading}>
-                          Click here for more information
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails className={classes.expansion2}>
-                        <Typography
-                          className={classes.heading}
-                          style={{
-                            "padding-right": "10px",
-                            "padding-bottom": "1px",
-                          }}
+
+                <div class="rightbartopbox">
+                  <div class="createetftitle">
+                    <div>
+                      <a>Invest</a>
+                    </div>
+                    <div className={classes.root}>
+                      <Accordion className={classes.expansion}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                          className={classes.summary}
                         >
-                          NB! CETF is a new protocol, there might be exploits in
-                          the code that will cause loss of all your funds.
-                          <br />
-                          <br />
-                          By investing you are buying tokens on EOS mainnet and
-                          creating EOSETF. <br />
-                          <br />
-                          EOSETF is a token that represents ownership of the
-                          fund.
-                          <br />
-                          <br />
-                          Anytime, EOSETF can be redeemed to receive all the EOS
-                          tokens you bought. EOSETF can also be sold on Defibox.
-                          <br />
-                          <br />
-                          EOSETF is actively managed by fund managers, who pick
-                          tokens to be included in the fund.
-                          <br />
-                          <br />
-                          Tokens in the fund are under msig between five Eden
-                          members.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
+                          <Typography className={classes.heading}>
+                            Click here for more information
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails className={classes.expansion2}>
+                          <Typography
+                            className={classes.heading}
+                            style={{
+                              "padding-right": "10px",
+                              "padding-bottom": "1px",
+                            }}
+                          >
+                            NB! CETF is a new protocol, there might be exploits in
+                            the code that will cause loss of all your funds.
+                            <br />
+                            <br />
+                            By investing you are buying tokens on EOS mainnet and
+                            creating EOSETF. <br />
+                            <br />
+                            EOSETF is a token that represents ownership of the
+                            fund.
+                            <br />
+                            <br />
+                            Anytime, EOSETF can be redeemed to receive all the EOS
+                            tokens you bought. EOSETF can also be sold on Defibox.
+                            <br />
+                            <br />
+                            EOSETF is actively managed by fund managers, who pick
+                            tokens to be included in the fund.
+                            <br />
+                            <br />
+                            Tokens in the fund are under msig between five Eden
+                            members.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
                   </div>
+                  {/**<div class="slidertext">
+                    <a>Creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF, consisting of tokens valued at <input class="eosvalue" type="number" value={parseFloat(tokens * etfprice).toFixed(2)}></input> EOS </a>
+                  </div>
+                  <div class="slider">
+                    <CustomSlider
+                      defaultValue={0.0000}
+                      value={tokens}
+                      aria-label="custom thumb label"
+                      step={1.0000}
+                      min={0}
+                      max={200.0000}
+                      onChangeCommitted={(e, val) => setTokens(val)}
+                      style={{
+                        marginBottom: "10px",
+                        "margin-top": "10px",
+                        color: "white",
+                      }}
+                    />
+                  </div>**/}
                 </div>
-                {/**<div class="slidertext">
-                  <a>Creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF, consisting of tokens valued at <input class="eosvalue" type="number" value={parseFloat(tokens * etfprice).toFixed(2)}></input> EOS </a>
-                </div>
-                <div class="slider">
-                  <CustomSlider
-                    defaultValue={0.0000}
-                    value={tokens}
-                    aria-label="custom thumb label"
-                    step={1.0000}
-                    min={0}
-                    max={200.0000}
-                    onChangeCommitted={(e, val) => setTokens(val)}
-                    style={{
-                      marginBottom: "10px",
-                      "margin-top": "10px",
-                      color: "white",
-                    }}
-                  />
-                </div>**/}
-              </div>
+
               <div class="colorcreatecard">
                 <div class="promotext">
                   100 USD invested {periodbutton} ago, now{" "}
@@ -2636,7 +2643,9 @@ mult = Number(value.minamount.split(" ")[0])**/
                 <button onClick={() => dynamicsend(false)} class="createbutton">Buy all and Create</button>
               </div>
               **/}
+
             </div>
+            </Scrollbars>
           ) : view == "redeem" ? (
             <div class="rightbar">
               <div class="rightbartopbox">
