@@ -661,7 +661,10 @@ function App(props) {
     setWithdrawamounts(withdrawamounts);
     console.log(data);
     if(!portfoliodata){
-    setPortfoliodata(data);
+      console.log(portfoliodata?.rows[0]?.eosdefibox?.price0_last) 
+      console.log(typeof(portfoliodata))
+      console.log("writing to state")
+      setPortfoliodata(data);
     }
   }, [accountname]);
 
@@ -1981,7 +1984,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         swal_success("Dividends claimed!");
         setTimeout(() => {
           setRefresh(refresh + 1);
-        }, 10000);
+        }, 3000);
       } catch (e) {
         swal_error(e);
       }
