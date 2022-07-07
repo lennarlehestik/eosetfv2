@@ -258,7 +258,7 @@ function App(props) {
   const [dadpriceeos, setDadprice] = useState({ rows: [] });
   const [eosetfprice, setEosetfprice] = useState({ rows: [] });
   const [etfprice, setEtfprice] = useState();
-  const [periodbutton, setPeriodbutton] = useState("year");
+  const [periodbutton, setPeriodbutton] = useState("a year");
 
   const [prices, setPrices] = useState([]);
   const [chartprices, setChartPrices] = useState([]);
@@ -403,13 +403,14 @@ function App(props) {
       })
     );
     const data = [];
-    data.year = (100 + (current_price - year_price) * 100).toFixed(2);
-    data.six_month = (100 + (current_price - six_month_price) * 100).toFixed(2);
-    console.log(data.six_month + "6mdata")
-    data.month = (
+    data.["a year"] = (100 + (current_price - year_price) * 100).toFixed(2);
+    data["six months"] = (100 + (current_price - six_month_price) * 100).toFixed(2);
+    data["a month"] = (
       100 +
       (current_price - month_price) * 100
     ).toFixed(2);
+    console.log(data)
+    console.log("thisone")
     setHistoricalprices(data);
   }, []);
 
@@ -1369,17 +1370,22 @@ function App(props) {
         setDisplaytime(timetilnextperiod / 1000 / 60 / 60 / 24 + " days");
       }
       if (timetilnextperiod / 1000 < 86400) {
-        setDisplaytime(timetilnextperiod / 1000 / 60 / 60 + " hours");
+        setDisplaytime(timetilnextperiod / 1000 / 60 / 60 + " h");
+      }
+      if (timetilnextperiod / 1000 < 3600) {
+        setDisplaytime((timetilnextperiod / 1000 / 60).toFixed(0) + " min");
       }
       if (timetilnextperiod / 1000 < 0) {
-        setDisplaytime(0 + " hours");
-      }
-      if (timetilnextperiod > 0) {
-        setTimetilnext((timetilnextperiod / 1000).toFixed(0));
-      } else {
-        setTimetilnext(0);
+        setDisplaytime("Claim");
       }
 
+      if(timetilnextperiod - Number(dividenddata.periodfreq) > 0){
+        setTimetilnext(100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq)))
+        console.log("CHECKMEOUT:" + (100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq))))
+      }else{
+        setTimetilnext(100)
+        console.log("CHECKMEOUT2:" + (100-100*timetilnextperiod/Number(dividenddata.periodfreq)))
+      }
       if (dividenddata.stakedata) {
         dividenddata.stakedata.map((row, index) => {
           //THIS IS FUCKED. THIS IS FUCKED. THIS IS FUCKED.
@@ -1656,6 +1662,7 @@ function App(props) {
     }
 
     const sender = async (totaldata, buyornot) => {
+      let tokenamount = tokens / etfprice.toFixed(4)
       console.log("BUY: " + buy)
       console.log(totaldata)
       let slippagetoohigh = false;
@@ -1667,14 +1674,14 @@ function App(props) {
             console.log(parseFloat(bal?.split(" ")[0]))
             return (
               Number(
-                parseFloat((mult * tokens) / geteosetfprice()).toFixed(nr)
+                parseFloat((mult * tokenamount)).toFixed(nr)
               ) - parseFloat(bal?.split(" ")[0])
             );
           } else {
             console.log("ATTENTION")
             console.log(parseFloat(bal?.split(" ")[0]))
             return Number(
-              parseFloat((mult * tokens) / geteosetfprice()).toFixed(nr)
+              parseFloat((mult * tokenamount)).toFixed(nr)
             );
           }
         }
@@ -1777,7 +1784,7 @@ function App(props) {
                 memo: "EOSETF creation through eosetf.io",
                 quantity:
                   parseFloat(
-                    (value.minamount.split(" ")[0] * tokens) / geteosetfprice()
+                    (value.minamount.split(" ")[0] * tokenamount)
                   ).toFixed(value.token.split(",")[0]) +
                   " " +
                   value.token.split(",")[1],
@@ -3179,8 +3186,7 @@ function App(props) {
                 <div class="portfoliobottomwrapper">
                   <div style={{ width: "30%", height: "200px" }}>
                     <CircularProgressbar
-                      value={7 - timetilnext / 60 / 60 / 24}
-                      maxValue={7}
+                      value={timetilnext}
                       text={displaytime}
                     />
                     <div style={{marginTop:"10px" }}>
