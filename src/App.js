@@ -718,6 +718,21 @@ function App(props) {
   };
 
   const selltokens = async() => {
+  console.log(eosetfprice)
+  const reserve0 = Number(eosetfprice?.rows[0]?.reserve0.split(" ")[0])
+  console.log(reserve0)
+  const reserve1 = Number(eosetfprice?.rows[0]?.reserve1.split(" ")[0])
+  const slippage = (reserve0/reserve1)/(reserve0/(reserve1+Number(selltokenamount)))
+  if((slippage-1)*100 > 3){
+    swal_error("Slippage is higher than 3%. ("+ ((slippage-1)*100).toFixed(2) + "%)")
+    return
+  }
+    /**slippage = reserve0/reserve1/(reserve0/(reserve1+multparse))
+
+multparse = parseFloat((mult * tokenamount)).toFixed(nr)
+
+mult = Number(value.minamount.split(" ")[0])**/
+
     if (activeUser) {
       try {
         const transaction = {
@@ -2457,7 +2472,11 @@ function App(props) {
                   <TextField
                     id="outlined"
                     value={tokens}
-                    onChange={(e) => setTokens(e.target.value)}
+                    onChange={(e) => {
+                      let input = e.target.value ;
+                      if( !input || ( input[input.length-1].match('[0-9]') && input[0].match('[1-9]')) )
+                        setTokens(input)
+                    }}
                     sx={{
                       backgroundColor: "white",
                       opacity: 0.7,
@@ -2468,13 +2487,18 @@ function App(props) {
                       endAdornment: (
                         <InputAdornment position="end">
                           {parseFloat(
-                            tokens * portfoliodata?.eospriceinusd
+                            tokens * portfoliodata?.eosetfpriceineos * portfoliodata?.eospriceinusd
+                          )?.toFixed(2)}
+                          {" EOS"}
+                          /
+                          {parseFloat(
+                            tokens * portfoliodata?.eosetfpriceineos
                           )?.toFixed(2)}
                           {" USD"}
                         </InputAdornment>
                       ),
                       startAdornment: (
-                        <InputAdornment position="start">EOS</InputAdornment>
+                        <InputAdornment position="start">EOSETF</InputAdornment>
                       ),
                     }}
                   />
