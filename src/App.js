@@ -255,7 +255,7 @@ function App(props) {
   const [dadpriceeos, setDadprice] = useState({ rows: [] });
   const [eosetfprice, setEosetfprice] = useState({ rows: [] });
   const [etfprice, setEtfprice] = useState();
-  const [periodbutton, setPeriodbutton] = useState("year");
+  const [periodbutton, setPeriodbutton] = useState("a year");
 
   const [prices, setPrices] = useState([]);
   const [chartprices, setChartPrices] = useState([]);
@@ -400,10 +400,14 @@ function App(props) {
       })
     );
     const data = [];
-    data.year = (100 + (current_price - year_price) * 100).toFixed(2);
-    data.six_month = (100 + (current_price - six_month_price) * 100).toFixed(2);
-    console.log(data.six_month + "6mdata");
-    data.month = (100 + (current_price - month_price) * 100).toFixed(2);
+    data.["a year"] = (100 + (current_price - year_price) * 100).toFixed(2);
+    data["six months"] = (100 + (current_price - six_month_price) * 100).toFixed(2);
+    data["a month"] = (
+      100 +
+      (current_price - month_price) * 100
+    ).toFixed(2);
+    console.log(data)
+    console.log("thisone")
     setHistoricalprices(data);
   }, []);
 
@@ -653,7 +657,10 @@ function App(props) {
     });
     setWithdrawamounts(withdrawamounts);
     console.log(data);
-    if (!portfoliodata) {
+    if(!portfoliodata){
+      console.log(portfoliodata?.rows[0]?.eosdefibox?.price0_last) 
+      console.log(typeof(portfoliodata))
+      console.log("writing to state")
       setPortfoliodata(data);
     }
   }, [accountname]);
@@ -710,7 +717,22 @@ function App(props) {
     }
   };
 
-  const selltokens = async () => {
+  const selltokens = async() => {
+  console.log(eosetfprice)
+  const reserve0 = Number(eosetfprice?.rows[0]?.reserve0.split(" ")[0])
+  console.log(reserve0)
+  const reserve1 = Number(eosetfprice?.rows[0]?.reserve1.split(" ")[0])
+  const slippage = (reserve0/reserve1)/(reserve0/(reserve1+Number(selltokenamount)))
+  if((slippage-1)*100 > 3){
+    swal_error("Slippage is higher than 3%. ("+ ((slippage-1)*100).toFixed(2) + "%)")
+    return
+  }
+    /**slippage = reserve0/reserve1/(reserve0/(reserve1+multparse))
+
+multparse = parseFloat((mult * tokenamount)).toFixed(nr)
+
+mult = Number(value.minamount.split(" ")[0])**/
+
     if (activeUser) {
       try {
         const transaction = {
@@ -1365,17 +1387,22 @@ function App(props) {
         setDisplaytime(timetilnextperiod / 1000 / 60 / 60 / 24 + " days");
       }
       if (timetilnextperiod / 1000 < 86400) {
-        setDisplaytime(timetilnextperiod / 1000 / 60 / 60 + " hours");
+        setDisplaytime(timetilnextperiod / 1000 / 60 / 60 + " h");
+      }
+      if (timetilnextperiod / 1000 < 3600) {
+        setDisplaytime((timetilnextperiod / 1000 / 60).toFixed(0) + " min");
       }
       if (timetilnextperiod / 1000 < 0) {
-        setDisplaytime(0 + " hours");
-      }
-      if (timetilnextperiod > 0) {
-        setTimetilnext((timetilnextperiod / 1000).toFixed(0));
-      } else {
-        setTimetilnext(0);
+        setDisplaytime("Claim");
       }
 
+      if(timetilnextperiod - Number(dividenddata.periodfreq) > 0){
+        setTimetilnext(100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq)))
+        console.log("CHECKMEOUT:" + (100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq))))
+      }else{
+        setTimetilnext(100)
+        console.log("CHECKMEOUT2:" + (100-100*timetilnextperiod/Number(dividenddata.periodfreq)))
+      }
       if (dividenddata.stakedata) {
         dividenddata.stakedata.map((row, index) => {
           //THIS IS FUCKED. THIS IS FUCKED. THIS IS FUCKED.
@@ -1658,8 +1685,9 @@ function App(props) {
     }
 
     const sender = async (totaldata, buyornot) => {
-      console.log("BUY: " + buy);
-      console.log(totaldata);
+      let tokenamount = tokens / etfprice.toFixed(4)
+      console.log("BUY: " + buy)
+      console.log(totaldata)
       let slippagetoohigh = false;
       let slippagelist = [];
       const multparse = (mult, nr, bal) => {
@@ -1668,13 +1696,16 @@ function App(props) {
             console.log("ATTENTION");
             console.log(parseFloat(bal?.split(" ")[0]));
             return (
-              Number(parseFloat(mult * tokens).toFixed(nr)) -
-              parseFloat(bal?.split(" ")[0])
+              Number(
+                parseFloat((mult * tokenamount)).toFixed(nr)
+              ) - parseFloat(bal?.split(" ")[0])
             );
           } else {
-            console.log("ATTENTION");
-            console.log(parseFloat(bal?.split(" ")[0]));
-            return Number(parseFloat(mult * tokens).toFixed(nr));
+            console.log("ATTENTION")
+            console.log(parseFloat(bal?.split(" ")[0]))
+            return Number(
+              parseFloat((mult * tokenamount)).toFixed(nr)
+            );
           }
         }
       };
@@ -1776,8 +1807,12 @@ function App(props) {
                 memo: "EOSETF creation through eosetf.io",
                 quantity:
                   parseFloat(
+<<<<<<< HEAD
                     // (value.minamount.split(" ")[0] * tokens) / geteosetfprice()
                     value.minamount.split(" ")[0] * tokens
+=======
+                    (value.minamount.split(" ")[0] * tokenamount)
+>>>>>>> df5d69ca339e23293564d09e00accbd256d91c03
                   ).toFixed(value.token.split(",")[0]) +
                   " " +
                   value.token.split(",")[1],
@@ -1959,7 +1994,7 @@ function App(props) {
         swal_success("Dividends claimed!");
         setTimeout(() => {
           setRefresh(refresh + 1);
-        }, 10000);
+        }, 3000);
       } catch (e) {
         swal_error(e);
       }
@@ -2331,78 +2366,85 @@ function App(props) {
             </div>
           </div>
           {view == "create" ? (
+            <Scrollbars
+            class="mask"
+            style={{ width: "100%", height: "90%" }}
+            autoHide
+          >
             <div class="rightbar">
-              <div class="rightbartopbox">
-                <div class="createetftitle">
-                  <div>
-                    <a>Invest</a>
-                  </div>
-                  <div className={classes.root}>
-                    <Accordion className={classes.expansion}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                        className={classes.summary}
-                      >
-                        <Typography className={classes.heading}>
-                          Click here for more information
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails className={classes.expansion2}>
-                        <Typography
-                          className={classes.heading}
-                          style={{
-                            "padding-right": "10px",
-                            "padding-bottom": "1px",
-                          }}
+
+                <div class="rightbartopbox">
+                  <div class="createetftitle">
+                    <div>
+                      <a>Invest</a>
+                    </div>
+                    <div className={classes.root}>
+                      <Accordion className={classes.expansion}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                          className={classes.summary}
                         >
-                          NB! CETF is a new protocol, there might be exploits in
-                          the code that will cause loss of all your funds.
-                          <br />
-                          <br />
-                          By investing you are buying tokens on EOS mainnet and
-                          creating EOSETF. <br />
-                          <br />
-                          EOSETF is a token that represents ownership of the
-                          fund.
-                          <br />
-                          <br />
-                          Anytime, EOSETF can be redeemed to receive all the EOS
-                          tokens you bought. EOSETF can also be sold on Defibox.
-                          <br />
-                          <br />
-                          EOSETF is actively managed by fund managers, who pick
-                          tokens to be included in the fund.
-                          <br />
-                          <br />
-                          Tokens in the fund are under msig between five Eden
-                          members.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
+                          <Typography className={classes.heading}>
+                            Click here for more information
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails className={classes.expansion2}>
+                          <Typography
+                            className={classes.heading}
+                            style={{
+                              "padding-right": "10px",
+                              "padding-bottom": "1px",
+                            }}
+                          >
+                            NB! CETF is a new protocol, there might be exploits in
+                            the code that will cause loss of all your funds.
+                            <br />
+                            <br />
+                            By investing you are buying tokens on EOS mainnet and
+                            creating EOSETF. <br />
+                            <br />
+                            EOSETF is a token that represents ownership of the
+                            fund.
+                            <br />
+                            <br />
+                            Anytime, EOSETF can be redeemed to receive all the EOS
+                            tokens you bought. EOSETF can also be sold on Defibox.
+                            <br />
+                            <br />
+                            EOSETF is actively managed by fund managers, who pick
+                            tokens to be included in the fund.
+                            <br />
+                            <br />
+                            Tokens in the fund are under msig between five Eden
+                            members.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
                   </div>
+                  {/**<div class="slidertext">
+                    <a>Creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF, consisting of tokens valued at <input class="eosvalue" type="number" value={parseFloat(tokens * etfprice).toFixed(2)}></input> EOS </a>
+                  </div>
+                  <div class="slider">
+                    <CustomSlider
+                      defaultValue={0.0000}
+                      value={tokens}
+                      aria-label="custom thumb label"
+                      step={1.0000}
+                      min={0}
+                      max={200.0000}
+                      onChangeCommitted={(e, val) => setTokens(val)}
+                      style={{
+                        marginBottom: "10px",
+                        "margin-top": "10px",
+                        color: "white",
+                      }}
+                    />
+                  </div>**/}
                 </div>
-                {/**<div class="slidertext">
-                  <a>Creating <input style={{ "color": tokens > 200 ? "red" : "inherit" }} class="tokeninput" type="number" value={tokens} onChange={e => setTokens(e.target.value)}></input> EOSETF, consisting of tokens valued at <input class="eosvalue" type="number" value={parseFloat(tokens * etfprice).toFixed(2)}></input> EOS </a>
-                </div>
-                <div class="slider">
-                  <CustomSlider
-                    defaultValue={0.0000}
-                    value={tokens}
-                    aria-label="custom thumb label"
-                    step={1.0000}
-                    min={0}
-                    max={200.0000}
-                    onChangeCommitted={(e, val) => setTokens(val)}
-                    style={{
-                      marginBottom: "10px",
-                      "margin-top": "10px",
-                      color: "white",
-                    }}
-                  />
-                </div>**/}
-              </div>
+
               <div class="colorcreatecard">
                 <div class="promotext">
                   100 USD invested {periodbutton} ago, now{" "}
@@ -2439,31 +2481,48 @@ function App(props) {
               </div>
               <div class="tabwrapper">
                 <div class="tabbuttons">
-                  <Button
-                    sx={{ borderRadius: "0" }}
-                    style={{
-                      "border-bottom":
-                        tabbutton == "invest"
-                          ? "0.125rem solid #1976d2"
-                          : "none",
-                      lineHeight: "1rem",
-                    }}
-                    onClick={() => setTabbutton("invest")}
-                  >
-                    Invest
-                  </Button>
-                  <Button
-                    sx={{ borderRadius: "0" }}
-                    style={{
-                      "border-bottom":
-                        tabbutton == "sell" ? "0.125rem solid #1976d2" : "none",
-                      lineHeight: "1rem",
-                    }}
-                    onClick={() => setTabbutton("sell")}
-                  >
-                    Sell
-                  </Button>
+
+                  <Button sx={{borderRadius:"0"}} style={{"border-bottom": tabbutton=="invest"?"0.125rem solid #1976d2" :"none", lineHeight:"1rem"}} onClick={()=> setTabbutton("invest")}>Invest</Button>
+                  <Button sx={{borderRadius:"0"}} style={{"border-bottom": tabbutton=="sell"?"0.125rem solid #1976d2" :"none", lineHeight:"1rem"}} onClick={()=> setTabbutton("sell")}>Sell</Button>
                 </div>
+                {tabbutton == "invest" ?
+                <div class="invest">
+                  <div class="depositlabel">
+                    Choose investment amount
+                  </div>
+
+                  <TextField
+                    id="outlined"
+                    value={tokens}
+                    onChange={(e) => {
+                      let input = e.target.value ;
+                      if( !input || ( input[input.length-1].match('[0-9]') && input[0].match('[1-9]')) )
+                        setTokens(input)
+                    }}
+                    sx={{
+                      backgroundColor: "white",
+                      opacity: 0.7,
+                      borderRadius: "5px",
+                      width: "100%",
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {parseFloat(
+                            tokens * portfoliodata?.eosetfpriceineos * portfoliodata?.eospriceinusd
+                          )?.toFixed(2)}
+                          {" EOS"}
+                          /
+                          {parseFloat(
+                            tokens * portfoliodata?.eosetfpriceineos
+                          )?.toFixed(2)}
+                          {" USD"}
+                        </InputAdornment>
+                      ),
+                      startAdornment: (
+                        <InputAdornment position="start">EOSETF</InputAdornment>
+                      ),
+       
                 {tabbutton == "invest" ? (
                   <div class="invest">
                     <div class="depositlabel">Choose investment amount</div>
@@ -2621,7 +2680,9 @@ function App(props) {
                 <button onClick={() => dynamicsend(false)} class="createbutton">Buy all and Create</button>
               </div>
               **/}
+
             </div>
+            </Scrollbars>
           ) : view == "redeem" ? (
             <div class="rightbar">
               <div class="rightbartopbox">
@@ -3198,8 +3259,7 @@ function App(props) {
                 <div class="portfoliobottomwrapper">
                   <div style={{ width: "30%", height: "200px" }}>
                     <CircularProgressbar
-                      value={7 - timetilnext / 60 / 60 / 24}
-                      maxValue={7}
+                      value={timetilnext}
                       text={displaytime}
                     />
                     <div style={{ marginTop: "10px" }}>
