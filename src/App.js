@@ -400,14 +400,14 @@ function App(props) {
       })
     );
     const data = [];
-    data.["a year"] = (100 + (current_price - year_price) * 100).toFixed(2);
-    data["six months"] = (100 + (current_price - six_month_price) * 100).toFixed(2);
-    data["a month"] = (
+    data["a year"] = (100 + (current_price - year_price) * 100).toFixed(2);
+    data["six months"] = (
       100 +
-      (current_price - month_price) * 100
+      (current_price - six_month_price) * 100
     ).toFixed(2);
-    console.log(data)
-    console.log("thisone")
+    data["a month"] = (100 + (current_price - month_price) * 100).toFixed(2);
+    console.log(data);
+    console.log("thisone");
     setHistoricalprices(data);
   }, []);
 
@@ -657,10 +657,10 @@ function App(props) {
     });
     setWithdrawamounts(withdrawamounts);
     console.log(data);
-    if(!portfoliodata){
-      console.log(portfoliodata?.rows[0]?.eosdefibox?.price0_last) 
-      console.log(typeof(portfoliodata))
-      console.log("writing to state")
+    if (!portfoliodata) {
+      console.log(portfoliodata?.rows[0]?.eosdefibox?.price0_last);
+      console.log(typeof portfoliodata);
+      console.log("writing to state");
       setPortfoliodata(data);
     }
   }, [accountname]);
@@ -717,16 +717,21 @@ function App(props) {
     }
   };
 
-  const selltokens = async() => {
-  console.log(eosetfprice)
-  const reserve0 = Number(eosetfprice?.rows[0]?.reserve0.split(" ")[0])
-  console.log(reserve0)
-  const reserve1 = Number(eosetfprice?.rows[0]?.reserve1.split(" ")[0])
-  const slippage = (reserve0/reserve1)/(reserve0/(reserve1+Number(selltokenamount)))
-  if((slippage-1)*100 > 3){
-    swal_error("Slippage is higher than 3%. ("+ ((slippage-1)*100).toFixed(2) + "%)")
-    return
-  }
+  const selltokens = async () => {
+    console.log(eosetfprice);
+    const reserve0 = Number(eosetfprice?.rows[0]?.reserve0.split(" ")[0]);
+    console.log(reserve0);
+    const reserve1 = Number(eosetfprice?.rows[0]?.reserve1.split(" ")[0]);
+    const slippage =
+      reserve0 / reserve1 / (reserve0 / (reserve1 + Number(selltokenamount)));
+    if ((slippage - 1) * 100 > 3) {
+      swal_error(
+        "Slippage is higher than 3%. (" +
+          ((slippage - 1) * 100).toFixed(2) +
+          "%)"
+      );
+      return;
+    }
     /**slippage = reserve0/reserve1/(reserve0/(reserve1+multparse))
 
 multparse = parseFloat((mult * tokenamount)).toFixed(nr)
@@ -1396,12 +1401,23 @@ mult = Number(value.minamount.split(" ")[0])**/
         setDisplaytime("Claim");
       }
 
-      if(timetilnextperiod - Number(dividenddata.periodfreq) > 0){
-        setTimetilnext(100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq)))
-        console.log("CHECKMEOUT:" + (100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq))))
-      }else{
-        setTimetilnext(100)
-        console.log("CHECKMEOUT2:" + (100-100*timetilnextperiod/Number(dividenddata.periodfreq)))
+      if (timetilnextperiod - Number(dividenddata.periodfreq) > 0) {
+        setTimetilnext(
+          100 -
+            (100 * (timetilnextperiod / 1000)) / Number(dividenddata.periodfreq)
+        );
+        console.log(
+          "CHECKMEOUT:" +
+            (100 -
+              (100 * (timetilnextperiod / 1000)) /
+                Number(dividenddata.periodfreq))
+        );
+      } else {
+        setTimetilnext(100);
+        console.log(
+          "CHECKMEOUT2:" +
+            (100 - (100 * timetilnextperiod) / Number(dividenddata.periodfreq))
+        );
       }
       if (dividenddata.stakedata) {
         dividenddata.stakedata.map((row, index) => {
@@ -1685,9 +1701,9 @@ mult = Number(value.minamount.split(" ")[0])**/
     }
 
     const sender = async (totaldata, buyornot) => {
-      let tokenamount = tokens / etfprice.toFixed(4)
-      console.log("BUY: " + buy)
-      console.log(totaldata)
+      let tokenamount = tokens / etfprice.toFixed(4);
+      console.log("BUY: " + buy);
+      console.log(totaldata);
       let slippagetoohigh = false;
       let slippagelist = [];
       const multparse = (mult, nr, bal) => {
@@ -1696,16 +1712,13 @@ mult = Number(value.minamount.split(" ")[0])**/
             console.log("ATTENTION");
             console.log(parseFloat(bal?.split(" ")[0]));
             return (
-              Number(
-                parseFloat((mult * tokenamount)).toFixed(nr)
-              ) - parseFloat(bal?.split(" ")[0])
+              Number(parseFloat(mult * tokenamount).toFixed(nr)) -
+              parseFloat(bal?.split(" ")[0])
             );
           } else {
-            console.log("ATTENTION")
-            console.log(parseFloat(bal?.split(" ")[0]))
-            return Number(
-              parseFloat((mult * tokenamount)).toFixed(nr)
-            );
+            console.log("ATTENTION");
+            console.log(parseFloat(bal?.split(" ")[0]));
+            return Number(parseFloat(mult * tokenamount).toFixed(nr));
           }
         }
       };
@@ -1807,12 +1820,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 memo: "EOSETF creation through eosetf.io",
                 quantity:
                   parseFloat(
-<<<<<<< HEAD
-                    // (value.minamount.split(" ")[0] * tokens) / geteosetfprice()
-                    value.minamount.split(" ")[0] * tokens
-=======
-                    (value.minamount.split(" ")[0] * tokenamount)
->>>>>>> df5d69ca339e23293564d09e00accbd256d91c03
+                    value.minamount.split(" ")[0] * tokenamount
                   ).toFixed(value.token.split(",")[0]) +
                   " " +
                   value.token.split(",")[1],
@@ -2367,12 +2375,11 @@ mult = Number(value.minamount.split(" ")[0])**/
           </div>
           {view == "create" ? (
             <Scrollbars
-            class="mask"
-            style={{ width: "100%", height: "90%" }}
-            autoHide
-          >
-            <div class="rightbar">
-
+              class="mask"
+              style={{ width: "100%", height: "90%" }}
+              autoHide
+            >
+              <div class="rightbar">
                 <div class="rightbartopbox">
                   <div class="createetftitle">
                     <div>
@@ -2398,23 +2405,24 @@ mult = Number(value.minamount.split(" ")[0])**/
                               "padding-bottom": "1px",
                             }}
                           >
-                            NB! CETF is a new protocol, there might be exploits in
-                            the code that will cause loss of all your funds.
+                            NB! CETF is a new protocol, there might be exploits
+                            in the code that will cause loss of all your funds.
                             <br />
                             <br />
-                            By investing you are buying tokens on EOS mainnet and
-                            creating EOSETF. <br />
+                            By investing you are buying tokens on EOS mainnet
+                            and creating EOSETF. <br />
                             <br />
                             EOSETF is a token that represents ownership of the
                             fund.
                             <br />
                             <br />
-                            Anytime, EOSETF can be redeemed to receive all the EOS
-                            tokens you bought. EOSETF can also be sold on Defibox.
+                            Anytime, EOSETF can be redeemed to receive all the
+                            EOS tokens you bought. EOSETF can also be sold on
+                            Defibox.
                             <br />
                             <br />
-                            EOSETF is actively managed by fund managers, who pick
-                            tokens to be included in the fund.
+                            EOSETF is actively managed by fund managers, who
+                            pick tokens to be included in the fund.
                             <br />
                             <br />
                             Tokens in the fund are under msig between five Eden
@@ -2445,206 +2453,218 @@ mult = Number(value.minamount.split(" ")[0])**/
                   </div>**/}
                 </div>
 
-              <div class="colorcreatecard">
-                <div class="promotext">
-                  100 USD invested {periodbutton} ago, now{" "}
-                  {historicalprices ? historicalprices[periodbutton] : <></>}{" "}
-                  USD
-                </div>
-                <div class="periodbuttons">
-                  <div
-                    class="periodbutton"
-                    onClick={() => setPeriodbutton("a month")}
-                    style={{
-                      fontWeight: periodbutton == "a month" ? 600 : 400,
-                    }}
-                  >
-                    1 Month
+                <div class="colorcreatecard">
+                  <div class="promotext">
+                    100 USD invested {periodbutton} ago, now{" "}
+                    {historicalprices ? historicalprices[periodbutton] : <></>}{" "}
+                    USD
                   </div>
-                  <div
-                    class="periodbutton"
-                    onClick={() => setPeriodbutton("six months")}
-                    style={{
-                      fontWeight: periodbutton == "six months" ? 600 : 400,
-                    }}
-                  >
-                    6 Months
-                  </div>
-                  <div
-                    class="periodbutton"
-                    onClick={() => setPeriodbutton("a year")}
-                    style={{ fontWeight: periodbutton == "a year" ? 600 : 400 }}
-                  >
-                    Year
-                  </div>
-                </div>
-              </div>
-              <div class="tabwrapper">
-                <div class="tabbuttons">
-
-                  <Button sx={{borderRadius:"0"}} style={{"border-bottom": tabbutton=="invest"?"0.125rem solid #1976d2" :"none", lineHeight:"1rem"}} onClick={()=> setTabbutton("invest")}>Invest</Button>
-                  <Button sx={{borderRadius:"0"}} style={{"border-bottom": tabbutton=="sell"?"0.125rem solid #1976d2" :"none", lineHeight:"1rem"}} onClick={()=> setTabbutton("sell")}>Sell</Button>
-                </div>
-                {tabbutton == "invest" ?
-                <div class="invest">
-                  <div class="depositlabel">
-                    Choose investment amount
-                  </div>
-
-                  <TextField
-                    id="outlined"
-                    value={tokens}
-                    onChange={(e) => {
-                      let input = e.target.value ;
-                      if( !input || ( input[input.length-1].match('[0-9]') && input[0].match('[1-9]')) )
-                        setTokens(input)
-                    }}
-                    sx={{
-                      backgroundColor: "white",
-                      opacity: 0.7,
-                      borderRadius: "5px",
-                      width: "100%",
-                    }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          {parseFloat(
-                            tokens * portfoliodata?.eosetfpriceineos * portfoliodata?.eospriceinusd
-                          )?.toFixed(2)}
-                          {" EOS"}
-                          /
-                          {parseFloat(
-                            tokens * portfoliodata?.eosetfpriceineos
-                          )?.toFixed(2)}
-                          {" USD"}
-                        </InputAdornment>
-                      ),
-                      startAdornment: (
-                        <InputAdornment position="start">EOSETF</InputAdornment>
-                      ),
-       
-                {tabbutton == "invest" ? (
-                  <div class="invest">
-                    <div class="depositlabel">Choose investment amount</div>
-
-                    <TextField
-                      id="outlined"
-                      value={tokens}
-                      onChange={(e) => setTokens(e.target.value)}
-                      sx={{
-                        backgroundColor: "white",
-                        opacity: 0.7,
-                        borderRadius: "5px",
-                        width: "100%",
+                  <div class="periodbuttons">
+                    <div
+                      class="periodbutton"
+                      onClick={() => setPeriodbutton("a month")}
+                      style={{
+                        fontWeight: periodbutton == "a month" ? 600 : 400,
                       }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            {parseFloat(
-                              tokens * portfoliodata?.eospriceinusd
-                            )?.toFixed(2)}
-                            {" USD"}
-                          </InputAdornment>
-                        ),
-                        startAdornment: (
-                          <InputAdornment position="start">EOS</InputAdornment>
-                        ),
-                      }}
-                    />
-                    <div class="depositlabel">
-                      Balance:{" "}
-                      {Number(
-                        portfoliodata?.eosbalance?.balance.split(" ")[0]
-                      ).toFixed(0) + " EOS"}
+                    >
+                      1 Month
                     </div>
-                    <button
-                      onClick={() => dynamicsend(false)}
-                      class="depositbutton"
-                      style={{ marginTop: "20px" }}
+                    <div
+                      class="periodbutton"
+                      onClick={() => setPeriodbutton("six months")}
+                      style={{
+                        fontWeight: periodbutton == "six months" ? 600 : 400,
+                      }}
+                    >
+                      6 Months
+                    </div>
+                    <div
+                      class="periodbutton"
+                      onClick={() => setPeriodbutton("a year")}
+                      style={{
+                        fontWeight: periodbutton == "a year" ? 600 : 400,
+                      }}
+                    >
+                      Year
+                    </div>
+                  </div>
+                </div>
+                <div class="tabwrapper">
+                  <div class="tabbuttons">
+                    <Button
+                      sx={{ borderRadius: "0" }}
+                      style={{
+                        "border-bottom":
+                          tabbutton == "invest"
+                            ? "0.125rem solid #1976d2"
+                            : "none",
+                        lineHeight: "1rem",
+                      }}
+                      onClick={() => setTabbutton("invest")}
                     >
                       Invest
-                    </button>
-                    <label style={{ fontSize: "13px" }}>Advanced</label>
-                    <Switch checked={checked1} onChange={handleSwitchChange1} />
-                    {checked1 ? (
-                      <>
-                        <div style={{ fontSize: "13px" }}>
-                          Uses your existing tokens to invest
-                        </div>
-                        <button
-                          onClick={() => dynamicsend(true)}
-                          class="depositbutton"
-                        >
-                          Buy missing and invest
-                        </button>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                ) : (
-                  <div class="invest">
-                    <div class="depositlabel">Choose amount to sell</div>
-                    <TextField
-                      id="outlined"
-                      defaultValue="100"
-                      onChange={(e) => setSelltokenamount(e.target.value)}
-                      value={selltokenamount}
-                      sx={{
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "100%",
-                        opacity: 0.7,
+                    </Button>
+                    <Button
+                      sx={{ borderRadius: "0" }}
+                      style={{
+                        "border-bottom":
+                          tabbutton == "sell"
+                            ? "0.125rem solid #1976d2"
+                            : "none",
+                        lineHeight: "1rem",
                       }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            {parseFloat(
-                              selltokenamount * portfoliodata?.eosetfpriceinusd
-                            )?.toFixed(2)}
-                            {" USD"}
-                          </InputAdornment>
-                        ),
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            EOSETF
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <div class="depositlabel">
-                      Balance:{" "}
-                      {accountname
-                        ? Number(
-                            portfoliodata?.eosetfbalance?.balance?.split(" ")[0]
-                          ).toFixed(4) + " EOSETF"
-                        : "0 EOSETF"}
-                    </div>
-                    <button
-                      onClick={() => selltokens()}
-                      class="depositbutton"
-                      style={{ marginTop: "20px" }}
+                      onClick={() => setTabbutton("sell")}
                     >
                       Sell
-                    </button>
-                    <label style={{ fontSize: "13px" }}>Advanced</label>
-                    <Switch checked={checked} onChange={handleSwitchChange} />
-                    {checked ? (
-                      <>
-                        <div style={{ fontSize: "13px" }}>
-                          Redeem returns the underlying tokens.
-                        </div>
-                        <button onClick={() => sendetf()} class="depositbutton">
-                          Redeem
-                        </button>
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    </Button>
                   </div>
-                )}
-              </div>
-              {/**
+                  {tabbutton == "invest" ? (
+                    <div class="invest">
+                      <div class="depositlabel">Choose investment amount</div>
+
+                      <TextField
+                        id="outlined"
+                        value={tokens}
+                        onChange={(e) => {
+                          let input = e.target.value;
+                          if (
+                            !input ||
+                            (input[input.length - 1].match("[0-9]") &&
+                              input[0].match("[1-9]"))
+                          )
+                            setTokens(input);
+                        }}
+                        sx={{
+                          backgroundColor: "white",
+                          opacity: 0.7,
+                          borderRadius: "5px",
+                          width: "100%",
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              {parseFloat(
+                                tokens *
+                                  portfoliodata?.eosetfpriceineos *
+                                  portfoliodata?.eospriceinusd
+                              )?.toFixed(2)}
+                              {" EOS"}/
+                              {parseFloat(
+                                tokens * portfoliodata?.eosetfpriceineos
+                              )?.toFixed(2)}
+                              {" USD"}
+                            </InputAdornment>
+                          ),
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              EOSETF
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                      <div class="depositlabel">
+                        Balance:{" "}
+                        {Number(
+                          portfoliodata?.eosbalance?.balance.split(" ")[0]
+                        ).toFixed(0) + " EOS"}
+                      </div>
+                      <button
+                        onClick={() => dynamicsend(false)}
+                        class="depositbutton"
+                        style={{ marginTop: "20px" }}
+                      >
+                        Invest
+                      </button>
+                      <label style={{ fontSize: "13px" }}>Advanced</label>
+                      <Switch
+                        checked={checked1}
+                        onChange={handleSwitchChange1}
+                      />
+                      {checked1 ? (
+                        <>
+                          <div style={{ fontSize: "13px" }}>
+                            Uses your existing tokens to invest
+                          </div>
+                          <button
+                            onClick={() => dynamicsend(true)}
+                            class="depositbutton"
+                          >
+                            Buy missing and invest
+                          </button>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  ) : (
+                    <div class="invest">
+                      <div class="depositlabel">Choose amount to sell</div>
+                      <TextField
+                        id="outlined"
+                        defaultValue="100"
+                        onChange={(e) => setSelltokenamount(e.target.value)}
+                        value={selltokenamount}
+                        sx={{
+                          backgroundColor: "white",
+                          borderRadius: "5px",
+                          width: "100%",
+                          opacity: 0.7,
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              {parseFloat(
+                                selltokenamount *
+                                  portfoliodata?.eosetfpriceinusd
+                              )?.toFixed(2)}
+                              {" USD"}
+                            </InputAdornment>
+                          ),
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              EOSETF
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                      <div class="depositlabel">
+                        Balance:{" "}
+                        {accountname
+                          ? Number(
+                              portfoliodata?.eosetfbalance?.balance?.split(
+                                " "
+                              )[0]
+                            ).toFixed(4) + " EOSETF"
+                          : "0 EOSETF"}
+                      </div>
+                      <button
+                        onClick={() => selltokens()}
+                        class="depositbutton"
+                        style={{ marginTop: "20px" }}
+                      >
+                        Sell
+                      </button>
+                      <label style={{ fontSize: "13px" }}>Advanced</label>
+                      <Switch checked={checked} onChange={handleSwitchChange} />
+                      {checked ? (
+                        <>
+                          <div style={{ fontSize: "13px" }}>
+                            Redeem returns the underlying tokens.
+                          </div>
+                          <button
+                            onClick={() => sendetf()}
+                            class="depositbutton"
+                          >
+                            Redeem
+                          </button>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {/**
               <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
                 <div class="rightbar">
                   {fulldata ? 
@@ -2680,8 +2700,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 <button onClick={() => dynamicsend(false)} class="createbutton">Buy all and Create</button>
               </div>
               **/}
-
-            </div>
+              </div>
             </Scrollbars>
           ) : view == "redeem" ? (
             <div class="rightbar">
