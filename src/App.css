@@ -696,8 +696,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 .promotext{
-  font-size:16px;
+  font-size:0.9rem;
   color:white;
+  text-align:center;
 }
 
 .tabwrapper{

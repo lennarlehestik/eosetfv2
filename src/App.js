@@ -133,9 +133,11 @@ function App(props) {
     }
   };
   const [drawerstate, setDrawerstate] = useState(false);
-  const [tokens, setTokens] = useState(0);
+  const [tokens, setTokens] = useState(1);
+  const [inliquidity, setInliquidity] = useState(0)
+  const [myshare, setMyshare] = useState(0);
   const [stake, setStake] = useState(0);
-  const [stakemax, setStakemax] = useState(0);
+  const [stakemax, setStakemax] = useState();
   const [timetilnext, setTimetilnext] = useState(0);
   const [displaytime, setDisplaytime] = useState(0);
   const [staketable, setStaketable] = useState();
@@ -314,9 +316,9 @@ function App(props) {
 
   useEffect(async () => {
     const block_time = 3;
-    const year_blocks = 31536000 / block_time;
-    const six_month_blocks = 2592000 / block_time;
-    const month_blocks = 2678400 / block_time;
+    const year_blocks = 31104000 / block_time;
+    const six_month_blocks = 15552000 / block_time;
+    const month_blocks = 2592000 / block_time;
     let headblock;
 
     await fetch(`${endpoint}/v1/chain/get_info`, {
@@ -328,6 +330,7 @@ function App(props) {
     }).then((response) =>
       response.json().then((info) => {
         headblock = info.head_block_num;
+        console.log(headblock)
       })
     );
     const year_blocks_ago = headblock - year_blocks;
@@ -364,7 +367,6 @@ function App(props) {
     ).then((response) =>
       response.json().then((val) => {
         six_month_price = val.row.json.price1_last;
-        console.log("6mprice" + six_month_price)
       })
     );
     await fetch(
@@ -399,7 +401,6 @@ function App(props) {
     }).then((response) =>
       response.json().then((val) => {
         current_price = val.rows[0].price1_last;
-        console.log("CURRENT PRICE:" + current_price);
       })
     );
     const data = [];
@@ -409,8 +410,6 @@ function App(props) {
       100 +
       (current_price - month_price) * 100
     ).toFixed(2);
-    console.log(data)
-    console.log("thisone")
     setHistoricalprices(data);
   }, []);
 
@@ -519,6 +518,8 @@ function App(props) {
       response.json().then((result) => {
         if (result?.rows[0]?.balance) {
           data.boxaujbalance = result.rows[0];
+          const inliquidity = (Number(data.defibox.reserve0.split(" ")[0])/Number(data.defibox.liquidity_token)) * Number(result?.rows[0]?.balance.split(" ")[0])
+          setInliquidity(inliquidity)
         } else {
           data.boxaujbalance = { balance: "0 BOXAUJ" };
         }
@@ -621,6 +622,8 @@ function App(props) {
       })
     );
 
+    let boxaujsum;
+
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
@@ -635,10 +638,76 @@ function App(props) {
         limit: 100,
       }),
     }).then((response) =>
-      response.json().then((result) => {
-        data.alldeposits = result.rows;
+      response.json().then((res) => {
+        if(accountname){
+        data.alldeposits = res.rows;
+        console.log(res.rows)
+        if(res.rows.length > 0){
+        const sum = res?.rows
+        .map((o) => Number(o.staked.split(" ")[0]))
+        .reduce((a, c) => {
+          return a + c;
+        });
+        boxaujsum = sum
+        console.log("sum" + sum)
+      }
+        
+      }
       })
     );
+    let share;
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "totstk",
+        scope: "consortiumtt",
+        limit: 100,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        if(accountname){
+        console.log(Number(res.rows[0].totstketf.split(" ")[0]))
+        share = Number(boxaujsum)/Number(res.rows[0].totstketf.split(" ")[0])
+        }
+      })
+    );
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "consortiumtt",
+        table: "divperiod",
+        scope: "consortiumtt",
+        limit: 100,
+      }),
+    }).then((response) =>
+      response.json().then((res) => {
+        if(accountname){
+          const claimperiod = res?.rows[0].claimperiod
+          const interval = 1200
+          const seconds_passed = 300 * claimperiod
+          const halvings = Math.floor(seconds_passed / interval).toFixed(0)
+          const initial_reward = 6666666
+          const divider = Math.pow(2, halvings)
+          const adjusted_reward = (initial_reward/divider) * share
+          setMyshare(adjusted_reward)
+        }
+      })
+    );
+
+
+
 
     setDepositamounteosetf(
       parseFloat(depositamounteos / Number(data.defibox.price1_last)).toFixed(4)
@@ -659,7 +728,6 @@ function App(props) {
       withdrawamounts.push({ index: index, withdrawamount: 0 });
     });
     setWithdrawamounts(withdrawamounts);
-    console.log(data);
     if(!portfoliodata){
       console.log(portfoliodata?.rows[0]?.eosdefibox?.price0_last) 
       console.log(typeof(portfoliodata))
@@ -669,21 +737,16 @@ function App(props) {
   }, [accountname]);
 
   const withdrawhandler = (index, amount) => {
-    console.log(index);
-    console.log(amount);
     let withdraw = withdrawamounts;
     withdraw[index].withdrawamount = amount;
     setWithdrawamounts(withdraw);
-    console.log(withdraw);
   };
 
   const withdraw = async (index) => {
-    console.log(index);
     const finalamount = Math.floor(
       (Number(withdrawamounts[index].withdrawamount) / 100) *
         Number(portfoliodata.alldeposits[index].staked.split(" ")[0])
     );
-    console.log(finalamount);
     if (activeUser) {
       try {
         const transaction = {
@@ -721,10 +784,7 @@ function App(props) {
   };
 
   const selltokens = async() => {
-  console.log(eosetfprice)
-  console.log("lihtsalt pushimiseks")
   const reserve0 = Number(eosetfprice?.rows[0]?.reserve0.split(" ")[0])
-  console.log(reserve0)
   const reserve1 = Number(eosetfprice?.rows[0]?.reserve1.split(" ")[0])
   const slippage = (reserve0/reserve1)/(reserve0/(reserve1+Number(selltokenamount)))
   if((slippage-1)*100 > 3){
@@ -871,7 +931,6 @@ mult = Number(value.minamount.split(" ")[0])**/
           Number(portfoliodata?.defibox?.reserve0?.split(" ")[0])) *
           depositamounteos
       );
-      console.log(boxaujtransfer);
       try {
         const transaction = {
           actions: [
@@ -1114,7 +1173,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                   return response;
                 }
                 data[index].balance = "0.0000 " + data[index].minamount.split(" ")[1];
-                console.log("POST500");
               })
               .then((response) =>
                 response?.json().then((balance) => {
@@ -1132,7 +1190,6 @@ mult = Number(value.minamount.split(" ")[0])**/
             data[index].balance = balance;
           };
         });
-        console.log(data)
         setFulldata(data);
 
         //TODO RIGHT NOW FOR PRICE SUM. NEED TO ADD MULTIPLIERS.
@@ -1206,6 +1263,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                 etfbalanceind?.rows[0].balance.split(" ")[0]
               );
               setStakemax(stakedamount);
+              setStake(stakedamount)
+              console.log(stakedamount)
               if (res.rows[0]) {
                 dividenddata["stakedata"] = res.rows;
                 const sum = res.rows
@@ -1216,6 +1275,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                 const stakedamount =
                   Number(etfbalanceind.rows[0].balance.split(" ")[0]) - sum;
                 setStakemax(stakedamount);
+                setStake(stakedamount)
+                
                 setStaketable(res);
                 userstake = stakedamount;
               }
@@ -1285,7 +1346,6 @@ mult = Number(value.minamount.split(" ")[0])**/
           dividenddata["totalstaked"] = res?.rows[0]?.totalstaked;
           feetouser =
             userstake / Number(res?.rows[0]?.totalstaked.split(" ")[0]);
-          console.log("FEE TO USER: " + feetouser);
         })
       );
 
@@ -1355,7 +1415,6 @@ mult = Number(value.minamount.split(" ")[0])**/
         })
       );
 
-      console.log(dividenddata);
       /** 
       if 
         {
@@ -1378,13 +1437,10 @@ mult = Number(value.minamount.split(" ")[0])**/
         Date.now() + new Date().getTimezoneOffset() * 60000
       ).getTime();
 
-      console.log("UTC Time: " + now);
-      console.log("Div time: " + Date.parse(dividenddata.periodstart));
       const timetilnextperiod =
         Date.parse(dividenddata.periodstart) +
         dividenddata.periodfreq * 1000 -
         now;
-      console.log("TILNEXT" + timetilnextperiod);
       if (timetilnextperiod / 1000 > 86400) {
         setDisplaytime(timetilnextperiod / 1000 / 60 / 60 / 24 + " days");
       }
@@ -1400,22 +1456,21 @@ mult = Number(value.minamount.split(" ")[0])**/
 
       if(timetilnextperiod - Number(dividenddata.periodfreq) > 0){
         setTimetilnext(100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq)))
-        console.log("CHECKMEOUT:" + (100-(100*(timetilnextperiod/1000)/Number(dividenddata.periodfreq))))
       }else{
         setTimetilnext(100)
-        console.log("CHECKMEOUT2:" + (100-100*timetilnextperiod/Number(dividenddata.periodfreq)))
       }
       if (dividenddata.stakedata) {
         dividenddata.stakedata.map((row, index) => {
-          //THIS IS FUCKED. THIS IS FUCKED. THIS IS FUCKED.
           if (
             Date.parse(row.staketime) + dividenddata.periodfreq * 1000 >
             now
           ) {
             //keep it. else dump it from stakes as it doesn't count.
             dividenddata.stakedata[index].flag = true;
+            console.log("Period ongoing.")
           } else {
             dividenddata.stakedata[index].flag = false;
+            console.log("Period not ongoing.")
           }
         });
 
@@ -1429,54 +1484,38 @@ mult = Number(value.minamount.split(" ")[0])**/
             substract += Number(row.staked.split(" ")[0]);
           }
         });
-        console.log("Substract: " + substract);
         const percgets =
           dividenddata.stakedata
             .filter((x) => x.flag == false)
             .reduce((a, b) => a + Number(b.staked.split(" ")[0]), 0) /
           (Number(dividenddata.totalstaked.split(" ")[0]) - substract);
-        console.log("User's share: " + percgets);
 
         let dividend;
-        console.log(
-          Date.parse(dividenddata.periodstart) +
-            dividenddata.periodfreq * 1000 -
-            now
-        );
         if (
           Date.parse(dividenddata.periodstart) +
             dividenddata.periodfreq * 1000 <
           now
         ) {
+          //kui periood on läbi, siis arvuta dividend nii
           dividend =
             percgets *
             (Number(dividenddata.totalfees.split(" ")[0]) +
               Number(dividenddata.adjustcrtclm.split(" ")[0]));
         } else {
+          //kui periood käib, siis arvuta dividend nii
           dividend = percgets * Number(dividenddata.totalfees.split(" ")[0]);
-        }
-        console.log("Dividend: " + dividend);
-
-        if (dividenddata.userclaimperiod == false) {
-          setDividendclaim(dividend);
+          console.log("DIVIDEND: " + dividend)
         }
 
-        if (
-          dividenddata.userclaimperiod == dividenddata.totalclaimperiod &&
-          Date.parse(dividenddata.periodstart) +
-            dividenddata.periodfreq * 1000 >
-            now
-        ) {
-          setDividendclaim(0);
+        if(dividenddata.userclaimperiod == dividenddata.totalclaimperiod){
+          setDividendclaim(0)
+        }
+        else{
+          setDividendclaim(dividend)
         }
 
-        if (
-          Date.parse(dividenddata.periodstart) +
-            dividenddata.periodfreq * 1000 <
-          now
-        ) {
-          setDividendclaim(dividend);
-        }
+
+        
       } else {
         setDividendclaim(0);
       }
@@ -1681,24 +1720,20 @@ mult = Number(value.minamount.split(" ")[0])**/
     }
 
     const sender = async (totaldata, buyornot) => {
-      let tokenamount = tokens / etfprice.toFixed(4)
-      console.log("BUY: " + buy)
-      console.log(totaldata)
+      let tokenamount = tokens
       let slippagetoohigh = false;
       let slippagelist = [];
       const multparse = (mult, nr, bal) => {
         if (bal) {
           if (buyornot == true) {
-            console.log("ATTENTION")
-            console.log(parseFloat(bal?.split(" ")[0]))
+
             return (
               Number(
                 parseFloat((mult * tokenamount)).toFixed(nr)
               ) - parseFloat(bal?.split(" ")[0])
             );
           } else {
-            console.log("ATTENTION")
-            console.log(parseFloat(bal?.split(" ")[0]))
+
             return Number(
               parseFloat((mult * tokenamount)).toFixed(nr)
             );
@@ -1778,7 +1813,6 @@ mult = Number(value.minamount.split(" ")[0])**/
           ).toFixed(4);
         }
         totaldata[index].buyamount = buyamount;
-        console.log("BUYAMOUNT" + buyamount)
       });
 
       if (activeUser) {
@@ -1895,7 +1929,6 @@ mult = Number(value.minamount.split(" ")[0])**/
             });
           }
         } catch (error) {
-          console.log(error.message);
           actionpuccis(error.message);
         }
       } else {
@@ -2071,7 +2104,6 @@ mult = Number(value.minamount.split(" ")[0])**/
 
         sucessredemption();
       } catch (error) {
-        console.log(error.message);
         actionpuccis(error.message);
       }
     } else {
@@ -2439,9 +2471,9 @@ mult = Number(value.minamount.split(" ")[0])**/
 
               <div class="colorcreatecard">
                 <div class="promotext">
-                  100 USD invested {periodbutton} ago, now{" "}
+                  100 EOS invested {periodbutton} ago, now{" "}
                   {historicalprices ? historicalprices[periodbutton] : <></>}{" "}
-                  USD
+                  EOS
                 </div>
                 <div class="periodbuttons">
                   <div
@@ -2485,7 +2517,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     value={tokens}
                     onChange={(e) => {
                       let input = e.target.value ;
-                      if( !input || ( input[input.length-1].match('[0-9]') && input[0].match('[1-9]')) )
+                      if( !input || ( input[input.length-1].match('[0-9]') && input[0].match('[1-9]')) && input.length < 6 )
                         setTokens(input)
                     }}
                     sx={{
@@ -2954,9 +2986,9 @@ mult = Number(value.minamount.split(" ")[0])**/
                   <div class="staketopcardwrapper">
                     <div class="staketopcard">
                       <div class="stakestat">
-                        {Math.floor(stakemax) + " CETF"}
+                        {Math.floor(stake) + " CETF"}
                       </div>
-                      <div class="stakedescriptor">Available to stake</div>
+                      <div class="stakedescriptor">You are staking</div>
                     </div>
                   </div>
                   <div class="slider">
@@ -3233,7 +3265,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                   <div style={{ width: "40%", height: "auto", "margin-left":"10%"}}>
                   <div class="claimtexts" style={{fontWeight:"500"}}>Available to claim</div>
                   <div class="claimtexts">{dividendclaim.toFixed(4)} EOSETF</div>
-                  <div class="claimtexts">50,000 CETF</div>
+                  <div class="claimtexts">{myshare.toFixed(4)} CETF</div>
                     <button class="claimbutton" onClick={() => getdiv()}>
                       Claim
                     </button>
