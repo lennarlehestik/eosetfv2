@@ -804,7 +804,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         const transaction = {
           actions: [
             {
-              account: "eosio.token",
+              account: "consortiumtt",
               name: "transfer",
               authorization: [
                 {
@@ -816,7 +816,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 from: displayaccountname(),
                 to: "swap.defi",
                 quantity: parseFloat(selltokenamount).toFixed(4) + " EOSETF",
-                memo: "deposit,1743",
+                memo: "swap,0,1743",
               },
             },
           ],
@@ -1404,7 +1404,7 @@ mult = Number(value.minamount.split(" ")[0])**/
           json: true,
           code: "consortiumtt",
           table: "claimtime",
-          scope: "consortiumtt",
+          scope: "eosetfeosetf",
           lower_bound: displayaccountname(),
           upper_bound: displayaccountname(),
           limit: 1,
