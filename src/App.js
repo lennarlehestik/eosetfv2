@@ -722,6 +722,7 @@ function App(props) {
 
   const selltokens = async() => {
   console.log(eosetfprice)
+  console.log("lihtsalt pushimiseks")
   const reserve0 = Number(eosetfprice?.rows[0]?.reserve0.split(" ")[0])
   console.log(reserve0)
   const reserve1 = Number(eosetfprice?.rows[0]?.reserve1.split(" ")[0])
