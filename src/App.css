@@ -50,8 +50,8 @@
 }
 
 .mask2 {
-  -webkit-mask-image: linear-gradient(to top, transparent 5%, black 35%);
-  mask-image: linear-gradient(to bottom, top 5%, black 35%);
+  -webkit-mask-image: linear-gradient(to top, transparent 5%, black 15%);
+  mask-image: linear-gradient(to bottom, top 5%, black 15%);
     overflow:hidden;
 }
 
@@ -328,7 +328,9 @@ tr:hover{
 
 .depositlabel{
   font-size:13px;
+  color:#534C80;
 }
+
 
 .createbutton:hover {
   background-position: right center; /* change the direction of the change here */
@@ -432,8 +434,12 @@ input[type=number]::-webkit-outer-spin-button {
 .portfoliobottomwrapper{
   display:flex;
   flex-direction:row;
-  align-items:center;
-  margin-top:30px;
+  justify-content:stretch;
+  align-items:flex-start;
+  gap:10px;
+  width:100%;
+  flex-wrap:wrap;
+  margin-top:20px;
 }
 
 .portfoliotopcard{
@@ -448,6 +454,14 @@ input[type=number]::-webkit-outer-spin-button {
   flex-direction:column;
   justify-content:center;
   align-items:center;
+}
+
+.claimcard{
+  font-size:14px;
+  background: rgba( 255, 255, 255, 0.7 );
+  border-radius:15px;
+  box-shadow: 10px 10px 32px 0 rgba( 31, 38, 135, 0.2 );
+  padding:20px;
 }
 
 .portfoliodescriptor{
