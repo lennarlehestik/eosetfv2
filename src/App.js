@@ -2655,9 +2655,10 @@ mult = Number(value.minamount.split(" ")[0])**/
                         value={selltokenamount}
                         sx={{
                           backgroundColor: "white",
-                          borderRadius: "5px",
-                          width: "100%",
                           opacity: 0.7,
+                          borderRadius: "10px",
+                          width: "100%",
+                          input: { color: '#5A83F1' },
                         }}
                         InputProps={{
                           endAdornment: (
