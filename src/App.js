@@ -2883,7 +2883,13 @@ mult = Number(value.minamount.split(" ")[0])**/
                           "padding-bottom": "12px",
                         }}
                       >
-                        SIIA INF UUEST TOKENOMICSIST. <br />
+                        CETF tokens will be distributed to EOSETF/EOS (Defibox)
+                        liquidity providers and EOSETF fund managers for one
+                        year.
+                        <br />
+                        <br /> Halving occurs once each month. Halving divides
+                        the CETF rewards that liquidity providers receive by 2.{" "}
+                        <br />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -2892,21 +2898,6 @@ mult = Number(value.minamount.split(" ")[0])**/
 
               <Scrollbars class="mask" style={{ width: "80%" }} autoHide>
                 <div class="statcards">
-                  <div class="statcard">
-                    <a class="stat">
-                      {gettokenbalanceone(eosetfbalanceind).toLocaleString()}{" "}
-                      EOSETF
-                    </a>
-                    <a class="statexplainer">My balance</a>
-                  </div>
-
-                  <div class="statcard">
-                    <a class="stat">
-                      {gettokenbalanceone(etfbalanceind).toLocaleString()} CETF
-                    </a>
-                    <a class="statexplainer">My balance</a>
-                  </div>
-
                   <div class="statcard">
                     <a class="stat">
                       {gettokensupply(eosetfbalance).toLocaleString()} EOSETF
@@ -2922,16 +2913,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                   </div>
 
                   <div class="statcard">
-                    <a class="stat">{creationreward().toLocaleString()} CETF</a>
-                    <a class="statexplainer"> Issuance per 1 EOSTF</a>
-                  </div>
-                  <div class="statcard">
-                    <a class="stat">
-                      {halvings(gettokensupply(etfbalance)).toLocaleString()}
-                    </a>
-                    <a class="statexplainer">Halvings</a>
-                  </div>
-                  <div class="statcard">
                     <a class="stat">
                       {parseFloat(geteosetfprice().toFixed(2))} EOS
                     </a>
@@ -2942,6 +2923,10 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <a class="statexplainer">
                       Price of tokens bought separately
                     </a>
+                  </div>
+                  <div class="statcard">
+                    <a class="stat">{12}</a>
+                    <a class="statexplainer">In total halvings</a>
                   </div>
                 </div>
                 <div style={{ display: "block", opacity: "0" }}>
