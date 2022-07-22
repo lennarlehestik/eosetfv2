@@ -14,13 +14,12 @@ import { Bar, Pie, Doughnut } from "react-chartjs-2";
 import { Promise } from "bluebird";
 import Poll from "./Poll";
 import Countdown from "react-countdown";
-import { CircularProgressbar, buildStyles  } from "react-circular-progressbar";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
-import { alpha, styled } from '@mui/material/styles';
-
+import { alpha, styled } from "@mui/material/styles";
 
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -31,7 +30,6 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CachedIcon from "@material-ui/icons/Cached";
 import Switch from "@mui/material/Switch";
-
 
 const CustomSlider = withStyles({
   root: {
@@ -64,18 +62,18 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
-  '& .MuiInput-underline:after': {
-    borderBottom: 'none',
+  "& .MuiInput-underline:after": {
+    borderBottom: "none",
   },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      border: 'none',
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "none",
     },
-    '&:hover fieldset': {
-      border: 'none',
+    "&:hover fieldset": {
+      border: "none",
     },
-    '&.Mui-focused fieldset': {
-      border: 'none',
+    "&.Mui-focused fieldset": {
+      border: "none",
     },
   },
 });
@@ -94,11 +92,11 @@ const useStyles = makeStyles((theme) => ({
   summary: {
     padding: 0,
   },
-  slider2:{
-    color:"#7FAAF5"
+  slider2: {
+    color: "#7FAAF5",
   },
-  circleprog:{
-    color:"#7FAAF5"
+  circleprog: {
+    color: "#7FAAF5",
   },
   expansion: {
     backgroundColor: "rgba( 255, 255, 255, 0 )",
@@ -2376,7 +2374,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <img class="menuimg" src="assets/question.svg" />
                   </td>
                   <td>
-                    <a class="menuitemtext">Claim</a>
+                    <a class="menuitemtext">My Portfolio</a>
                   </td>
                 </tr>
                 <tr onClick={() => setView("about")}>
@@ -2539,7 +2537,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <Button
                       sx={{ borderRadius: "0" }}
                       style={{
-                        "color":"#534C80",
+                        color: "#534C80",
                         "border-bottom":
                           tabbutton == "invest"
                             ? "0.2rem solid #7FAAF5"
@@ -2553,11 +2551,9 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <Button
                       sx={{ borderRadius: "0" }}
                       style={{
-                        "color":"#534C80",
+                        color: "#534C80",
                         "border-bottom":
-                          tabbutton == "sell"
-                            ? "0.2rem solid #7FAAF5"
-                            : "none",
+                          tabbutton == "sell" ? "0.2rem solid #7FAAF5" : "none",
                         lineHeight: "1.2rem",
                       }}
                       onClick={() => setTabbutton("sell")}
@@ -2569,7 +2565,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <div class="invest">
                       <div class="depositlabel">Choose investment amount</div>
 
-                      <CssTextField 
+                      <CssTextField
                         id="outlined"
                         value={tokens}
                         onChange={(e) => {
@@ -2587,7 +2583,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
-                          input: { color: '#5A83F1' },
+                          input: { color: "#5A83F1" },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -2658,7 +2654,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
-                          input: { color: '#5A83F1' },
+                          input: { color: "#5A83F1" },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -2750,11 +2746,10 @@ mult = Number(value.minamount.split(" ")[0])**/
                 <button onClick={() => dynamicsend(false)} class="createbutton">Buy all and Create</button>
               </div>
               **/}
-              <div style={{ display: "block", opacity: "0" }}>
-                    .<br/>.<br/>.
-                  </div>
+                <div style={{ display: "block", opacity: "0" }}>
+                  .<br />.<br />.
+                </div>
               </div>
-                  
             </Scrollbars>
           ) : view == "redeem" ? (
             <div class="rightbar">
@@ -3030,7 +3025,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                           Staking CETF enables you to claim fees that the EOSETF
                           generates. <br />
                           <br />
-                          Fees can be claimed once a week under Claim.
+                          Fees can be claimed once per week in My portfolio
+                          view.
                           <br />
                           <br />
                           Fees are distributed between all the stakers
@@ -3158,7 +3154,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                       opacity: 0.7,
                       borderRadius: "10px",
                       width: "100%",
-                      input: { color: '#5A83F1' },
+                      input: { color: "#5A83F1" },
                     }}
                     InputProps={{
                       endAdornment: (
@@ -3180,14 +3176,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                     id="outlined"
                     value={depositamounteos}
                     onChange={(e) => deposit(e.target.value, "EOS")}
-                        sx={{
-                          backgroundColor: "white",
-                          opacity: 0.7,
-                          borderRadius: "10px",
-                          width: "100%",
-                          marginTop:"5px",
-                          input: { color: '#5A83F1' },
-                        }}
+                    sx={{
+                      backgroundColor: "white",
+                      opacity: 0.7,
+                      borderRadius: "10px",
+                      width: "100%",
+                      marginTop: "5px",
+                      input: { color: "#5A83F1" },
+                    }}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -3317,26 +3313,25 @@ mult = Number(value.minamount.split(" ")[0])**/
                 </div>
                 <div class="portfoliobottomwrapper">
                   <div style={{ width: "30%", height: "200px" }}>
-                  <div class="claimcard">
-                    <CircularProgressbar
-                      value={timetilnext}
-                      text={displaytime}
-                      styles={buildStyles({
-                        pathColor: `#7FAAF5`,
-                        textColor: '#7FAAF5',
-                        trailColor: '#DEE9FC',
-                        backgroundColor: '#7FAAF5',
-                      })}
-                    />
-                    <div style={{ marginTop: "10px" }}>
-                      <div class="countercomment">
-                        Until next claiming period
+                    <div class="claimcard">
+                      <CircularProgressbar
+                        value={timetilnext}
+                        text={displaytime}
+                        styles={buildStyles({
+                          pathColor: `#7FAAF5`,
+                          textColor: "#7FAAF5",
+                          trailColor: "#DEE9FC",
+                          backgroundColor: "#7FAAF5",
+                        })}
+                      />
+                      <div style={{ marginTop: "10px" }}>
+                        <div class="countercomment">
+                          Until next claiming period
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </div>
                   <div class="claimcard">
-                    
                     <div class="claimtexts" style={{ fontWeight: "500" }}>
                       Available to claim
                     </div>
@@ -3348,7 +3343,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                       Claim
                     </button>
                   </div>
-                  
                 </div>
               </div>
             </div>
@@ -3379,7 +3373,7 @@ mult = Number(value.minamount.split(" ")[0])**/
             onClick={() => setView("portfolio")}
             style={{ fontWeight: view == "portfolio" ? 600 : 400 }}
           >
-            Claim
+            My Portfolio
           </div>
           <img
             src="assets/burger.svg"
