@@ -2223,7 +2223,10 @@ mult = Number(value.minamount.split(" ")[0])**/
                   <table class="menuitems">
                     <tr onClick={() => menuClick("about")}>
                       <td>
-                        <img class="menuimg" src="assets/briefcase.svg" />
+                        <img
+                          class="menuimg"
+                          src="assets/iconmonstr-chart-11.svg"
+                        />
                       </td>
                       <td>
                         <a class="menuitemtext">Tokens</a>
@@ -2347,7 +2350,10 @@ mult = Number(value.minamount.split(" ")[0])**/
               <table class="menuitems">
                 <tr onClick={() => setView("create")}>
                   <td>
-                    <img class="menuimg" src="assets/productbox1.svg" />
+                    <img
+                      class="menuimg"
+                      src="assets/iconmonstr-bitcoin-6.svg"
+                    />
                   </td>
                   <td>
                     <a class="menuitemtext">Invest</a>
@@ -2363,7 +2369,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 </tr>
                 <tr onClick={() => setView("earn")}>
                   <td>
-                    <img class="menuimg" src="assets/stake.svg" />
+                    <img class="menuimg" src="assets/iconmonstr-chart-5.svg" />
                   </td>
                   <td>
                     <a class="menuitemtext">Earn</a>
@@ -2371,7 +2377,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 </tr>
                 <tr onClick={() => setView("portfolio")}>
                   <td>
-                    <img class="menuimg" src="assets/question.svg" />
+                    <img class="menuimg" src="assets/briefcase.svg" />
                   </td>
                   <td>
                     <a class="menuitemtext">My Portfolio</a>
@@ -2379,7 +2385,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 </tr>
                 <tr onClick={() => setView("about")}>
                   <td>
-                    <img class="menuimg" src="assets/briefcase.svg" />
+                    <img class="menuimg" src="assets/iconmonstr-chart-11.svg" />
                   </td>
                   <td>
                     <a class="menuitemtext">Tokens</a>
@@ -2563,7 +2569,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                   </div>
                   {tabbutton == "invest" ? (
                     <div class="invest">
-                      <div class="depositlabel">Choose investment amount</div>
+                      <div
+                        style={{
+                          marginBottom: "4px",
+                        }}
+                        class="depositlabel"
+                      >
+                        Choose investment amount{" "}
+                      </div>
 
                       <CssTextField
                         id="outlined"
@@ -2607,11 +2620,19 @@ mult = Number(value.minamount.split(" ")[0])**/
                           ),
                         }}
                       />
-                      <div class="depositlabel">
+                      <div
+                        style={{
+                          marginTop: "4px",
+                        }}
+                        class="depositlabel"
+                      >
                         Balance:{" "}
-                        {Number(
-                          portfoliodata?.eosbalance?.balance.split(" ")[0]
-                        ).toFixed(0) + " EOS"}
+                        <b>
+                          {" "}
+                          {Number(
+                            portfoliodata?.eosbalance?.balance.split(" ")[0]
+                          ).toFixed(0) + " EOS"}
+                        </b>
                       </div>
                       <button
                         onClick={() => dynamicsend(false)}
@@ -2643,7 +2664,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                     </div>
                   ) : (
                     <div class="invest">
-                      <div class="depositlabel">Choose amount to sell</div>
+                      <div
+                        style={{
+                          marginBottom: "4px",
+                        }}
+                        class="depositlabel"
+                      >
+                        Choose amount to sell
+                      </div>
                       <CssTextField
                         id="outlined"
                         defaultValue="100"
@@ -2673,15 +2701,23 @@ mult = Number(value.minamount.split(" ")[0])**/
                           ),
                         }}
                       />
-                      <div class="depositlabel">
+                      <div
+                        style={{
+                          marginTop: "4px",
+                        }}
+                        class="depositlabel"
+                      >
                         Balance:{" "}
-                        {accountname
-                          ? Number(
-                              portfoliodata?.eosetfbalance?.balance?.split(
-                                " "
-                              )[0]
-                            ).toFixed(4) + " EOSETF"
-                          : "0 EOSETF"}
+                        <b>
+                          {" "}
+                          {accountname
+                            ? Number(
+                                portfoliodata?.eosetfbalance?.balance?.split(
+                                  " "
+                                )[0]
+                              ).toFixed(4) + " EOSETF"
+                            : "0 EOSETF"}
+                        </b>
                       </div>
                       <button
                         onClick={() => selltokens()}
@@ -3144,7 +3180,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                       </AccordionDetails>
                     </Accordion>
                   </div>
-                  <div class="depositlabel">Choose amount to deposit</div>
+                  <div
+                    style={{
+                      marginBottom: "4px",
+                    }}
+                    class="depositlabel"
+                  >
+                    Choose amount to deposit
+                  </div>
                   <CssTextField
                     id="outlined"
                     value={depositamounteosetf}
@@ -3159,7 +3202,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          ~
                           {parseFloat(
                             depositamounteosetf *
                               portfoliodata?.eosetfpriceinusd
@@ -3187,7 +3229,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          ~
                           {parseFloat(
                             depositamounteos * portfoliodata?.eospriceinusd
                           )?.toFixed(2)}{" "}
@@ -3203,7 +3244,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                     Deposit
                   </button>
 
-                  <div class="depositlabel">Choose amount to withdraw</div>
+                  <div
+                    style={{
+                      marginBottom: "-12px",
+                    }}
+                    class="depositlabel"
+                  >
+                    Choose amount to withdraw
+                  </div>
                   {portfoliodata?.alldeposits?.map((value, index) => {
                     return (
                       <div class="withdrawcard">
