@@ -62,14 +62,14 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
-  '& .css-1pnmrwp-MuiTypography-root':{
-    color:"#5A83F1"
+  "& .css-1pnmrwp-MuiTypography-root": {
+    color: "#5A83F1",
   },
-  '& .css-1laqsz7-MuiInputAdornment-root':{
-    color:"#5A83F1"
+  "& .css-1laqsz7-MuiInputAdornment-root": {
+    color: "#5A83F1",
   },
-  '& .MuiInput-underline:after': {
-    borderBottom: 'none',
+  "& .MuiInput-underline:after": {
+    borderBottom: "none",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -2602,7 +2602,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
-                          input: { color: '#5A83F1', fontWeight:"600"},
+                          input: { color: "#5A83F1", fontWeight: "600" },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -2612,11 +2612,11 @@ mult = Number(value.minamount.split(" ")[0])**/
                                   portfoliodata?.eosetfpriceineos *
                                   portfoliodata?.eospriceinusd
                               )?.toFixed(2)}
-                              {" EOS"}/
+                              {" USD"}/
                               {parseFloat(
                                 tokens * portfoliodata?.eosetfpriceineos
                               )?.toFixed(2)}
-                              {" USD"}
+                              {" EOS"}
                             </InputAdornment>
                           ),
                           startAdornment: (
@@ -2688,7 +2688,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
-                          input: { color: "#5A83F1" },
+                          input: { color: "#5A83F1", fontWeight: "600" },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -3203,7 +3203,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                       opacity: 0.7,
                       borderRadius: "10px",
                       width: "100%",
-                      input: { color: '#5A83F1', fontWeight:"600"},
+                      input: { color: "#5A83F1", fontWeight: "600" },
                     }}
                     InputProps={{
                       endAdornment: (
@@ -3224,14 +3224,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                     id="outlined"
                     value={depositamounteos}
                     onChange={(e) => deposit(e.target.value, "EOS")}
-                        sx={{
-                          backgroundColor: "white",
-                          opacity: 0.7,
-                          borderRadius: "10px",
-                          width: "100%",
-                          marginTop:"5px",
-                          input: { color: '#5A83F1', fontWeight:"600"},
-                        }}
+                    sx={{
+                      backgroundColor: "white",
+                      opacity: 0.7,
+                      borderRadius: "10px",
+                      width: "100%",
+                      marginTop: "5px",
+                      input: { color: "#5A83F1", fontWeight: "600" },
+                    }}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
