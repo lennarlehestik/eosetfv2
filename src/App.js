@@ -20,6 +20,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
 import { alpha, styled } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -62,10 +63,10 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
-  "& .css-1pnmrwp-MuiTypography-root": {
+  "& .css-18m8r0v": {
     color: "#5A83F1",
   },
-  "& .css-1laqsz7-MuiInputAdornment-root": {
+  "& .MuiInputAdornment-root": {
     color: "#5A83F1",
   },
   "& .MuiInput-underline:after": {
@@ -497,6 +498,11 @@ function App(props) {
   }, [accountname]);
 
   useEffect(async () => {
+    let username;
+    await props.ual.activeUser?.getAccountName().then((result) => {
+      console.log("user" + result);
+      username = result;
+    });
     const data = [];
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
@@ -536,7 +542,7 @@ function App(props) {
         json: true,
         code: "lptoken.defi",
         table: "accounts",
-        scope: displayaccountname(),
+        scope: username,
         lower_bound: "BOXAUJ",
         upper_bound: "BOXAUJ",
         limit: 1,
@@ -566,7 +572,7 @@ function App(props) {
         json: true,
         code: "eosio.token",
         table: "accounts",
-        scope: displayaccountname(),
+        scope: username,
         lower_bound: "EOS",
         upper_bound: "EOS",
         limit: 1,
@@ -591,7 +597,7 @@ function App(props) {
         json: true,
         code: "cet.f",
         table: "accounts",
-        scope: displayaccountname(),
+        scope: username,
         lower_bound: "EOSETF",
         upper_bound: "EOSETF",
         limit: 1,
@@ -616,7 +622,7 @@ function App(props) {
         json: true,
         code: "cet.f",
         table: "accounts",
-        scope: displayaccountname(),
+        scope: username,
         lower_bound: "CETF",
         upper_bound: "CETF",
         limit: 1,
@@ -664,7 +670,7 @@ function App(props) {
         json: true,
         code: "consortiumtt",
         table: "indstkdetf",
-        scope: displayaccountname(),
+        scope: username,
         limit: 100,
       }),
     }).then((response) =>
@@ -756,10 +762,8 @@ function App(props) {
     });
     setWithdrawamounts(withdrawamounts);
     if (!portfoliodata) {
-      console.log(portfoliodata?.rows[0]?.eosdefibox?.price0_last);
-      console.log(typeof portfoliodata);
-      console.log("writing to state");
       setPortfoliodata(data);
+      console.log("user2" + username);
     }
   }, [accountname]);
 
@@ -2510,9 +2514,18 @@ mult = Number(value.minamount.split(" ")[0])**/
 
                 <div class="colorcreatecard">
                   <div class="promotext">
-                    100 EOS invested {periodbutton} ago, now{" "}
-                    {historicalprices ? historicalprices[periodbutton] : <></>}{" "}
-                    EOS
+                    <b>100 EOS</b> invested {periodbutton} ago, now{" "}
+                    <b>
+                      {historicalprices ? (
+                        historicalprices[periodbutton]
+                      ) : (
+                        <CircularProgress
+                          style={{ color: "#5A83F1" }}
+                          size="14.4px"
+                        />
+                      )}{" "}
+                      EOS
+                    </b>
                   </div>
                   <div class="periodbuttons">
                     <div
@@ -2607,16 +2620,23 @@ mult = Number(value.minamount.split(" ")[0])**/
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">
-                              {parseFloat(
-                                tokens *
-                                  portfoliodata?.eosetfpriceineos *
-                                  portfoliodata?.eospriceinusd
-                              )?.toFixed(2)}
-                              {" USD"}/
-                              {parseFloat(
-                                tokens * portfoliodata?.eosetfpriceineos
-                              )?.toFixed(2)}
-                              {" EOS"}
+                              {portfoliodata?.eosetfpriceineos ? (
+                                parseFloat(
+                                  tokens *
+                                    portfoliodata?.eosetfpriceineos *
+                                    portfoliodata?.eospriceinusd
+                                )?.toFixed(2) +
+                                " USD/" +
+                                parseFloat(
+                                  tokens * portfoliodata?.eosetfpriceineos
+                                )?.toFixed(2) +
+                                " EOS"
+                              ) : (
+                                <CircularProgress
+                                  style={{ color: "#5A83F1" }}
+                                  size="16px"
+                                />
+                              )}
                             </InputAdornment>
                           ),
                           startAdornment: (
@@ -2635,9 +2655,16 @@ mult = Number(value.minamount.split(" ")[0])**/
                         Balance:{" "}
                         <b>
                           {" "}
-                          {Number(
-                            portfoliodata?.eosbalance?.balance.split(" ")[0]
-                          ).toFixed(0) + " EOS"}
+                          {portfoliodata?.eosbalance ? (
+                            Number(
+                              portfoliodata?.eosbalance?.balance.split(" ")[0]
+                            ).toFixed(0) + " EOS"
+                          ) : (
+                            <CircularProgress
+                              style={{ color: "#5A83F1" }}
+                              size="13px"
+                            />
+                          )}
                         </b>
                       </div>
                       <button
