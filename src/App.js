@@ -14,13 +14,12 @@ import { Bar, Pie, Doughnut } from "react-chartjs-2";
 import { Promise } from "bluebird";
 import Poll from "./Poll";
 import Countdown from "react-countdown";
-import { CircularProgressbar, buildStyles  } from "react-circular-progressbar";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
-import { alpha, styled } from '@mui/material/styles';
-
+import { alpha, styled } from "@mui/material/styles";
 
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -31,7 +30,6 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CachedIcon from "@material-ui/icons/Cached";
 import Switch from "@mui/material/Switch";
-
 
 const CustomSlider = withStyles({
   root: {
@@ -64,6 +62,7 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
+<<<<<<< HEAD
   '& .css-1pnmrwp-MuiTypography-root':{
     color:"#5A83F1"
   },
@@ -72,16 +71,20 @@ const CssTextField = styled(TextField)({
   },
   '& .MuiInput-underline:after': {
     borderBottom: 'none',
+=======
+  "& .MuiInput-underline:after": {
+    borderBottom: "none",
+>>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
   },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      border: 'none',
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "none",
     },
-    '&:hover fieldset': {
-      border: 'none',
+    "&:hover fieldset": {
+      border: "none",
     },
-    '&.Mui-focused fieldset': {
-      border: 'none',
+    "&.Mui-focused fieldset": {
+      border: "none",
     },
   },
 });
@@ -100,11 +103,11 @@ const useStyles = makeStyles((theme) => ({
   summary: {
     padding: 0,
   },
-  slider2:{
-    color:"#7FAAF5"
+  slider2: {
+    color: "#7FAAF5",
   },
-  circleprog:{
-    color:"#7FAAF5"
+  circleprog: {
+    color: "#7FAAF5",
   },
   expansion: {
     backgroundColor: "rgba( 255, 255, 255, 0 )",
@@ -2231,7 +2234,10 @@ mult = Number(value.minamount.split(" ")[0])**/
                   <table class="menuitems">
                     <tr onClick={() => menuClick("about")}>
                       <td>
-                        <img class="menuimg" src="assets/briefcase.svg" />
+                        <img
+                          class="menuimg"
+                          src="assets/iconmonstr-chart-11.svg"
+                        />
                       </td>
                       <td>
                         <a class="menuitemtext">Tokens</a>
@@ -2355,7 +2361,10 @@ mult = Number(value.minamount.split(" ")[0])**/
               <table class="menuitems">
                 <tr onClick={() => setView("create")}>
                   <td>
-                    <img class="menuimg" src="assets/productbox1.svg" />
+                    <img
+                      class="menuimg"
+                      src="assets/iconmonstr-bitcoin-6.svg"
+                    />
                   </td>
                   <td>
                     <a class="menuitemtext">Invest</a>
@@ -2371,7 +2380,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 </tr>
                 <tr onClick={() => setView("earn")}>
                   <td>
-                    <img class="menuimg" src="assets/stake.svg" />
+                    <img class="menuimg" src="assets/iconmonstr-chart-5.svg" />
                   </td>
                   <td>
                     <a class="menuitemtext">Earn</a>
@@ -2379,15 +2388,15 @@ mult = Number(value.minamount.split(" ")[0])**/
                 </tr>
                 <tr onClick={() => setView("portfolio")}>
                   <td>
-                    <img class="menuimg" src="assets/question.svg" />
+                    <img class="menuimg" src="assets/briefcase.svg" />
                   </td>
                   <td>
-                    <a class="menuitemtext">Claim</a>
+                    <a class="menuitemtext">My Portfolio</a>
                   </td>
                 </tr>
                 <tr onClick={() => setView("about")}>
                   <td>
-                    <img class="menuimg" src="assets/briefcase.svg" />
+                    <img class="menuimg" src="assets/iconmonstr-chart-11.svg" />
                   </td>
                   <td>
                     <a class="menuitemtext">Tokens</a>
@@ -2545,7 +2554,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <Button
                       sx={{ borderRadius: "0" }}
                       style={{
-                        "color":"#534C80",
+                        color: "#534C80",
                         "border-bottom":
                           tabbutton == "invest"
                             ? "0.2rem solid #7FAAF5"
@@ -2559,11 +2568,9 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <Button
                       sx={{ borderRadius: "0" }}
                       style={{
-                        "color":"#534C80",
+                        color: "#534C80",
                         "border-bottom":
-                          tabbutton == "sell"
-                            ? "0.2rem solid #7FAAF5"
-                            : "none",
+                          tabbutton == "sell" ? "0.2rem solid #7FAAF5" : "none",
                         lineHeight: "1.2rem",
                       }}
                       onClick={() => setTabbutton("sell")}
@@ -2573,9 +2580,16 @@ mult = Number(value.minamount.split(" ")[0])**/
                   </div>
                   {tabbutton == "invest" ? (
                     <div class="invest">
-                      <div class="depositlabel">Choose investment amount</div>
+                      <div
+                        style={{
+                          marginBottom: "4px",
+                        }}
+                        class="depositlabel"
+                      >
+                        Choose investment amount{" "}
+                      </div>
 
-                      <CssTextField 
+                      <CssTextField
                         id="outlined"
                         value={tokens}
                         onChange={(e) => {
@@ -2593,7 +2607,11 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
+<<<<<<< HEAD
                           input: { color: '#5A83F1', fontWeight:"600"},
+=======
+                          input: { color: "#5A83F1" },
+>>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
                         }}
                         InputProps={{
                           endAdornment: (
@@ -2617,11 +2635,19 @@ mult = Number(value.minamount.split(" ")[0])**/
                           ),
                         }}
                       />
-                      <div class="depositlabel">
+                      <div
+                        style={{
+                          marginTop: "4px",
+                        }}
+                        class="depositlabel"
+                      >
                         Balance:{" "}
-                        {Number(
-                          portfoliodata?.eosbalance?.balance.split(" ")[0]
-                        ).toFixed(0) + " EOS"}
+                        <b>
+                          {" "}
+                          {Number(
+                            portfoliodata?.eosbalance?.balance.split(" ")[0]
+                          ).toFixed(0) + " EOS"}
+                        </b>
                       </div>
                       <button
                         onClick={() => dynamicsend(false)}
@@ -2653,7 +2679,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                     </div>
                   ) : (
                     <div class="invest">
-                      <div class="depositlabel">Choose amount to sell</div>
+                      <div
+                        style={{
+                          marginBottom: "4px",
+                        }}
+                        class="depositlabel"
+                      >
+                        Choose amount to sell
+                      </div>
                       <CssTextField
                         id="outlined"
                         defaultValue="100"
@@ -2664,7 +2697,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
-                          input: { color: '#5A83F1' },
+                          input: { color: "#5A83F1" },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -2683,15 +2716,23 @@ mult = Number(value.minamount.split(" ")[0])**/
                           ),
                         }}
                       />
-                      <div class="depositlabel">
+                      <div
+                        style={{
+                          marginTop: "4px",
+                        }}
+                        class="depositlabel"
+                      >
                         Balance:{" "}
-                        {accountname
-                          ? Number(
-                              portfoliodata?.eosetfbalance?.balance?.split(
-                                " "
-                              )[0]
-                            ).toFixed(4) + " EOSETF"
-                          : "0 EOSETF"}
+                        <b>
+                          {" "}
+                          {accountname
+                            ? Number(
+                                portfoliodata?.eosetfbalance?.balance?.split(
+                                  " "
+                                )[0]
+                              ).toFixed(4) + " EOSETF"
+                            : "0 EOSETF"}
+                        </b>
                       </div>
                       <button
                         onClick={() => selltokens()}
@@ -2756,11 +2797,10 @@ mult = Number(value.minamount.split(" ")[0])**/
                 <button onClick={() => dynamicsend(false)} class="createbutton">Buy all and Create</button>
               </div>
               **/}
-              <div style={{ display: "block", opacity: "0" }}>
-                    .<br/>.<br/>.
-                  </div>
+                <div style={{ display: "block", opacity: "0" }}>
+                  .<br />.<br />.
+                </div>
               </div>
-                  
             </Scrollbars>
           ) : view == "redeem" ? (
             <div class="rightbar">
@@ -2923,7 +2963,13 @@ mult = Number(value.minamount.split(" ")[0])**/
                           "padding-bottom": "12px",
                         }}
                       >
-                        SIIA INF UUEST TOKENOMICSIST. <br />
+                        CETF tokens will be distributed to EOSETF/EOS (Defibox)
+                        liquidity providers and EOSETF fund managers for one
+                        year.
+                        <br />
+                        <br /> Halving occurs once each month. Halving divides
+                        the CETF rewards that liquidity providers receive by 2.{" "}
+                        <br />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -2932,21 +2978,6 @@ mult = Number(value.minamount.split(" ")[0])**/
 
               <Scrollbars class="mask" style={{ width: "80%" }} autoHide>
                 <div class="statcards">
-                  <div class="statcard">
-                    <a class="stat">
-                      {gettokenbalanceone(eosetfbalanceind).toLocaleString()}{" "}
-                      EOSETF
-                    </a>
-                    <a class="statexplainer">My balance</a>
-                  </div>
-
-                  <div class="statcard">
-                    <a class="stat">
-                      {gettokenbalanceone(etfbalanceind).toLocaleString()} CETF
-                    </a>
-                    <a class="statexplainer">My balance</a>
-                  </div>
-
                   <div class="statcard">
                     <a class="stat">
                       {gettokensupply(eosetfbalance).toLocaleString()} EOSETF
@@ -2962,16 +2993,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                   </div>
 
                   <div class="statcard">
-                    <a class="stat">{creationreward().toLocaleString()} CETF</a>
-                    <a class="statexplainer"> Issuance per 1 EOSTF</a>
-                  </div>
-                  <div class="statcard">
-                    <a class="stat">
-                      {halvings(gettokensupply(etfbalance)).toLocaleString()}
-                    </a>
-                    <a class="statexplainer">Halvings</a>
-                  </div>
-                  <div class="statcard">
                     <a class="stat">
                       {parseFloat(geteosetfprice().toFixed(2))} EOS
                     </a>
@@ -2982,6 +3003,10 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <a class="statexplainer">
                       Price of tokens bought separately
                     </a>
+                  </div>
+                  <div class="statcard">
+                    <a class="stat">{12}</a>
+                    <a class="statexplainer">In total halvings</a>
                   </div>
                 </div>
                 <div style={{ display: "block", opacity: "0" }}>
@@ -3051,7 +3076,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                           Staking CETF enables you to claim fees that the EOSETF
                           generates. <br />
                           <br />
-                          Fees can be claimed once a week under Claim.
+                          Fees can be claimed once per week in My portfolio
+                          view.
                           <br />
                           <br />
                           Fees are distributed between all the stakers
@@ -3169,7 +3195,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                       </AccordionDetails>
                     </Accordion>
                   </div>
-                  <div class="depositlabel">Choose amount to deposit</div>
+                  <div
+                    style={{
+                      marginBottom: "4px",
+                    }}
+                    class="depositlabel"
+                  >
+                    Choose amount to deposit
+                  </div>
                   <CssTextField
                     id="outlined"
                     value={depositamounteosetf}
@@ -3179,12 +3212,15 @@ mult = Number(value.minamount.split(" ")[0])**/
                       opacity: 0.7,
                       borderRadius: "10px",
                       width: "100%",
+<<<<<<< HEAD
                       input: { color: '#5A83F1', fontWeight:"600"},
+=======
+                      input: { color: "#5A83F1" },
+>>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
                     }}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          ~
                           {parseFloat(
                             depositamounteosetf *
                               portfoliodata?.eosetfpriceinusd
@@ -3201,6 +3237,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     id="outlined"
                     value={depositamounteos}
                     onChange={(e) => deposit(e.target.value, "EOS")}
+<<<<<<< HEAD
                         sx={{
                           backgroundColor: "white",
                           opacity: 0.7,
@@ -3209,10 +3246,19 @@ mult = Number(value.minamount.split(" ")[0])**/
                           marginTop:"5px",
                           input: { color: '#5A83F1', fontWeight:"600"},
                         }}
+=======
+                    sx={{
+                      backgroundColor: "white",
+                      opacity: 0.7,
+                      borderRadius: "10px",
+                      width: "100%",
+                      marginTop: "5px",
+                      input: { color: "#5A83F1" },
+                    }}
+>>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          ~
                           {parseFloat(
                             depositamounteos * portfoliodata?.eospriceinusd
                           )?.toFixed(2)}{" "}
@@ -3228,7 +3274,14 @@ mult = Number(value.minamount.split(" ")[0])**/
                     Deposit
                   </button>
 
-                  <div class="depositlabel">Choose amount to withdraw</div>
+                  <div
+                    style={{
+                      marginBottom: "-12px",
+                    }}
+                    class="depositlabel"
+                  >
+                    Choose amount to withdraw
+                  </div>
                   {portfoliodata?.alldeposits?.map((value, index) => {
                     return (
                       <div class="withdrawcard">
@@ -3338,26 +3391,25 @@ mult = Number(value.minamount.split(" ")[0])**/
                 </div>
                 <div class="portfoliobottomwrapper">
                   <div style={{ width: "30%", height: "200px" }}>
-                  <div class="claimcard">
-                    <CircularProgressbar
-                      value={timetilnext}
-                      text={displaytime}
-                      styles={buildStyles({
-                        pathColor: `#7FAAF5`,
-                        textColor: '#7FAAF5',
-                        trailColor: '#DEE9FC',
-                        backgroundColor: '#7FAAF5',
-                      })}
-                    />
-                    <div style={{ marginTop: "10px" }}>
-                      <div class="countercomment">
-                        Until next claiming period
+                    <div class="claimcard">
+                      <CircularProgressbar
+                        value={timetilnext}
+                        text={displaytime}
+                        styles={buildStyles({
+                          pathColor: `#7FAAF5`,
+                          textColor: "#7FAAF5",
+                          trailColor: "#DEE9FC",
+                          backgroundColor: "#7FAAF5",
+                        })}
+                      />
+                      <div style={{ marginTop: "10px" }}>
+                        <div class="countercomment">
+                          Until next claiming period
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </div>
                   <div class="claimcard">
-                    
                     <div class="claimtexts" style={{ fontWeight: "500" }}>
                       Available to claim
                     </div>
@@ -3369,7 +3421,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                       Claim
                     </button>
                   </div>
-                  
                 </div>
               </div>
             </div>
@@ -3400,7 +3451,7 @@ mult = Number(value.minamount.split(" ")[0])**/
             onClick={() => setView("portfolio")}
             style={{ fontWeight: view == "portfolio" ? 600 : 400 }}
           >
-            Claim
+            My Portfolio
           </div>
           <img
             src="assets/burger.svg"
