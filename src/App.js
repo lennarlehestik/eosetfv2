@@ -64,6 +64,12 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
+  '& .css-1pnmrwp-MuiTypography-root':{
+    color:"#5A83F1"
+  },
+  '& .css-1laqsz7-MuiInputAdornment-root':{
+    color:"#5A83F1"
+  },
   '& .MuiInput-underline:after': {
     borderBottom: 'none',
   },
@@ -1539,7 +1545,7 @@ mult = Number(value.minamount.split(" ")[0])**/
           dividend = percgets * Number(dividenddata.totalfees.split(" ")[0]);
           console.log("DIVIDEND: " + dividend);
         }
-
+        setDividendclaim(dividend);
         if (dividenddata.userclaimperiod == dividenddata.totalclaimperiod) {
           setDividendclaim(0);
         } else {
@@ -2587,7 +2593,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
-                          input: { color: '#5A83F1' },
+                          input: { color: '#5A83F1', fontWeight:"600"},
                         }}
                         InputProps={{
                           endAdornment: (
@@ -3173,7 +3179,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                       opacity: 0.7,
                       borderRadius: "10px",
                       width: "100%",
-                      input: { color: '#5A83F1' },
+                      input: { color: '#5A83F1', fontWeight:"600"},
                     }}
                     InputProps={{
                       endAdornment: (
@@ -3201,7 +3207,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           borderRadius: "10px",
                           width: "100%",
                           marginTop:"5px",
-                          input: { color: '#5A83F1' },
+                          input: { color: '#5A83F1', fontWeight:"600"},
                         }}
                     InputProps={{
                       endAdornment: (
