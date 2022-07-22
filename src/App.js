@@ -62,7 +62,6 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
-<<<<<<< HEAD
   '& .css-1pnmrwp-MuiTypography-root':{
     color:"#5A83F1"
   },
@@ -71,10 +70,6 @@ const CssTextField = styled(TextField)({
   },
   '& .MuiInput-underline:after': {
     borderBottom: 'none',
-=======
-  "& .MuiInput-underline:after": {
-    borderBottom: "none",
->>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -2607,11 +2602,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           opacity: 0.7,
                           borderRadius: "10px",
                           width: "100%",
-<<<<<<< HEAD
                           input: { color: '#5A83F1', fontWeight:"600"},
-=======
-                          input: { color: "#5A83F1" },
->>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
                         }}
                         InputProps={{
                           endAdornment: (
@@ -3212,11 +3203,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                       opacity: 0.7,
                       borderRadius: "10px",
                       width: "100%",
-<<<<<<< HEAD
                       input: { color: '#5A83F1', fontWeight:"600"},
-=======
-                      input: { color: "#5A83F1" },
->>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
                     }}
                     InputProps={{
                       endAdornment: (
@@ -3237,7 +3224,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                     id="outlined"
                     value={depositamounteos}
                     onChange={(e) => deposit(e.target.value, "EOS")}
-<<<<<<< HEAD
                         sx={{
                           backgroundColor: "white",
                           opacity: 0.7,
@@ -3246,16 +3232,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                           marginTop:"5px",
                           input: { color: '#5A83F1', fontWeight:"600"},
                         }}
-=======
-                    sx={{
-                      backgroundColor: "white",
-                      opacity: 0.7,
-                      borderRadius: "10px",
-                      width: "100%",
-                      marginTop: "5px",
-                      input: { color: "#5A83F1" },
-                    }}
->>>>>>> bcee6645f8ca0ad72241e161e3244268d7546534
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
