@@ -165,7 +165,7 @@ function App(props) {
   const [inliquidity, setInliquidity] = useState(0);
   const [myshare, setMyshare] = useState(0);
   const [stake, setStake] = useState(0);
-  const [stakemax, setStakemax] = useState();
+  const [stakemax, setStakemax] = useState(0);
   const [timetilnext, setTimetilnext] = useState(0);
   const [displaytime, setDisplaytime] = useState(0);
   const [staketable, setStaketable] = useState();
@@ -737,7 +737,9 @@ function App(props) {
           const initial_reward = 6666666;
           const divider = Math.pow(2, halvings);
           const adjusted_reward = (initial_reward / divider) * share;
+          if(adjusted_reward){
           setMyshare(adjusted_reward);
+          }
         }
       })
     );
@@ -1298,10 +1300,12 @@ mult = Number(value.minamount.split(" ")[0])**/
             response.json().then((res) => {
               console.table(res);
               const stakedamount = Number(
-                etfbalanceind?.rows[0].balance.split(" ")[0]
+                etfbalanceind?.rows[0]?.balance.split(" ")[0]
               );
+              if(stakedamount){
               setStakemax(stakedamount);
               setStake(stakedamount);
+              }
               console.log(stakedamount);
               if (res.rows[0]) {
                 dividenddata["stakedata"] = res.rows;
@@ -1500,7 +1504,7 @@ mult = Number(value.minamount.split(" ")[0])**/
       } else {
         setTimetilnext(100);
       }
-      if (dividenddata.stakedata) {
+      if (dividenddata.stakedata && accountname) {
         dividenddata.stakedata.map((row, index) => {
           if (
             Date.parse(row.staketime) + dividenddata.periodfreq * 1000 >
