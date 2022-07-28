@@ -63,14 +63,14 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
-  "& .css-18m8r0v": {
-    color: "#5A83F1",
+  '& .css-18m8r0v':{
+    color:"#5A83F1"
   },
-  "& .MuiInputAdornment-root": {
-    color: "#5A83F1",
+  '& .MuiInputAdornment-root':{
+    color:"#5A83F1"
   },
-  "& .MuiInput-underline:after": {
-    borderBottom: "none",
+  '& .MuiInput-underline:after': {
+    borderBottom: 'none',
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
