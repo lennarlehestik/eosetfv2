@@ -63,14 +63,14 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
-  '& .css-18m8r0v':{
-    color:"#5A83F1"
+  "& .css-18m8r0v": {
+    color: "#5A83F1",
   },
-  '& .MuiInputAdornment-root':{
-    color:"#5A83F1"
+  "& .MuiInputAdornment-root": {
+    color: "#5A83F1",
   },
-  '& .MuiInput-underline:after': {
-    borderBottom: 'none',
+  "& .MuiInput-underline:after": {
+    borderBottom: "none",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -737,8 +737,8 @@ function App(props) {
           const initial_reward = 6666666;
           const divider = Math.pow(2, halvings);
           const adjusted_reward = (initial_reward / divider) * share;
-          if(adjusted_reward){
-          setMyshare(adjusted_reward);
+          if (adjusted_reward) {
+            setMyshare(adjusted_reward);
           }
         }
       })
@@ -1302,9 +1302,9 @@ mult = Number(value.minamount.split(" ")[0])**/
               const stakedamount = Number(
                 etfbalanceind?.rows[0]?.balance.split(" ")[0]
               );
-              if(stakedamount){
-              setStakemax(stakedamount);
-              setStake(stakedamount);
+              if (stakedamount) {
+                setStakemax(stakedamount);
+                setStake(stakedamount);
               }
               console.log(stakedamount);
               if (res.rows[0]) {
@@ -2008,6 +2008,78 @@ mult = Number(value.minamount.split(" ")[0])**/
           expireSeconds: 300,
         });
         swal_success("Successfully unstaked!");
+        setTimeout(() => {
+          setRefresh(refresh + 1);
+        }, 3000);
+      } catch (e) {
+        swal_error(e);
+      }
+    }
+  };
+
+  const geteosetf = async () => {
+    if (activeUser) {
+      try {
+        const transaction = {
+          actions: [
+            {
+              account: "consortiumtt",
+              name: "getdiv",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                user: displayaccountname(),
+                clmspecifier: "eosetfeosetf",
+              },
+            },
+          ],
+        };
+        // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+        await activeUser.signTransaction(transaction, {
+          broadcast: true,
+          expireSeconds: 300,
+        });
+        swal_success("EOSETF claimed!");
+        setTimeout(() => {
+          setRefresh(refresh + 1);
+        }, 3000);
+      } catch (e) {
+        swal_error(e);
+      }
+    }
+  };
+
+  const getcetf = async () => {
+    if (activeUser) {
+      try {
+        const transaction = {
+          actions: [
+            {
+              account: "consortiumtt",
+              name: "getcetf",
+              authorization: [
+                {
+                  actor: displayaccountname(), // use account that was logged in
+                  permission: "active",
+                },
+              ],
+              data: {
+                user: displayaccountname(),
+                clmspecifier: "cetfcetfcetf",
+              },
+            },
+          ],
+        };
+        // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+        await activeUser.signTransaction(transaction, {
+          broadcast: true,
+          expireSeconds: 300,
+        });
+        swal_success("CETF claimed!");
         setTimeout(() => {
           setRefresh(refresh + 1);
         }, 3000);
@@ -3425,7 +3497,13 @@ mult = Number(value.minamount.split(" ")[0])**/
                     </div>
                     <div class="claimtexts">{myshare.toFixed(4)} CETF</div>
                     <button class="claimbutton" onClick={() => getdiv()}>
-                      Claim
+                      Claim all
+                    </button>
+                    <button class="claimbutton" onClick={() => getcetf()}>
+                      Claim CETF
+                    </button>
+                    <button class="claimbutton" onClick={() => geteosetf()}>
+                      Claim EOSETF
                     </button>
                   </div>
                 </div>
