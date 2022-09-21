@@ -173,21 +173,6 @@ async function deployContract({ account, contractDir }) {
     },
     {
       account: "cet.f",
-      name: "addportfel",
-      authorization: [
-        {
-          actor: "cet.f",
-          permission: "active",
-        },
-      ],
-      data: {
-        community: "cetfcetfcetf",
-        creator: "cet.f",
-        pollkey: 69,
-      },
-    },
-    {
-      account: "cet.f",
       name: "addtokuz",
       authorization: [
         {
@@ -397,6 +382,28 @@ async function deployContract({ account, contractDir }) {
           "0.0000 PIZZA",
         ],
         totalvote: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        image: [
+          "https://i.ibb.co/qMw5XyD/everipedia.png",
+          "https://i.ibb.co/0B2yzzM/dad.png",
+          "https://i.ibb.co/v44bLSM/vigor.png",
+          "https://i.ibb.co/4Y9qJQK/prospectorsg-pgl.png",
+          "https://i.ibb.co/GM91RRM/dop-efi-dop.png",
+          "https://i.ibb.co/bR7Fbmy/dfs.png",
+          "https://i.ibb.co/Qd93Hhy/emt.png",
+          "https://i.ibb.co/474fpvG/eosiotptoken-tpt.png",
+          "https://i.ibb.co/0CWhJgd/ndx.png",
+          "https://i.ibb.co/y5LrMCB/efx.png",
+          "https://i.ibb.co/YcxZmzC/ogx.png",
+          "https://i.ibb.co/Q99dDxr/tokendefi.png",
+          "https://i.ibb.co/5vc6n8q/boidcomtoken-boid.png",
+          "https://i.ibb.co/BL2wd5z/swap-pcash-mlnk.png",
+          "https://i.ibb.co/4dLptqF/dapp.png",
+          "https://i.ibb.co/8sjKR7M/thezeostoken-zeos.png",
+          "https://i.ibb.co/1R5SRr3/tethertether-usdt.png",
+          "https://i.ibb.co/y8BShqJ/sovmintofeos-sov.png",
+          "https://i.ibb.co/crKSfS8/chex.png",
+          "https://i.ibb.co/tDbQygL/pizza.png",
+        ],
         community: "fundfundfund",
         pollkey: 420,
       },
@@ -573,17 +580,6 @@ async function deployContract({ account, contractDir }) {
         },
         {
           account: "cet.f",
-          name: "addportfel",
-          authorization: [
-            {
-              actor: "cet.f",
-              permission: "active",
-            },
-          ],
-          data: seActions[8].data,
-        },
-        {
-          account: "cet.f",
           name: "addtokuz",
           authorization: [
             {
@@ -705,11 +701,6 @@ const result = await api.transact(
   }
 )
 }
-
-
-
-[1000,1000000,10000,10000,10000,10000,10000,10000,10000,10000,100000000,1000000,10000,100000000,10000,10000,10000,10000,100000000,10000]
-
 */
 
 // CREATE ACTION TO PROPOSE
