@@ -294,6 +294,8 @@ function App(props) {
   const [chartprices, setChartPrices] = useState([]);
   const [refresh, setRefresh] = useState(0);
   const [eosusdt, setEosusdt] = useState();
+  const [dividendflag, setDividendflag] = useState()
+  const [dividendflagcetf, setDividendflagcetf] = useState()
 
   const [eosetfbalance, setEosetf] = useState({ rows: [] });
   const [etfbalance, setEtf] = useState({ rows: [] });
@@ -341,6 +343,7 @@ function App(props) {
       );
     }
   };
+  
 
   useEffect(async () => {
     const block_time = 3;
@@ -734,7 +737,7 @@ function App(props) {
           const interval = 1200;
           const seconds_passed = 300 * claimperiod;
           const halvings = Math.floor(seconds_passed / interval).toFixed(0);
-          const initial_reward = 6666666;
+          const initial_reward = 1250000;
           const divider = Math.pow(2, halvings);
           const adjusted_reward = (initial_reward / divider) * share;
           if(adjusted_reward){
@@ -1431,7 +1434,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         })
       );
 
-      //CLAIM TIME
+      //CLAIM TIME EOSETF
       await fetch(`${endpoint}/v1/chain/get_table_rows`, {
         method: "POST",
         headers: {
@@ -1453,6 +1456,32 @@ mult = Number(value.minamount.split(" ")[0])**/
             dividenddata["userclaimperiod"] = res.rows[0].claimperiod;
           } else {
             dividenddata["userclaimperiod"] = false;
+          }
+        })
+      );
+
+      //CLAIMTIME CETF
+      await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "consortiumtt",
+          table: "claimtime",
+          scope: "cetfcetfcetf",
+          lower_bound: displayaccountname(),
+          upper_bound: displayaccountname(),
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((res) => {
+          if (res?.rows[0]?.claimperiod) {
+            dividenddata["userclaimperiodcetf"] = res.rows[0].claimperiod;
+          } else {
+            dividenddata["userclaimperiodcetf"] = false;
           }
         })
       );
@@ -1484,10 +1513,11 @@ mult = Number(value.minamount.split(" ")[0])**/
         dividenddata.periodfreq * 1000 -
         now;
       if (timetilnextperiod / 1000 > 86400) {
-        setDisplaytime(timetilnextperiod / 1000 / 60 / 60 / 24 + " days");
+        setDisplaytime((timetilnextperiod / 1000 / 60 / 60 / 24).toFixed(0) + " days");
+        console.log(displaytime)
       }
       if (timetilnextperiod / 1000 < 86400) {
-        setDisplaytime(timetilnextperiod / 1000 / 60 / 60 + " h");
+        setDisplaytime((timetilnextperiod / 1000 / 60 / 60).toFixed(0) + " h");
       }
       if (timetilnextperiod / 1000 < 3600) {
         setDisplaytime((timetilnextperiod / 1000 / 60).toFixed(0) + " min");
@@ -1535,6 +1565,12 @@ mult = Number(value.minamount.split(" ")[0])**/
             .reduce((a, b) => a + Number(b.staked.split(" ")[0]), 0) /
           (Number(dividenddata.totalstaked.split(" ")[0]) - substract);
 
+
+
+
+
+        // Lenny trust me, cetf and eosetf periods don't go out of sync.
+        //kaks varianti. if not equal to period, if equal to period.
         let dividend;
         if (
           Date.parse(dividenddata.periodstart) +
@@ -1553,9 +1589,18 @@ mult = Number(value.minamount.split(" ")[0])**/
         }
         setDividendclaim(dividend);
         if (dividenddata.userclaimperiod == dividenddata.totalclaimperiod) {
-          setDividendclaim(0);
+          setDividendclaim(dividend);
+          setDividendflag(true)
         } else {
           setDividendclaim(dividend);
+          setDividendflag(false)
+        }
+
+        //CETF FLAG
+        if (dividenddata.userclaimperiod == dividenddata.totalclaimperiod) {
+          setDividendflagcetf(true)
+        } else {
+          setDividendflagcetf(false)
         }
       } else {
         setDividendclaim(0);
@@ -3417,16 +3462,26 @@ mult = Number(value.minamount.split(" ")[0])**/
                     </div>
                   </div>
                   <div class="claimcard">
+                    <>
                     <div class="claimtexts" style={{ fontWeight: "500" }}>
                       Available to claim
                     </div>
+                    {
+                    dividendflag ?
+                    <div class="claimtexts">EOSETF claimed!</div>:
                     <div class="claimtexts">
                       {dividendclaim.toFixed(4)} EOSETF
                     </div>
+                    }
+                    {dividendflagcetf ?
+                    <div class="claimtexts">CETF claimed!</div> : 
                     <div class="claimtexts">{myshare.toFixed(4)} CETF</div>
+                    }
                     <button class="claimbutton" onClick={() => getdiv()}>
                       Claim
                     </button>
+                    </>
+
                   </div>
                 </div>
               </div>
