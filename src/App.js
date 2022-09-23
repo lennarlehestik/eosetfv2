@@ -63,14 +63,14 @@ const CustomSlider = withStyles({
 })(Slider);
 
 const CssTextField = styled(TextField)({
-  '& .css-18m8r0v':{
-    color:"#5A83F1"
+  "& .css-18m8r0v": {
+    color: "#5A83F1",
   },
-  '& .MuiInputAdornment-root':{
-    color:"#5A83F1"
+  "& .MuiInputAdornment-root": {
+    color: "#5A83F1",
   },
-  '& .MuiInput-underline:after': {
-    borderBottom: 'none',
+  "& .MuiInput-underline:after": {
+    borderBottom: "none",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -734,11 +734,11 @@ function App(props) {
           const interval = 1200;
           const seconds_passed = 300 * claimperiod;
           const halvings = Math.floor(seconds_passed / interval).toFixed(0);
-          const initial_reward = 6666666;
+          const initial_reward = 1250000;
           const divider = Math.pow(2, halvings);
           const adjusted_reward = (initial_reward / divider) * share;
-          if(adjusted_reward){
-          setMyshare(adjusted_reward);
+          if (adjusted_reward) {
+            setMyshare(adjusted_reward);
           }
         }
       })
@@ -1302,9 +1302,9 @@ mult = Number(value.minamount.split(" ")[0])**/
               const stakedamount = Number(
                 etfbalanceind?.rows[0]?.balance.split(" ")[0]
               );
-              if(stakedamount){
-              setStakemax(stakedamount);
-              setStake(stakedamount);
+              if (stakedamount) {
+                setStakemax(stakedamount);
+                setStake(stakedamount);
               }
               console.log(stakedamount);
               if (res.rows[0]) {
