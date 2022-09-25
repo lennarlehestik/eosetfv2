@@ -178,6 +178,11 @@ function App(props) {
     setAccountName("");
   };
 
+  const logmein = async () => {
+    await showModal()
+    setRefresh(refresh+1)
+  }
+
   const redemptionfee = 0.95;
   const efxmult = 2.6911;
   const dadmult = 0.880282;
@@ -499,10 +504,6 @@ function App(props) {
   }, [accountname]);
 
   useEffect(async () => {
-    let username;
-    await props.ual.activeUser?.getAccountName().then((result) => {
-      username = result;
-    });
     const data = [];
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
@@ -542,7 +543,7 @@ function App(props) {
         json: true,
         code: "lptoken.defi",
         table: "accounts",
-        scope: username,
+        scope: activeUser?.accountName,
         lower_bound: "BOXAUJ",
         upper_bound: "BOXAUJ",
         limit: 1,
@@ -572,7 +573,7 @@ function App(props) {
         json: true,
         code: "eosio.token",
         table: "accounts",
-        scope: username,
+        scope: activeUser?.accountName,
         lower_bound: "EOS",
         upper_bound: "EOS",
         limit: 1,
@@ -597,7 +598,7 @@ function App(props) {
         json: true,
         code: "cet.f",
         table: "accounts",
-        scope: username,
+        scope: activeUser?.accountName,
         lower_bound: "EOSETF",
         upper_bound: "EOSETF",
         limit: 1,
@@ -622,7 +623,7 @@ function App(props) {
         json: true,
         code: "cet.f",
         table: "accounts",
-        scope: username,
+        scope: activeUser?.accountName,
         lower_bound: "CETF",
         upper_bound: "CETF",
         limit: 1,
@@ -670,7 +671,7 @@ function App(props) {
         json: true,
         code: "consortiumtt",
         table: "indstkdetf",
-        scope: username,
+        scope: activeUser?.accountName,
         limit: 100,
       }),
     }).then((response) =>
@@ -760,9 +761,9 @@ function App(props) {
       withdrawamounts.push({ index: index, withdrawamount: 0 });
     });
     setWithdrawamounts(withdrawamounts);
-    if (!portfoliodata) {
       setPortfoliodata(data);
-    }
+    
+    console.log(activeUser)
   }, [activeUser]);
 
   const withdrawhandler = (index, amount) => {
@@ -2358,7 +2359,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                       </td>
                     </tr>
                     {accountname == "" ? (
-                      <tr onClick={() => showModal()}>
+                      <tr onClick={() => logmein()}>
                         <td>
                           <img class="menuimg" src="assets/login.svg" />
                         </td>
