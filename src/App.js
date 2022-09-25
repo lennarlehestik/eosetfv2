@@ -361,7 +361,6 @@ function App(props) {
     }).then((response) =>
       response.json().then((info) => {
         headblock = info.head_block_num;
-        console.log(headblock);
       })
     );
     const year_blocks_ago = headblock - year_blocks;
@@ -503,7 +502,6 @@ function App(props) {
   useEffect(async () => {
     let username;
     await props.ual.activeUser?.getAccountName().then((result) => {
-      console.log("user" + result);
       username = result;
     });
     const data = [];
@@ -680,7 +678,6 @@ function App(props) {
       response.json().then((res) => {
         if (accountname) {
           data.alldeposits = res.rows;
-          console.log(res.rows);
           if (res.rows.length > 0) {
             const sum = res?.rows
               .map((o) => Number(o.staked.split(" ")[0]))
@@ -688,7 +685,6 @@ function App(props) {
                 return a + c;
               });
             boxaujsum = sum;
-            console.log("sum" + sum);
           }
         }
       })
@@ -710,7 +706,6 @@ function App(props) {
     }).then((response) =>
       response.json().then((res) => {
         if (accountname) {
-          console.log(Number(res.rows[0].totstketf.split(" ")[0]));
           share =
             Number(boxaujsum) / Number(res.rows[0].totstketf.split(" ")[0]);
         }
@@ -768,9 +763,8 @@ function App(props) {
     setWithdrawamounts(withdrawamounts);
     if (!portfoliodata) {
       setPortfoliodata(data);
-      console.log("user2" + username);
     }
-  }, [accountname]);
+  }, [activeUser]);
 
   const withdrawhandler = (index, amount) => {
     let withdraw = withdrawamounts;
@@ -1309,7 +1303,6 @@ mult = Number(value.minamount.split(" ")[0])**/
               setStakemax(stakedamount);
               setStake(stakedamount);
               }
-              console.log(stakedamount);
               if (res.rows[0]) {
                 dividenddata["stakedata"] = res.rows;
                 const sum = res.rows
@@ -1514,7 +1507,6 @@ mult = Number(value.minamount.split(" ")[0])**/
         now;
       if (timetilnextperiod / 1000 > 86400) {
         setDisplaytime((timetilnextperiod / 1000 / 60 / 60 / 24).toFixed(0) + " days");
-        console.log(displaytime)
       }
       if (timetilnextperiod / 1000 < 86400) {
         setDisplaytime((timetilnextperiod / 1000 / 60 / 60).toFixed(0) + " h");
@@ -1542,10 +1534,8 @@ mult = Number(value.minamount.split(" ")[0])**/
           ) {
             //keep it. else dump it from stakes as it doesn't count.
             dividenddata.stakedata[index].flag = true;
-            console.log("Period ongoing.");
           } else {
             dividenddata.stakedata[index].flag = false;
-            console.log("Period not ongoing.");
           }
         });
 
@@ -1585,7 +1575,6 @@ mult = Number(value.minamount.split(" ")[0])**/
         } else {
           //kui periood käib, siis arvuta dividend nii
           dividend = percgets * Number(dividenddata.totalfees.split(" ")[0]);
-          console.log("DIVIDEND: " + dividend);
         }
         setDividendclaim(dividend);
         if (dividenddata.userclaimperiod == dividenddata.totalclaimperiod) {
