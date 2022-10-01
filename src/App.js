@@ -503,7 +503,9 @@ function App(props) {
     );
   }, [accountname]);
 
-  useEffect(async () => {
+  useEffect(() => {
+    const mainfunc = async () => {
+    console.log(activeUser)
     const data = [];
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
@@ -562,7 +564,7 @@ function App(props) {
         }
       })
     );
-
+    if(activeUser !== null){
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
@@ -587,6 +589,10 @@ function App(props) {
         }
       })
     );
+    }
+    else{
+      data.eosbalance = { balance: "0.0000 EOS" };
+    }
 
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
@@ -761,10 +767,11 @@ function App(props) {
       withdrawamounts.push({ index: index, withdrawamount: 0 });
     });
     setWithdrawamounts(withdrawamounts);
-      setPortfoliodata(data);
+    setPortfoliodata(data);
     
-    console.log(activeUser)
-  }, [activeUser]);
+    }
+    mainfunc()
+  }, [activeUser?.accountName]);
 
   const withdrawhandler = (index, amount) => {
     let withdraw = withdrawamounts;
@@ -1295,7 +1302,6 @@ mult = Number(value.minamount.split(" ")[0])**/
             }),
           }).then((response) =>
             response.json().then((res) => {
-              console.table(res);
               const stakedamount = Number(
                 etfbalanceind?.rows[0]?.balance.split(" ")[0]
               );
@@ -1341,7 +1347,6 @@ mult = Number(value.minamount.split(" ")[0])**/
         response.json().then((res) => {
           dividenddata["periodstart"] = res.rows[0].periodstart;
           dividenddata["totalclaimperiod"] = res.rows[0].claimperiod;
-          console.table(dividenddata);
         })
       );
 
