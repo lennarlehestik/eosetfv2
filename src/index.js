@@ -44,15 +44,13 @@ const supportedAuthenticators = [
 ];
 
 ReactDOM.render(
-  <React.StrictMode>
     <UALProvider
       chains={supportedChains}
       authenticators={supportedAuthenticators}
       appName={appName}
     >
       <App />
-    </UALProvider>
-  </React.StrictMode>,
+    </UALProvider>,
   document.getElementById('root')
 );
 

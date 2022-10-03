@@ -564,6 +564,7 @@ function App(props) {
         }
       })
     );
+    
     if(activeUser !== null){
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
