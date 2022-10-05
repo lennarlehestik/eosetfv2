@@ -2697,11 +2697,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                         class="depositlabel"
                       >
                         Balance:{" "}
-                        {
-                          Number(
-                            portfoliodata?.eosbalance?.balance.split(" ")[0]
-                          ).toFixed(0) + " EOS"
-                        }
                         <b>
                           {" "}
                           {portfoliodata?.eosbalance ? (
