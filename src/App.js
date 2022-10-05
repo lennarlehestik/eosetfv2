@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { Slider } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { withUAL } from "ual-reactjs-renderer";
 import Swal from "sweetalert2";
@@ -149,6 +149,7 @@ function App(props) {
   const {
     ual: { showModal, hideModal, activeUser, login, logout },
   } = props;
+  console.log(props.ual)
   if (activeUser) {
     const accountName = activeUser.getAccountName();
     accountName.then(function (result) {
@@ -502,9 +503,8 @@ function App(props) {
       response.json().then((price) => setEosusdt(price.rows[0].price0_last))
     );
   }, [accountname]);
-
-  useEffect(() => {
-    const mainfunc = async () => {
+  
+  const mainfunc = useCallback(async () => {
     console.log(activeUser)
     const data = [];
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
@@ -564,7 +564,7 @@ function App(props) {
         }
       })
     );
-    
+
     if(activeUser !== null){
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
@@ -770,9 +770,11 @@ function App(props) {
     setWithdrawamounts(withdrawamounts);
     setPortfoliodata(data);
     
-    }
+  },[activeUser])
+
+  useEffect(() => {
     mainfunc()
-  }, [activeUser?.accountName]);
+  }, [mainfunc]);
 
   const withdrawhandler = (index, amount) => {
     let withdraw = withdrawamounts;
