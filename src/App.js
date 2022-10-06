@@ -181,7 +181,7 @@ function App(props) {
 
   const logmein = async () => {
     await showModal()
-    setRefresh(refresh+1)
+    setRefresh(refresh + 1)
   }
 
   const redemptionfee = 0.95;
@@ -250,7 +250,7 @@ function App(props) {
     });
     Toast.fire({
       icon: "success",
-      title: "CETF and EOSETF successfully issued!",
+      title: "EOSETF successfully issued!",
     });
   };
 
@@ -503,7 +503,7 @@ function App(props) {
       response.json().then((price) => setEosusdt(price.rows[0].price0_last))
     );
   }, [accountname]);
-  
+
   const mainfunc = useCallback(async () => {
     console.log(activeUser)
     const data = [];
@@ -565,33 +565,33 @@ function App(props) {
       })
     );
 
-    if(activeUser !== null){
-    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        json: true,
-        code: "eosio.token",
-        table: "accounts",
-        scope: activeUser?.accountName,
-        lower_bound: "EOS",
-        upper_bound: "EOS",
-        limit: 1,
-      }),
-    }).then((response) =>
-      response.json().then((result) => {
-        if (result?.rows[0]?.balance) {
-          data.eosbalance = result.rows[0];
-        } else {
-          data.eosbalance = { balance: "0.0000 EOS" };
-        }
-      })
-    );
+    if (activeUser !== null) {
+      await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "eosio.token",
+          table: "accounts",
+          scope: activeUser?.accountName,
+          lower_bound: "EOS",
+          upper_bound: "EOS",
+          limit: 1,
+        }),
+      }).then((response) =>
+        response.json().then((result) => {
+          if (result?.rows[0]?.balance) {
+            data.eosbalance = result.rows[0];
+          } else {
+            data.eosbalance = { balance: "0.0000 EOS" };
+          }
+        })
+      );
     }
-    else{
+    else {
       data.eosbalance = { balance: "0.0000 EOS" };
     }
 
@@ -769,8 +769,8 @@ function App(props) {
     });
     setWithdrawamounts(withdrawamounts);
     setPortfoliodata(data);
-    
-  },[activeUser])
+
+  }, [activeUser])
 
   useEffect(() => {
     mainfunc()
@@ -785,7 +785,7 @@ function App(props) {
   const withdraw = async (index) => {
     const finalamount = Math.floor(
       (Number(withdrawamounts[index].withdrawamount) / 100) *
-        Number(portfoliodata.alldeposits[index].staked.split(" ")[0])
+      Number(portfoliodata.alldeposits[index].staked.split(" ")[0])
     );
     if (activeUser) {
       try {
@@ -831,8 +831,8 @@ function App(props) {
     if ((slippage - 1) * 100 > 3) {
       swal_error(
         "Slippage is higher than 3%. (" +
-          ((slippage - 1) * 100).toFixed(2) +
-          "%)"
+        ((slippage - 1) * 100).toFixed(2) +
+        "%)"
       );
       return;
     }
@@ -974,7 +974,7 @@ mult = Number(value.minamount.split(" ")[0])**/
       const boxaujtransfer = Math.floor(
         (Number(portfoliodata?.defibox?.liquidity_token) /
           Number(portfoliodata?.defibox?.reserve0?.split(" ")[0])) *
-          depositamounteos
+        depositamounteos
       );
       try {
         const transaction = {
@@ -1531,7 +1531,7 @@ mult = Number(value.minamount.split(" ")[0])**/
       if (timetilnextperiod - Number(dividenddata.periodfreq) > 0) {
         setTimetilnext(
           100 -
-            (100 * (timetilnextperiod / 1000)) / Number(dividenddata.periodfreq)
+          (100 * (timetilnextperiod / 1000)) / Number(dividenddata.periodfreq)
         );
       } else {
         setTimetilnext(100);
@@ -1570,7 +1570,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         let dividend;
         if (
           Date.parse(dividenddata.periodstart) +
-            dividenddata.periodfreq * 1000 <
+          dividenddata.periodfreq * 1000 <
           now
         ) {
           //kui periood on läbi, siis arvuta dividend nii
@@ -1702,7 +1702,7 @@ mult = Number(value.minamount.split(" ")[0])**/
           2,
           parseInt(
             Math.floor(Number(etfbalance.rows[0].supply.split(" ")[0])) /
-              20000000
+            20000000
           )
         )
       );
@@ -1775,7 +1775,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                         }
                         attachbalance(
                           "0.0000 " +
-                            fulldatacopy[index].minamount.split(" ")[1]
+                          fulldatacopy[index].minamount.split(" ")[1]
                         );
                       })
                       .then((response) =>
@@ -1785,7 +1785,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           } else {
                             attachbalance(
                               "0.0000 " +
-                                fulldatacopy[index].minamount.split(" ")[1]
+                              fulldatacopy[index].minamount.split(" ")[1]
                             );
                           }
                         })
@@ -1861,36 +1861,36 @@ mult = Number(value.minamount.split(" ")[0])**/
           buyamount = (
             (reserveparse(value.defibox, "reserve0") /
               reserveparse(value.defibox, "reserve1")) *
-              1.003 *
-              multparse(
-                Number(value.minamount.split(" ")[0]),
-                value.token.split(",")[0],
-                value.balance
-              ) *
-              slippageparse(
-                value.defibox,
-                Number(value.minamount.split(" ")[0]),
-                value.token.split(",")[0],
-                value.balance
-              ) +
+            1.003 *
+            multparse(
+              Number(value.minamount.split(" ")[0]),
+              value.token.split(",")[0],
+              value.balance
+            ) *
+            slippageparse(
+              value.defibox,
+              Number(value.minamount.split(" ")[0]),
+              value.token.split(",")[0],
+              value.balance
+            ) +
             0.004
           ).toFixed(4);
         } else {
           buyamount = (
             (reserveparse(value.defibox, "reserve1") /
               reserveparse(value.defibox, "reserve0")) *
-              1.003 *
-              multparse(
-                Number(value.minamount.split(" ")[0]),
-                value.token.split(",")[0],
-                value.balance
-              ) *
-              slippageparseflip(
-                value.defibox,
-                Number(value.minamount.split(" ")[0]),
-                value.token.split(",")[0],
-                value.balance
-              ) +
+            1.003 *
+            multparse(
+              Number(value.minamount.split(" ")[0]),
+              value.token.split(",")[0],
+              value.balance
+            ) *
+            slippageparseflip(
+              value.defibox,
+              Number(value.minamount.split(" ")[0]),
+              value.token.split(",")[0],
+              value.balance
+            ) +
             0.004
           ).toFixed(4);
         }
@@ -2376,15 +2376,15 @@ mult = Number(value.minamount.split(" ")[0])**/
                         </td>
                       </tr>
                     ) : (
-                      <tr onClick={() => logmeout()}>
-                        <td>
-                          <img class="menuimg" src="assets/logout.svg" />
-                        </td>
-                        <td>
-                          <a class="menuitemtext">Logout</a>
-                        </td>
-                      </tr>
-                    )}
+                        <tr onClick={() => logmeout()}>
+                          <td>
+                            <img class="menuimg" src="assets/logout.svg" />
+                          </td>
+                          <td>
+                            <a class="menuitemtext">Logout</a>
+                          </td>
+                        </tr>
+                      )}
                   </table>
                 </div>
               </div>
@@ -2464,15 +2464,15 @@ mult = Number(value.minamount.split(" ")[0])**/
                     </td>
                   </tr>
                 ) : (
-                  <tr onClick={() => logmeout()}>
-                    <td>
-                      <img class="menuimg" src="assets/logout.svg" />
-                    </td>
-                    <td>
-                      <a class="menuitemtext">Logout</a>
-                    </td>
-                  </tr>
-                )}
+                    <tr onClick={() => logmeout()}>
+                      <td>
+                        <img class="menuimg" src="assets/logout.svg" />
+                      </td>
+                      <td>
+                        <a class="menuitemtext">Logout</a>
+                      </td>
+                    </tr>
+                  )}
               </table>
             </div>
           </div>
@@ -2563,11 +2563,11 @@ mult = Number(value.minamount.split(" ")[0])**/
                       {historicalprices ? (
                         historicalprices[periodbutton]
                       ) : (
-                        <CircularProgress
-                          style={{ color: "#5A83F1" }}
-                          size="14.4px"
-                        />
-                      )}{" "}
+                          <CircularProgress
+                            style={{ color: "#5A83F1" }}
+                            size="14.4px"
+                          />
+                        )}{" "}
                       EOS
                     </b>
                   </div>
@@ -2667,8 +2667,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                               {portfoliodata?.eosetfpriceineos ? (
                                 parseFloat(
                                   tokens *
-                                    portfoliodata?.eosetfpriceineos *
-                                    portfoliodata?.eospriceinusd
+                                  portfoliodata?.eosetfpriceineos *
+                                  portfoliodata?.eospriceinusd
                                 )?.toFixed(2) +
                                 " USD/" +
                                 parseFloat(
@@ -2676,11 +2676,11 @@ mult = Number(value.minamount.split(" ")[0])**/
                                 )?.toFixed(2) +
                                 " EOS"
                               ) : (
-                                <CircularProgress
-                                  style={{ color: "#5A83F1" }}
-                                  size="16px"
-                                />
-                              )}
+                                  <CircularProgress
+                                    style={{ color: "#5A83F1" }}
+                                    size="16px"
+                                  />
+                                )}
                             </InputAdornment>
                           ),
                           startAdornment: (
@@ -2704,11 +2704,11 @@ mult = Number(value.minamount.split(" ")[0])**/
                               portfoliodata?.eosbalance?.balance.split(" ")[0]
                             ).toFixed(0) + " EOS"
                           ) : (
-                            <CircularProgress
-                              style={{ color: "#5A83F1" }}
-                              size="13px"
-                            />
-                          )}
+                              <CircularProgress
+                                style={{ color: "#5A83F1" }}
+                                size="13px"
+                              />
+                            )}
                         </b>
                       </div>
                       <button
@@ -2736,92 +2736,92 @@ mult = Number(value.minamount.split(" ")[0])**/
                           </button>
                         </>
                       ) : (
-                        <></>
-                      )}
+                          <></>
+                        )}
                     </div>
                   ) : (
-                    <div class="invest">
-                      <div
-                        style={{
-                          marginBottom: "4px",
-                        }}
-                        class="depositlabel"
-                      >
-                        Choose amount to sell
+                      <div class="invest">
+                        <div
+                          style={{
+                            marginBottom: "4px",
+                          }}
+                          class="depositlabel"
+                        >
+                          Choose amount to sell
                       </div>
-                      <CssTextField
-                        id="outlined"
-                        defaultValue="100"
-                        onChange={(e) => setSelltokenamount(e.target.value)}
-                        value={selltokenamount}
-                        sx={{
-                          backgroundColor: "white",
-                          opacity: 0.7,
-                          borderRadius: "10px",
-                          width: "100%",
-                          input: { color: "#5A83F1", fontWeight: "600" },
-                        }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {parseFloat(
-                                selltokenamount *
+                        <CssTextField
+                          id="outlined"
+                          defaultValue="100"
+                          onChange={(e) => setSelltokenamount(e.target.value)}
+                          value={selltokenamount}
+                          sx={{
+                            backgroundColor: "white",
+                            opacity: 0.7,
+                            borderRadius: "10px",
+                            width: "100%",
+                            input: { color: "#5A83F1", fontWeight: "600" },
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                {parseFloat(
+                                  selltokenamount *
                                   portfoliodata?.eosetfpriceinusd
-                              )?.toFixed(2)}
-                              {" USD"}
-                            </InputAdornment>
-                          ),
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              EOSETF
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                      <div
-                        style={{
-                          marginTop: "4px",
-                        }}
-                        class="depositlabel"
-                      >
-                        Balance:{" "}
-                        <b>
-                          {" "}
-                          {accountname
-                            ? Number(
+                                )?.toFixed(2)}
+                                {" USD"}
+                              </InputAdornment>
+                            ),
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                EOSETF
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        <div
+                          style={{
+                            marginTop: "4px",
+                          }}
+                          class="depositlabel"
+                        >
+                          Balance:{" "}
+                          <b>
+                            {" "}
+                            {accountname
+                              ? Number(
                                 portfoliodata?.eosetfbalance?.balance?.split(
                                   " "
                                 )[0]
                               ).toFixed(4) + " EOSETF"
-                            : "0 EOSETF"}
-                        </b>
-                      </div>
-                      <button
-                        onClick={() => selltokens()}
-                        class="depositbutton"
-                        style={{ marginTop: "20px" }}
-                      >
-                        Sell
+                              : "0 EOSETF"}
+                          </b>
+                        </div>
+                        <button
+                          onClick={() => selltokens()}
+                          class="depositbutton"
+                          style={{ marginTop: "20px" }}
+                        >
+                          Sell
                       </button>
-                      <label style={{ fontSize: "13px" }}>Advanced</label>
-                      <Switch checked={checked} onChange={handleSwitchChange} />
-                      {checked ? (
-                        <>
-                          <div style={{ fontSize: "13px" }}>
-                            Redeem returns the underlying tokens.
+                        <label style={{ fontSize: "13px" }}>Advanced</label>
+                        <Switch checked={checked} onChange={handleSwitchChange} />
+                        {checked ? (
+                          <>
+                            <div style={{ fontSize: "13px" }}>
+                              Redeem returns the underlying tokens.
                           </div>
-                          <button
-                            onClick={() => sendetf()}
-                            class="depositbutton"
-                          >
-                            Redeem
+                            <button
+                              onClick={() => sendetf()}
+                              class="depositbutton"
+                            >
+                              Redeem
                           </button>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  )}
+                          </>
+                        ) : (
+                            <></>
+                          )}
+                      </div>
+                    )}
                 </div>
                 {/**
               <Scrollbars class="mask" style={{ width: "100%", height: "90%" }} autoHide >
@@ -2972,8 +2972,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                       }
                     })
                   ) : (
-                    <></>
-                  )}
+                      <></>
+                    )}
 
                   <div style={{ display: "block", opacity: "0" }}>
                     .<br />.<br />.
@@ -3281,7 +3281,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                         <InputAdornment position="end">
                           {parseFloat(
                             depositamounteosetf *
-                              portfoliodata?.eosetfpriceinusd
+                            portfoliodata?.eosetfpriceinusd
                           )?.toFixed(2)}{" "}
                           USD
                         </InputAdornment>
@@ -3405,8 +3405,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <div class="portfoliostat">
                       {accountname
                         ? Number(
-                            portfoliodata?.eosetfbalance?.balance?.split(" ")[0]
-                          ).toFixed(4) + " EOSETF"
+                          portfoliodata?.eosetfbalance?.balance?.split(" ")[0]
+                        ).toFixed(4) + " EOSETF"
                         : "0 EOSETF"}
                     </div>
                     <div class="portfoliodescriptor">
@@ -3417,8 +3417,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <div class="portfoliostat">
                       {accountname
                         ? Number(
-                            portfoliodata?.eosbalance?.balance.split(" ")[0]
-                          ).toFixed(0) + " EOS"
+                          portfoliodata?.eosbalance?.balance.split(" ")[0]
+                        ).toFixed(0) + " EOS"
                         : "0 EOS"}
                     </div>
                     <div class="portfoliodescriptor">
@@ -3429,8 +3429,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                     <div class="portfoliostat">
                       {accountname
                         ? Number(
-                            portfoliodata?.cetfbalance?.balance.split(" ")[0]
-                          ).toFixed(0) + " CETF"
+                          portfoliodata?.cetfbalance?.balance.split(" ")[0]
+                        ).toFixed(0) + " CETF"
                         : "0 CETF"}
                     </div>
                     <div class="portfoliodescriptor">~{0} USD</div>
@@ -3464,15 +3464,15 @@ mult = Number(value.minamount.split(" ")[0])**/
                       {dividendflag ? (
                         <div class="claimtexts">EOSETF claimed!</div>
                       ) : (
-                        <div class="claimtexts">
-                          {dividendclaim.toFixed(4)} EOSETF
-                        </div>
-                      )}
+                          <div class="claimtexts">
+                            {dividendclaim.toFixed(4)} EOSETF
+                          </div>
+                        )}
                       {dividendflagcetf ? (
                         <div class="claimtexts">CETF claimed!</div>
                       ) : (
-                        <div class="claimtexts">{myshare.toFixed(4)} CETF</div>
-                      )}
+                          <div class="claimtexts">{myshare.toFixed(4)} CETF</div>
+                        )}
                       <button class="claimbutton" onClick={() => getdiv()}>
                         Claim
                       </button>
@@ -3482,8 +3482,8 @@ mult = Number(value.minamount.split(" ")[0])**/
               </div>
             </div>
           ) : (
-            <a>Error</a>
-          )}
+                            <a>Error</a>
+                          )}
         </div>
         <div class="floating-menu">
           <div
