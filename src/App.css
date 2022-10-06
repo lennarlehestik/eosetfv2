@@ -739,7 +739,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .withdrawsliderwrapper{
-  width:70%;
+  width:100%;
   margin-left:10px;
 }
 
@@ -751,7 +751,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .withdrawbuttonwrapper{
-  width:25%;
   margin-right:10px;
 }
 
