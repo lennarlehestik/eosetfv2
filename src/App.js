@@ -149,7 +149,6 @@ function App(props) {
   const {
     ual: { showModal, hideModal, activeUser, login, logout },
   } = props;
-  console.log(props.ual)
   if (activeUser) {
     const accountName = activeUser.getAccountName();
     accountName.then(function (result) {
@@ -505,7 +504,6 @@ function App(props) {
   }, [accountname]);
 
   const mainfunc = useCallback(async () => {
-    console.log(activeUser)
     const data = [];
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
@@ -683,7 +681,7 @@ function App(props) {
       }),
     }).then((response) =>
       response.json().then((res) => {
-        if (accountname) {
+        if (activeUser?.accountName) {
           data.alldeposits = res.rows;
           if (res.rows.length > 0) {
             const sum = res?.rows
@@ -693,6 +691,7 @@ function App(props) {
               });
             boxaujsum = sum;
           }
+          console.log(res.rows)
         }
       })
     );
