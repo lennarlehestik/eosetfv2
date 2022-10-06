@@ -2201,7 +2201,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         <div
           class="outsidebutton githubbutton"
           onClick={() =>
-            window.open("https://github.com/n0umen0n/sceosetf", "_blank")
+            window.open("https://github.com/n0umen0n/cetfphase2", "_blank")
           }
         >
           <img class="outsideimgright" src="assets/github.png" />
