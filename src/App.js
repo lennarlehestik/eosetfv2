@@ -1059,17 +1059,24 @@ mult = Number(value.minamount.split(" ")[0])**/
   };
 
   const deposit = (value, currency) => {
+    console.log(value)
+      let input = value;
+      if (
+        /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2
+      ){
+    console.log(/\d+(?:\.\d+)?/.test(input))
     if (currency == "EOS") {
-      setDepositamounteos(value);
+      setDepositamounteos(input);
       setDepositamounteosetf(
-        parseFloat(value / portfoliodata?.eosetfpriceineos).toFixed(4)
+        parseFloat(input / portfoliodata?.eosetfpriceineos).toFixed(4)
       ); //SIIA HINNAGA KORRUTIS
     } else {
       setDepositamounteos(
-        parseFloat(value * portfoliodata?.eosetfpriceineos).toFixed(4)
+        parseFloat(input * portfoliodata?.eosetfpriceineos).toFixed(4)
       );
-      setDepositamounteosetf(value);
+      setDepositamounteosetf(input);
     }
+  }
   };
 
   const labelarray = (data) => {
@@ -2751,7 +2758,16 @@ mult = Number(value.minamount.split(" ")[0])**/
                         <CssTextField
                           id="outlined"
                           defaultValue="100"
-                          onChange={(e) => setSelltokenamount(e.target.value)}
+                          onChange={(e) => {
+                            let input = e.target.value;
+                            if (
+                              !input ||
+                              (input[input.length - 1].match("[0-9]") &&
+                                input[0].match("[1-9]") &&
+                                input.length < 6)
+                            )
+                            setSelltokenamount(input);
+                          }}
                           value={selltokenamount}
                           sx={{
                             backgroundColor: "white",
