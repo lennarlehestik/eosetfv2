@@ -2751,7 +2751,18 @@ mult = Number(value.minamount.split(" ")[0])**/
                         <CssTextField
                           id="outlined"
                           defaultValue="100"
-                          onChange={(e) => setSelltokenamount(e.target.value)}
+                          onChange={(e) => {
+                            let input = e.target.value;
+                            if (
+                              !input ||
+                              (input[input.length - 1].match("[0-9]") &&
+                                input[0].match("[1-9]") &&
+                                input.length < 6)
+                            )
+                              setSelltokenamount(input);
+                          }}
+
+
                           value={selltokenamount}
                           sx={{
                             backgroundColor: "white",
@@ -3266,8 +3277,16 @@ mult = Number(value.minamount.split(" ")[0])**/
                   </div>
                   <CssTextField
                     id="outlined"
-                    value={depositamounteosetf}
+                    value={Number.parseFloat(
+                      depositamounteosetf
+                    ).toFixed(4)}
+                    //value={depositamounteosetf}
                     onChange={(e) => deposit(e.target.value, "EOSETF")}
+
+
+
+
+
                     sx={{
                       backgroundColor: "white",
                       opacity: 0.7,
