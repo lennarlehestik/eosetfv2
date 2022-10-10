@@ -1059,16 +1059,23 @@ mult = Number(value.minamount.split(" ")[0])**/
   };
 
   const deposit = (value, currency) => {
-    if (currency == "EOS") {
-      setDepositamounteos(value);
-      setDepositamounteosetf(
-        parseFloat(value / portfoliodata?.eosetfpriceineos).toFixed(4)
-      ); //SIIA HINNAGA KORRUTIS
-    } else {
-      setDepositamounteos(
-        parseFloat(value * portfoliodata?.eosetfpriceineos).toFixed(4)
-      );
-      setDepositamounteosetf(value);
+    console.log(value)
+    let input = value;
+    if (
+      /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2
+    ) {
+      console.log(/\d+(?:\.\d+)?/.test(input))
+      if (currency == "EOS") {
+        setDepositamounteos(input);
+        setDepositamounteosetf(
+          parseFloat(input / portfoliodata?.eosetfpriceineos).toFixed(4)
+        ); //SIIA HINNAGA KORRUTIS
+      } else {
+        setDepositamounteos(
+          parseFloat(input * portfoliodata?.eosetfpriceineos).toFixed(4)
+        );
+        setDepositamounteosetf(input);
+      }
     }
   };
 
@@ -2761,8 +2768,6 @@ mult = Number(value.minamount.split(" ")[0])**/
                             )
                               setSelltokenamount(input);
                           }}
-
-
                           value={selltokenamount}
                           sx={{
                             backgroundColor: "white",
