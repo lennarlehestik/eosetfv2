@@ -1064,7 +1064,6 @@ mult = Number(value.minamount.split(" ")[0])**/
       if (
         /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2
       ){
-    console.log(/\d+(?:\.\d+)?/.test(input))
     if (currency == "EOS") {
       setDepositamounteos(input);
       setDepositamounteosetf(
