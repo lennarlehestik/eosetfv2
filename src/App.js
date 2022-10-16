@@ -1064,7 +1064,6 @@ mult = Number(value.minamount.split(" ")[0])**/
     if (
       /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2
     ) {
-      console.log(/\d+(?:\.\d+)?/.test(input))
       if (currency == "EOS") {
         setDepositamounteos(input);
         setDepositamounteosetf(
@@ -3282,16 +3281,8 @@ mult = Number(value.minamount.split(" ")[0])**/
                   </div>
                   <CssTextField
                     id="outlined"
-                    value={Number.parseFloat(
-                      depositamounteosetf
-                    ).toFixed(4)}
-                    //value={depositamounteosetf}
+                    value={depositamounteosetf}
                     onChange={(e) => deposit(e.target.value, "EOSETF")}
-
-
-
-
-
                     sx={{
                       backgroundColor: "white",
                       opacity: 0.7,
