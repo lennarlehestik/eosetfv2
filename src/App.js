@@ -1066,8 +1066,9 @@ mult = Number(value.minamount.split(" ")[0])**/
         setDepositamounteos("");
         setDepositamounteosetf("")
       }
+      console.log(input?.toString().split(".")[1])
       if (
-        /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2 && input.length > 0
+        /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2 && input.length > 0 && (input?.toString().split(".")[1]?.length < 5 || typeof(input.toString().split(".")[1]) == "undefined")
       ){
     if (currency == "EOS") {
       setDepositamounteos(input);
