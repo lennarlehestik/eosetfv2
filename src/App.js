@@ -1060,9 +1060,14 @@ mult = Number(value.minamount.split(" ")[0])**/
 
   const deposit = (value, currency) => {
     console.log(value)
+
       let input = value;
+      if(input.length == 0){
+        setDepositamounteos("");
+        setDepositamounteosetf("")
+      }
       if (
-        /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2
+        /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2 && input.length > 0
       ){
     if (currency == "EOS") {
       setDepositamounteos(input);
@@ -1076,7 +1081,9 @@ mult = Number(value.minamount.split(" ")[0])**/
       setDepositamounteosetf(input);
     }
   }
+
   };
+
 
   const labelarray = (data) => {
     const arr = [];
