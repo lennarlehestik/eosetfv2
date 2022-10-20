@@ -125,7 +125,7 @@ function App(props) {
   };
   const [tabbutton, setTabbutton] = useState("invest");
   const [depositamounteosetf, setDepositamounteosetf] = useState();
-  const [depositamounteos, setDepositamounteos] = useState(100);
+  const [depositamounteos, setDepositamounteos] = useState(parseFloat(100.0000).toFixed(4));
   const [selltokenamount, setSelltokenamount] = useState(1);
 
   function TabPanel(props) {
@@ -674,7 +674,7 @@ function App(props) {
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "indstkdetf",
         scope: activeUser?.accountName,
         limit: 100,
@@ -704,9 +704,9 @@ function App(props) {
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "totstk",
-        scope: "consortiumtt",
+        scope: "cet.f",
         limit: 100,
       }),
     }).then((response) =>
@@ -726,9 +726,9 @@ function App(props) {
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "divperiod",
-        scope: "consortiumtt",
+        scope: "cet.f",
         limit: 100,
       }),
     }).then((response) =>
@@ -791,7 +791,7 @@ function App(props) {
         const transaction = {
           actions: [
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "unstakeetf",
               authorization: [
                 {
@@ -846,7 +846,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         const transaction = {
           actions: [
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "transfer",
               authorization: [
                 {
@@ -1036,7 +1036,7 @@ mult = Number(value.minamount.split(" ")[0])**/
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 quantity: boxaujtransfer + " BOXAUJ",
                 memo: "deposit,1232",
               },
@@ -1048,10 +1048,10 @@ mult = Number(value.minamount.split(" ")[0])**/
           broadcast: true,
           expireSeconds: 300,
         });
-        swal_success("Successfully staked!");
+        swal_success("Successfully deposited!");
         setTimeout(() => {
           setRefresh(refresh + 1);
-        }, 3000);
+        }, 5000);
       } catch (e) {
         swal_error(e);
       }
@@ -1060,9 +1060,15 @@ mult = Number(value.minamount.split(" ")[0])**/
 
   const deposit = (value, currency) => {
     console.log(value)
+
     let input = value;
+    if (input.length == 0) {
+      setDepositamounteos("");
+      setDepositamounteosetf("")
+    }
+    console.log(input?.toString().split(".")[1])
     if (
-      /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2
+      /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2 && input.length > 0 && (input?.toString().split(".")[1]?.length < 5 || typeof (input.toString().split(".")[1]) == "undefined")
     ) {
       if (currency == "EOS") {
         setDepositamounteos(input);
@@ -1076,7 +1082,9 @@ mult = Number(value.minamount.split(" ")[0])**/
         setDepositamounteosetf(input);
       }
     }
+
   };
+
 
   const labelarray = (data) => {
     const arr = [];
@@ -1189,9 +1197,9 @@ mult = Number(value.minamount.split(" ")[0])**/
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "rebalon",
-        scope: "consortiumtt",
+        scope: "cet.f",
         limit: 100,
       }),
     }).then((response) => response.json().then((res) => fetcher(res)));
@@ -1261,7 +1269,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "accounts",
           scope: displayaccountname(),
           lower_bound: "EOSETF",
@@ -1284,7 +1292,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "accounts",
           scope: displayaccountname(),
           limit: 1,
@@ -1303,7 +1311,7 @@ mult = Number(value.minamount.split(" ")[0])**/
             },
             body: JSON.stringify({
               json: true,
-              code: "consortiumtt",
+              code: "cet.f",
               table: "persznstaked",
               scope: displayaccountname(),
               limit: 100,
@@ -1346,9 +1354,9 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "divperiod",
-          scope: "consortiumtt",
+          scope: "cet.f",
           limit: 1,
         }),
       }).then((response) =>
@@ -1367,9 +1375,9 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "clmperfreq",
-          scope: "consortiumtt",
+          scope: "cet.f",
           limit: 1,
         }),
       }).then((response) =>
@@ -1387,9 +1395,9 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "totstk",
-          scope: "consortiumtt",
+          scope: "cet.f",
           limit: 1,
         }),
       }).then((response) =>
@@ -1409,9 +1417,9 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "etffees",
-          scope: "consortiumtt",
+          scope: "cet.f",
           limit: 1,
         }),
       }).then((response) =>
@@ -1429,9 +1437,9 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "feesadjust",
-          scope: "consortiumtt",
+          scope: "cet.f",
           limit: 1,
         }),
       }).then((response) =>
@@ -1449,7 +1457,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "claimtime",
           scope: "eosetfeosetf",
           lower_bound: displayaccountname(),
@@ -1475,7 +1483,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         },
         body: JSON.stringify({
           json: true,
-          code: "consortiumtt",
+          code: "cet.f",
           table: "claimtime",
           scope: "cetfcetfcetf",
           lower_bound: displayaccountname(),
@@ -1617,7 +1625,7 @@ mult = Number(value.minamount.split(" ")[0])**/
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "accounts",
         scope: displayaccountname(),
         lower_bound: "CETF",
@@ -1638,7 +1646,7 @@ mult = Number(value.minamount.split(" ")[0])**/
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "stat",
         scope: "CETF",
         limit: 1,
@@ -1657,7 +1665,7 @@ mult = Number(value.minamount.split(" ")[0])**/
       },
       body: JSON.stringify({
         json: true,
-        code: "consortiumtt",
+        code: "cet.f",
         table: "stat",
         scope: "EOSETF",
         limit: 1,
@@ -1919,7 +1927,7 @@ mult = Number(value.minamount.split(" ")[0])**/
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 //quantity: 19.2562 * tokens + " DAPP",
                 memo: "EOSETF creation through eosetf.io",
                 quantity:
@@ -2030,7 +2038,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         const transaction = {
           actions: [
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "unstakecetf",
               authorization: [
                 {
@@ -2068,7 +2076,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         const transaction = {
           actions: [
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "getdiv",
               authorization: [
                 {
@@ -2082,7 +2090,7 @@ mult = Number(value.minamount.split(" ")[0])**/
               },
             },
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "getcetf",
               authorization: [
                 {
@@ -2118,7 +2126,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         const transaction = {
           actions: [
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "stakecetf",
               authorization: [
                 {
@@ -2165,7 +2173,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         const transaction = {
           actions: [
             {
-              account: "consortiumtt",
+              account: "cet.f",
               name: "transfer",
               authorization: [
                 {
@@ -2175,7 +2183,7 @@ mult = Number(value.minamount.split(" ")[0])**/
               ],
               data: {
                 from: displayaccountname(),
-                to: "consortiumtt",
+                to: "cet.f",
                 quantity: Number(selltokenamount).toFixed(4) + " EOSETF",
                 memo: "EOSETF redemption through eosetf.io",
               },
@@ -2520,19 +2528,22 @@ mult = Number(value.minamount.split(" ")[0])**/
                             By investing you are buying tokens on EOS mainnet
                             and creating EOSETF. <br />
                             <br />
-                            EOSETF is a token that represents ownership of the
-                            fund.
+                            EOSETF is a token. The price of EOSETF fully depends on how the tokens in the fund perform.
                             <br />
                             <br />
-                            Anytime, EOSETF can be redeemed to receive all the
+                            EOSETF is actively managed by fund managers who
+                            pick tokens to be included in the fund.
+                            <br />
+                            <br />
+                            There is 5% fee that is charged once when you create EOSETF or buy it via Defibox.
+                            <br />
+                            <br />
+                            Anytime, EOSETF can be redeemed to receive the
                             EOS tokens you bought. EOSETF can also be sold on
                             Defibox.
                             <br />
                             <br />
-                            EOSETF is actively managed by fund managers, who
-                            pick tokens to be included in the fund.
-                            <br />
-                            <br />
+
                             Tokens in the fund are under msig between five Eden
                             members.
                           </Typography>
@@ -2667,16 +2678,12 @@ mult = Number(value.minamount.split(" ")[0])**/
                           input: { color: "#5A83F1", fontWeight: "600" },
                         }}
                         InputProps={{
+
                           endAdornment: (
                             <InputAdornment position="end">
                               {portfoliodata?.eosetfpriceineos ? (
-                                parseFloat(
-                                  tokens *
-                                  portfoliodata?.eosetfpriceineos *
-                                  portfoliodata?.eospriceinusd
-                                )?.toFixed(2) +
-                                " USD/" +
-                                parseFloat(
+
+                                "= " + parseFloat(
                                   tokens * portfoliodata?.eosetfpriceineos
                                 )?.toFixed(2) +
                                 " EOS"
@@ -2687,6 +2694,27 @@ mult = Number(value.minamount.split(" ")[0])**/
                                   />
                                 )}
                             </InputAdornment>
+                            /*
+                           <InputAdornment position="end">
+                                {portfoliodata?.eosetfpriceineos ? (
+                                  parseFloat(
+                                    tokens *
+                                    portfoliodata?.eosetfpriceineos *
+                                    portfoliodata?.eospriceinusd
+                                  )?.toFixed(2) +
+                                  " USD/" +
+                                  parseFloat(
+                                    tokens * portfoliodata?.eosetfpriceineos
+                                  )?.toFixed(2) +
+                                  " EOS"
+                                ) : (
+                                    <CircularProgress
+                                      style={{ color: "#5A83F1" }}
+                                      size="16px"
+                                    />
+                                  )}
+                              </InputAdornment>
+                              */
                           ),
                           startAdornment: (
                             <InputAdornment position="start">
@@ -2778,7 +2806,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">
-                                {parseFloat(
+                                {"= "}{parseFloat(
                                   selltokenamount *
                                   portfoliodata?.eosetfpriceinusd
                                 )?.toFixed(2)}
@@ -3156,8 +3184,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           view.
                           <br />
                           <br />
-                          Fees are distributed between all the stakers
-                          proportionally to the amount they have staked.
+                          Amount of EOSETF you receive depends on the total amount of CETF staked.
                           <br />
                           <br />
                           Fees can be claimed week after staking CETF.
@@ -3265,8 +3292,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                           generates.
                           <br />
                           <br />
-                          CETF tokens can be claimed once a week. First claim
-                          can be executed one week after staking.
+
                         </Typography>
                       </AccordionDetails>
                     </Accordion>
@@ -3293,7 +3319,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          {parseFloat(
+                          {"= "}{parseFloat(
                             depositamounteosetf *
                             portfoliodata?.eosetfpriceinusd
                           )?.toFixed(2)}{" "}
@@ -3320,7 +3346,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          {parseFloat(
+                          {"= "}{parseFloat(
                             depositamounteos * portfoliodata?.eospriceinusd
                           )?.toFixed(2)}{" "}
                           USD
