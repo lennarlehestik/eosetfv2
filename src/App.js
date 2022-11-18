@@ -204,7 +204,7 @@ function App(props) {
       toast: true,
       position: "bottom-end",
       showConfirmButton: false,
-      timer: 6000,
+      timer: 8000,
       timerProgressBar: true,
       onOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -222,7 +222,7 @@ function App(props) {
       toast: true,
       position: "bottom-end",
       showConfirmButton: false,
-      timer: 6000,
+      timer: 8000,
       timerProgressBar: true,
       onOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -240,7 +240,7 @@ function App(props) {
       toast: true,
       position: "bottom-end",
       showConfirmButton: false,
-      timer: 6000,
+      timer: 8000,
       timerProgressBar: true,
       onOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -258,7 +258,7 @@ function App(props) {
       toast: true,
       position: "bottom-end",
       showConfirmButton: false,
-      timer: 6000,
+      timer: 8000,
       timerProgressBar: true,
       onOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -276,7 +276,7 @@ function App(props) {
       toast: true,
       position: "bottom-end",
       showConfirmButton: false,
-      timer: 5000,
+      timer: 8000,
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -859,7 +859,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                 from: displayaccountname(),
                 to: "swap.defi",
                 quantity: parseFloat(selltokenamount).toFixed(4) + " EOSETF",
-                memo: "swap,0,1743",
+                memo: "swap,0,1232",
               },
             },
           ],
@@ -974,7 +974,7 @@ mult = Number(value.minamount.split(" ")[0])**/
       const boxaujtransfer = Math.floor(
         (Number(portfoliodata?.defibox?.liquidity_token) /
           Number(portfoliodata?.defibox?.reserve0?.split(" ")[0])) *
-        depositamounteos
+        depositamounteos * 0.9997
       );
       try {
         const transaction = {
