@@ -691,7 +691,6 @@ function App(props) {
               });
             boxaujsum = sum;
           }
-          console.log(res.rows)
         }
       })
     );
@@ -711,7 +710,7 @@ function App(props) {
       }),
     }).then((response) =>
       response.json().then((res) => {
-        if (accountname) {
+        if (activeUser) {
           share =
             Number(boxaujsum) / Number(res.rows[0].totstketf.split(" ")[0]);
         }
@@ -733,13 +732,15 @@ function App(props) {
       }),
     }).then((response) =>
       response.json().then((res) => {
-        if (accountname) {
+        if (activeUser) {
           const claimperiod = res?.rows[0].claimperiod;
+          
           const interval = 1200;
           const seconds_passed = 300 * claimperiod;
           const halvings = Math.floor(seconds_passed / interval).toFixed(0);
           const initial_reward = 1250000;
           const divider = Math.pow(2, halvings);
+          
           const adjusted_reward = (initial_reward / divider) * share;
           if (adjusted_reward) {
             setMyshare(adjusted_reward);
@@ -1059,14 +1060,12 @@ mult = Number(value.minamount.split(" ")[0])**/
   };
 
   const deposit = (value, currency) => {
-    console.log(value)
 
     let input = value;
     if (input.length == 0) {
       setDepositamounteos("");
       setDepositamounteosetf("")
     }
-    console.log(input?.toString().split(".")[1])
     if (
       /^[0-9.]+$/.test(input) && input.split(".").length - 1 < 2 && input.length > 0 && (input?.toString().split(".")[1]?.length < 5 || typeof (input.toString().split(".")[1]) == "undefined")
     ) {
@@ -1741,6 +1740,84 @@ mult = Number(value.minamount.split(" ")[0])**/
   const dynamicsend = (buy) => {
     const fulldatacopy = fulldata.filter((item) => item.ratio > 0);
     let alldata = [];
+    /**if (fulldatacopy) {
+      Promise.all(
+        fulldatacopy.map((value, index) => {
+          return new Promise((resolve) => {
+            fetch(`${endpoint}/v1/chain/get_table_rows`, {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                json: true,
+                code: "swap.defi",
+                table: "pairs",
+                scope: "swap.defi",
+                lower_bound: fulldatacopy[index].pairid,
+                upper_bound: fulldatacopy[index].pairid,
+                limit: 1,
+              }),
+            })
+              .then((resp) => resp.json())
+              .then((data) => {
+                fulldatacopy[index].defibox = data;
+              })
+              .then(() => {
+                fulldatacopy.forEach((element, index, array) => {
+                  if (accountname) {
+                    fetch(`${endpoint}/v1/chain/get_table_rows`, {
+                      method: "POST",
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        json: true,
+                        code: element.contract,
+                        table: "accounts",
+                        scope: displayaccountname(),
+                        limit: 1,
+                      }),
+                    })
+                      .then(function (response) {
+                        if (response.ok) {
+                          return response;
+                        }
+                        attachbalance(
+                          "0.0000 " +
+                          fulldatacopy[index].minamount.split(" ")[1]
+                        );
+                      })
+                      .then((response) =>
+                        response?.json().then((balance) => {
+                          if (balance?.rows?.length !== 0) {
+                            attachbalance(balance?.rows[0]?.balance);
+                          } else {
+                            attachbalance(
+                              "0.0000 " +
+                              fulldatacopy[index].minamount.split(" ")[1]
+                            );
+                          }
+                        })
+                      );
+                  }
+                  //FETCH HERE
+                  //THEN data[index].newvalue = fetched_value
+                  const attachbalance = (balance) => {
+                    fulldatacopy[index].balance = balance;
+                  };
+                  resolve();
+                });
+              });
+          });
+        })
+      ).then(() => {
+        sender(fulldatacopy, buy);
+      });
+    }
+    */
     if (fulldatacopy) {
       Promise.all(
         fulldatacopy.map((value, index) => {
@@ -1967,9 +2044,14 @@ mult = Number(value.minamount.split(" ")[0])**/
               });
             }
           });
-
+          let nanerror = false;
+          totaldata.map((value, index) =>{
+            if(isNaN(value.buyamount)){
+              nanerror = true
+            }
+          })
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
-
+          if(nanerror == false){
           if (buyornot == true && slippagetoohigh == false) {
             await activeUser.signTransaction(transaction, {
               broadcast: true,
@@ -2022,6 +2104,10 @@ mult = Number(value.minamount.split(" ")[0])**/
               icon: "error",
               title: message,
             });
+          }
+          }
+          else{
+            swal_error("Something went wrong, please try again.");
           }
         } catch (error) {
           actionpuccis(error.message);
