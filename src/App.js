@@ -303,6 +303,8 @@ function App(props) {
   const [dividendflagcetf, setDividendflagcetf] = useState();
 
   const [eosetfbalance, setEosetf] = useState({ rows: [] });
+  const [cetfbalance, setCetf] = useState({ rows: [] });
+
   const [etfbalance, setEtf] = useState({ rows: [] });
   const [eosetfbalanceind, setEosetfind] = useState({ rows: [] });
   const [etfbalanceind, setEtfind] = useState({ rows: [] });
@@ -533,6 +535,29 @@ function App(props) {
       Number(data.defibox.reserve1.split(" ")[0]) /
       data.defibox.liquidity_token;
 
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "swap.defi",
+        table: "pairs",
+        scope: "swap.defi",
+        lower_bound: "1678",
+        upper_bound: "1678",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        data.defiboxcetf = result.rows[0];
+      })
+    );
+
+
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
       headers: {
@@ -617,6 +642,33 @@ function App(props) {
         }
       })
     );
+
+
+    await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: true,
+        code: "cet.f",
+        table: "accounts",
+        scope: activeUser?.accountName,
+        lower_bound: "CETF",
+        upper_bound: "CETF",
+        limit: 1,
+      }),
+    }).then((response) =>
+      response.json().then((result) => {
+        if (result?.rows[0]?.balance) {
+          data.cetfbalance = result.rows[0];
+        } else {
+          data.cetfbalance = { balance: "0.0000 CETF" };
+        }
+      })
+    );
+
 
     await fetch(`${endpoint}/v1/chain/get_table_rows`, {
       method: "POST",
@@ -734,13 +786,13 @@ function App(props) {
       response.json().then((res) => {
         if (activeUser) {
           const claimperiod = res?.rows[0].claimperiod;
-          
+
           const interval = 1200;
           const seconds_passed = 300 * claimperiod;
           const halvings = Math.floor(seconds_passed / interval).toFixed(0);
           const initial_reward = 1250000;
           const divider = Math.pow(2, halvings);
-          
+
           const adjusted_reward = (initial_reward / divider) * share;
           if (adjusted_reward) {
             setMyshare(adjusted_reward);
@@ -756,6 +808,10 @@ function App(props) {
     data.eosetfpriceinusd =
       Number(data.defibox.price1_last) * Number(data.eosdefibox.price0_last);
     data.eospriceinusd = Number(data.eosdefibox.price0_last);
+    data.cetfinusd =
+      Number(data.defiboxcetf.price0_last) *
+      Number(data.eosdefibox.price0_last) *
+      Number(data?.cetfbalance?.balance.split(" ")[0]);
     data.eosetfinusd =
       Number(data.defibox.price1_last) *
       Number(data.eosdefibox.price0_last) *
@@ -1280,6 +1336,30 @@ mult = Number(value.minamount.split(" ")[0])**/
           .json()
           .then((eosetfbalanceind) => setEosetfind(eosetfbalanceind))
       );
+
+
+      await fetch(`${endpoint}/v1/chain/get_table_rows`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          json: true,
+          code: "cet.f",
+          table: "accounts",
+          scope: displayaccountname(),
+          lower_bound: "CETF",
+          upper_bound: "CETF",
+          limit: 1,
+        }),
+      }).then((response) =>
+        response
+          .json()
+          .then((cetfbalance) => setCetf(cetfbalance))
+      );
+
+
       let userstake;
       let feetouser;
 
@@ -2045,68 +2125,68 @@ mult = Number(value.minamount.split(" ")[0])**/
             }
           });
           let nanerror = false;
-          totaldata.map((value, index) =>{
-            if(isNaN(value.buyamount)){
+          totaldata.map((value, index) => {
+            if (isNaN(value.buyamount)) {
               nanerror = true
             }
           })
           // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
-          if(nanerror == false){
-          if (buyornot == true && slippagetoohigh == false) {
-            await activeUser.signTransaction(transaction, {
-              broadcast: true,
-              expireSeconds: 300,
-            });
-            sucessstake();
-          } else if (buyornot == false && slippagetoohigh == false) {
-            await activeUser.signTransaction(transaction, {
-              broadcast: true,
-              expireSeconds: 300,
-            });
-            sucessstake();
-          } else {
-            var slippagemessage = "";
-            if (Object.keys(slippagelist).length > 1) {
-              slippagelist.forEach((item) => {
+          if (nanerror == false) {
+            if (buyornot == true && slippagetoohigh == false) {
+              await activeUser.signTransaction(transaction, {
+                broadcast: true,
+                expireSeconds: 300,
+              });
+              sucessstake();
+            } else if (buyornot == false && slippagetoohigh == false) {
+              await activeUser.signTransaction(transaction, {
+                broadcast: true,
+                expireSeconds: 300,
+              });
+              sucessstake();
+            } else {
+              var slippagemessage = "";
+              if (Object.keys(slippagelist).length > 1) {
+                slippagelist.forEach((item) => {
+                  slippagemessage = slippagemessage.concat(
+                    item.token,
+                    "(",
+                    item.amount,
+                    "%), "
+                  );
+                });
+              } else {
                 slippagemessage = slippagemessage.concat(
-                  item.token,
+                  slippagelist[0].token,
                   "(",
-                  item.amount,
+                  slippagelist[0].amount,
                   "%), "
                 );
+              }
+
+              const message =
+                "Slippage was higher than 3% for: " +
+                slippagemessage.slice(0, -2) +
+                ".";
+
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 6000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
               });
-            } else {
-              slippagemessage = slippagemessage.concat(
-                slippagelist[0].token,
-                "(",
-                slippagelist[0].amount,
-                "%), "
-              );
+              Toast.fire({
+                icon: "error",
+                title: message,
+              });
             }
-
-            const message =
-              "Slippage was higher than 3% for: " +
-              slippagemessage.slice(0, -2) +
-              ".";
-
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "bottom-end",
-              showConfirmButton: false,
-              timer: 6000,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
-            Toast.fire({
-              icon: "error",
-              title: message,
-            });
           }
-          }
-          else{
+          else {
             swal_error("Something went wrong, please try again.");
           }
         } catch (error) {
@@ -3559,7 +3639,7 @@ mult = Number(value.minamount.split(" ")[0])**/
                         ).toFixed(0) + " CETF"
                         : "0 CETF"}
                     </div>
-                    <div class="portfoliodescriptor">~{0} USD</div>
+                    <div class="portfoliodescriptor">~{portfoliodata?.cetfinusd?.toFixed(0)} USD</div>
                   </div>
                 </div>
                 <div class="portfoliobottomwrapper">
