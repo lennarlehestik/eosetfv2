@@ -3354,6 +3354,9 @@ mult = Number(value.minamount.split(" ")[0])**/
                           <br />
                           <br />
                           Fees can be claimed week after staking CETF.
+                          <br />
+                          <br />
+                          CETF can be unstaked if you skip claiming fees for one period.
                         </Typography>
                       </AccordionDetails>
                     </Accordion>
@@ -3441,11 +3444,11 @@ mult = Number(value.minamount.split(" ")[0])**/
                             "padding-bottom": "1px",
                           }}
                         >
-                          You can earn CETF tokens by depositing EOS and EOSETF
+                          You can claim CETF tokens by depositing EOS and EOSETF
                           to Defibox.
                           <br />
                           <br />
-                          EOSETF and EOS can be withdrawn from Defibox anytime.
+                          EOSETF and EOS can be withdrawn any time after you skip claiming CETF for one period.
                           <br />
                           <br />
                           We don't recommend depositing more than 50% of your
