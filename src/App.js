@@ -2238,6 +2238,86 @@ mult = Number(value.minamount.split(" ")[0])**/
 
   const getdiv = async () => {
     if (activeUser) {
+
+if (dividendclaim == 0)
+
+{
+  try {
+    const transaction = {
+      actions: [
+        {
+          account: "cet.f",
+          name: "getcetf",
+          authorization: [
+            {
+              actor: displayaccountname(), // use account that was logged in
+              permission: "active",
+            },
+          ],
+          data: {
+            user: displayaccountname(),
+            clmspecifier: "cetfcetfcetf",
+          },
+        },
+      ],
+    };
+    // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+    await activeUser.signTransaction(transaction, {
+      broadcast: true,
+      expireSeconds: 300,
+    });
+    swal_success("Dividends claimed!");
+    setTimeout(() => {
+      setRefresh(refresh + 1);
+    }, 3000);
+  } catch (e) {
+    swal_error(e);
+  }
+}
+
+
+else if (myshare == 0 && dividendclaim != 0)
+
+{
+
+  try {
+    const transaction = {
+      actions: [
+        {
+          account: "cet.f",
+          name: "getcetf",
+          authorization: [
+            {
+              actor: displayaccountname(), // use account that was logged in
+              permission: "active",
+            },
+          ],
+          data: {
+            user: displayaccountname(),
+            clmspecifier: "cetfcetfcetf",
+          },
+        },
+      ],
+    };
+    // The activeUser.signTransaction will propose the passed in transaction to the logged in Authenticator
+    await activeUser.signTransaction(transaction, {
+      broadcast: true,
+      expireSeconds: 300,
+    });
+    swal_success("Dividends claimed!");
+    setTimeout(() => {
+      setRefresh(refresh + 1);
+    }, 3000);
+  } catch (e) {
+    swal_error(e);
+  }
+
+}
+
+
+
+else {
+
       try {
         const transaction = {
           actions: [
@@ -2284,6 +2364,7 @@ mult = Number(value.minamount.split(" ")[0])**/
         swal_error(e);
       }
     }
+  }
   };
 
   const stakeetf = async () => {
