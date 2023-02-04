@@ -332,7 +332,7 @@ function App(props) {
     </div>
   );
 
-  const endpoint = "https://api.main.alohaeos.com";
+  const endpoint = "https://eos.eosusa.io";
   // Renderer callback with condition
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
