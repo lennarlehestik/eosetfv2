@@ -1693,7 +1693,11 @@ mult = Number(value.minamount.split(" ")[0])**/
         setDividendclaim(0);
       }
     }
+
+
   }, [accountname, refresh]);
+
+
 
   useEffect(() => {
     fetch(`${endpoint}/v1/chain/get_table_rows`, {
@@ -2242,6 +2246,9 @@ mult = Number(value.minamount.split(" ")[0])**/
 if (dividendclaim == 0)
 
 {
+
+
+
   try {
     const transaction = {
       actions: [
@@ -2285,7 +2292,7 @@ else if (myshare == 0 && dividendclaim != 0)
       actions: [
         {
           account: "cet.f",
-          name: "getcetf",
+          name: "getdiv",
           authorization: [
             {
               actor: displayaccountname(), // use account that was logged in
@@ -2294,7 +2301,7 @@ else if (myshare == 0 && dividendclaim != 0)
           ],
           data: {
             user: displayaccountname(),
-            clmspecifier: "cetfcetfcetf",
+            clmspecifier: "eosetfeosetf",
           },
         },
       ],
@@ -2317,6 +2324,7 @@ else if (myshare == 0 && dividendclaim != 0)
 
 
 else {
+ 
 
       try {
         const transaction = {
